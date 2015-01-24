@@ -1,5 +1,6 @@
 ﻿using ggj_engine.Source.Entities;
 using ggj_engine.Source.Media;
+using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -18,6 +19,9 @@ namespace ggj_engine.Source.Collisions
             Radius = radius;
             Position = position;
             sprite = ContentLibrary.Sprites["circle_region"];
+            sprite.ScaleX = radius / Globals.DebugCircleSize;
+            sprite.ScaleY = radius / Globals.DebugCircleSize;
+            Console.WriteLine("scalex = " + sprite.ScaleX);
         }
 
         public bool Colliding(CircleRegion other)
@@ -28,7 +32,7 @@ namespace ggj_engine.Source.Collisions
 
         public override void Draw (SpriteBatch spriteBatch)
         {
-            sprite.Position = Position;
+            sprite.Position = Position -= new Vector2(Radius / 2, Radius / 2); ;
             sprite.Draw(spriteBatch);
         }
     }

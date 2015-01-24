@@ -15,7 +15,7 @@ namespace ggj_engine.Source.Entities
         {
             Position = position;
             sprite = ContentLibrary.Sprites["test_animation"];
-            CollisionRegion = new CircleRegion(16, position);
+            CollisionRegion = new CircleRegion(24, position);
         }
 
         public override void Update(GameTime gameTime)

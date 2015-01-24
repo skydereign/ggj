@@ -48,8 +48,8 @@ namespace ggj_engine.Source.Media
         // Calculated width and height of the sprite
         int iWidth;
         int iHeight;
-        int scalex = 1;
-        int scaley = 1;
+        float scalex = 1;
+        float scaley = 1;
         ///
         /// Vector2 representing the position of the sprite's upper left
         /// corner pixel.
@@ -109,13 +109,13 @@ namespace ggj_engine.Source.Media
             get { return iHeight; }
         }
 
-        public int ScaleX
+        public float ScaleX
         {
             get { return scalex; }
             set { scalex = value; }
         }
 
-        public int ScaleY
+        public float ScaleY
         {
             get { return scaley; }
             set { scaley = value; }

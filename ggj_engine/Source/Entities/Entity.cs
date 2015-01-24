@@ -46,6 +46,10 @@ namespace ggj_engine.Source.Entities
             if(CollisionRegion != null)
             {
                 CollisionRegion.Position = Position;
+                if(sprite != null)
+                {
+                    CollisionRegion.Position += new Vector2(sprite.Width / 2, sprite.Height / 2);
+                }
             }
         }
 
