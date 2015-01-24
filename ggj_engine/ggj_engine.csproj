@@ -55,6 +55,7 @@
     <Compile Include="Source\Media\Sprite.cs" />
     <Compile Include="Source\Screens\Screen.cs" />
     <Compile Include="Source\Screens\TestScreen.cs" />
+    <Compile Include="Source\Utility\Camera.cs" />
     <Compile Include="Source\Utility\InputControl.cs" />
     <Compile Include="Source\Utility\Math.cs" />
   </ItemGroup>
