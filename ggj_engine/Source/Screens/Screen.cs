@@ -12,7 +12,7 @@ namespace ggj_engine.Source.Screens
 {
     public class Screen
     {
-        public bool Debug;
+        public Camera Camera;
 
         protected static Game1 game;
         public static Game1 Game { set { game = value; } }
@@ -58,16 +58,32 @@ namespace ggj_engine.Source.Screens
 
             CleanupEntities();
         }
+        public void SpriteBatchCameraBegin(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp,
+                    DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, Camera.GetViewMatrix());
+        }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            if(Debug)
+            //Draw all entities
+            SpriteBatchCameraBegin(spriteBatch);
+            foreach (Entity e in entities)
             {
-                //
+                e.Draw(spriteBatch);
             }
+            spriteBatch.End();
 
-
-
+            if (Globals.DebugEntities)
+            {
+                spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp,
+                    DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, Camera.GetViewMatrix());
+                foreach (Entity e in entities)
+                {
+                    e.DrawDebug(spriteBatch);
+                }
+                spriteBatch.End();
+            }
         }
 
 

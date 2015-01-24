@@ -9,6 +9,7 @@ namespace ggj_engine.Source.Media
 {
     public class Sprite
     {
+        public int Depth;
         // The texture that holds the images for this sprite
         Texture2D t2dTexture;
 
@@ -304,7 +305,7 @@ namespace ggj_engine.Source.Media
 
                 spriteBatch.Draw(t2dTexture, (v2Position + new Vector2(XOffset, YOffset) + v2Center),
                                 sourceRectangle, colorTint,
-                                fRotation, v2Center, 1f, SpriteEffects.None, 0);
+                                fRotation, v2Center, 1f, SpriteEffects.None, Depth);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using ggj_engine.Source.Media;
+﻿using ggj_engine.Source.Collisions;
+using ggj_engine.Source.Media;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -14,11 +15,11 @@ namespace ggj_engine.Source.Entities
         {
             Position = position;
             sprite = ContentLibrary.Sprites["test_animation"];
+            CollisionRegion = new CircleRegion(16, position);
         }
 
         public override void Update(GameTime gameTime)
         {
-            sprite.Position = Position;
             base.Update(gameTime);
         }
         public override void Draw(SpriteBatch spriteBatch)

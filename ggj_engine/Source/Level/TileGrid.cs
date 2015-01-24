@@ -1,4 +1,5 @@
 ﻿using ggj_engine.Source.Media;
+using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -15,7 +16,7 @@ namespace ggj_engine.Source.Level
         public static int Width;
         public static int Height;
         public static Tile[,] Tiles;
-        public static int TileSize;
+        public static int TileSize = Globals.TileSize;
         public static Vector2 Position;
 
         public static void Init(int width, int height, Vector2 position)

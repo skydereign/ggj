@@ -13,7 +13,6 @@ namespace ggj_engine.Source.Screens
 {
     public class TestScreen : Screen
     {
-        public Camera Camera;
 
         public TestScreen()
         {
@@ -58,16 +57,8 @@ namespace ggj_engine.Source.Screens
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //Draw all entities
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp,
-                    DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, Camera.GetViewMatrix());
-            foreach (Entity e in entities)
-            {
-                e.Draw(spriteBatch);
-            }
-
+            SpriteBatchCameraBegin(spriteBatch);
             TileGrid.Draw(spriteBatch);
-
             spriteBatch.End();
 
             base.Draw(spriteBatch);

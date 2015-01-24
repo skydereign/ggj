@@ -1,4 +1,5 @@
-﻿using ggj_engine.Source.Media;
+﻿using ggj_engine.Source.Collisions;
+using ggj_engine.Source.Media;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -12,6 +13,7 @@ namespace ggj_engine.Source.Entities
     {
         public Vector2 Position;
         public bool Active;
+        public Region CollisionRegion;
 
         // will have Regions which will handle triggers
 
@@ -25,11 +27,25 @@ namespace ggj_engine.Source.Entities
             }
         }
 
+        public virtual void DrawDebug(SpriteBatch spriteBatch)
+        {
+            if(CollisionRegion != null)
+            {
+                CollisionRegion.Draw(spriteBatch);
+            }
+        }
+
         public virtual void Update(GameTime gameTime)
         {
             if (sprite != null)
             {
+                sprite.Position = Position;
                 sprite.Update(gameTime);
+            }
+
+            if(CollisionRegion != null)
+            {
+                CollisionRegion.Position = Position;
             }
         }
 
