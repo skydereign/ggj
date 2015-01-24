@@ -57,5 +57,19 @@ namespace ggj_engine.Source.Entities
         {
             //
         }
+
+        public virtual bool Colliding (Entity other)
+        {
+            if(other.CollisionRegion != null && CollisionRegion != null)
+            {
+                return CollisionRegion.Colliding((CircleRegion)other.CollisionRegion);
+            }
+            return false;
+        }
+
+        public virtual void OnCollision (Entity other)
+        {
+            //
+        }
     }
 }

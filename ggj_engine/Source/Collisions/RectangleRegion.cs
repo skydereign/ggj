@@ -8,6 +8,11 @@ namespace ggj_engine.Source.Collisions
 {
     class RectangleRegion : Region
     {
+        public override bool Colliding(Region other)
+        {
+            return false;
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch);

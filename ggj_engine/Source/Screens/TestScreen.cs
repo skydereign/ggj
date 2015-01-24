@@ -17,6 +17,7 @@ namespace ggj_engine.Source.Screens
         public TestScreen()
         {
             AddEntity(new TestEntity(new Vector2(100, 100)));
+            AddEntity(new TestEntity(new Vector2(110, 110)));
 
             Camera = new Camera(Vector2.Zero, new Vector2(1280,720));
 

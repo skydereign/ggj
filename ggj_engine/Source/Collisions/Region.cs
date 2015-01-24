@@ -12,7 +12,10 @@ namespace ggj_engine.Source.Collisions
     public abstract class Region
     {
         public Vector2 Position;
+        public bool Active;
         protected Sprite sprite;
+
+        public abstract bool Colliding(Region other);
         public abstract void Draw (SpriteBatch spriteBatch);
     }
 }

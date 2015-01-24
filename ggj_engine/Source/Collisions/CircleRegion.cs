@@ -21,18 +21,22 @@ namespace ggj_engine.Source.Collisions
             sprite = ContentLibrary.Sprites["circle_region"];
             sprite.ScaleX = radius / Globals.DebugCircleSize;
             sprite.ScaleY = radius / Globals.DebugCircleSize;
-            Console.WriteLine("scalex = " + sprite.ScaleX);
         }
 
-        public bool Colliding(CircleRegion other)
+        public override bool Colliding(Region other)
         {
-            float distance = (Position - other.Position).Length();
-            return distance < Radius + other.Radius;
+            if (Active && other.Active)
+            {
+                CircleRegion circleOther = (CircleRegion)other;
+                float distance = (Position - other.Position).Length();
+                return distance < Radius + circleOther.Radius;
+            }
+            return false;
         }
 
         public override void Draw (SpriteBatch spriteBatch)
         {
-            sprite.Position = Position -= new Vector2(Radius / 2, Radius / 2); ;
+            sprite.Position = Position -= new Vector2(Radius / 2, Radius / 2);
             sprite.Draw(spriteBatch);
         }
     }

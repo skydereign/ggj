@@ -56,6 +56,8 @@ namespace ggj_engine.Source.Screens
                 e.Update(gameTime);
             }
 
+            HandleCollisions();
+
             CleanupEntities();
         }
         public void SpriteBatchCameraBegin(SpriteBatch spriteBatch)
@@ -83,6 +85,23 @@ namespace ggj_engine.Source.Screens
                     e.DrawDebug(spriteBatch);
                 }
                 spriteBatch.End();
+            }
+        }
+
+        private void HandleCollisions ()
+        {
+            foreach(Entity entityA in entities)
+            {
+                foreach(Entity entityB in entities)
+                {
+                    if(entityA != entityB)
+                    {
+                        if(entityA.Colliding(entityB))
+                        {
+                            entityA.OnCollision(entityB);
+                        }
+                    }
+                }
             }
         }
 

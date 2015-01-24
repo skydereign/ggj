@@ -26,5 +26,12 @@ namespace ggj_engine.Source.Entities
         {
             base.Draw(spriteBatch);
         }
+
+        public override void OnCollision(Entity other)
+        {
+            Console.WriteLine("Colliding");
+            Position.X += 0.1f;
+            base.OnCollision(other);
+        }
     }
 }
