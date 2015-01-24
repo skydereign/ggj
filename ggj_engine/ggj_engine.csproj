@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8B093AFA-6C56-4DF0-ABCD-3975E5A9EDA8}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ggj_engine</RootNamespace>
     <AssemblyName>ggj_engine</AssemblyName>
@@ -34,6 +34,9 @@
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
@@ -53,6 +56,8 @@
     <Compile Include="Source\Media\ContentLibrary.cs" />
     <Compile Include="Source\Media\FrameAnimation.cs" />
     <Compile Include="Source\Media\Sprite.cs" />
+    <Compile Include="Source\Network\ClientTCP.cs" />
+    <Compile Include="Source\Network\HostTCP.cs" />
     <Compile Include="Source\Network\NetworkManager.cs" />
     <Compile Include="Source\Screens\NetworkTestScreen.cs" />
     <Compile Include="Source\Screens\Screen.cs" />

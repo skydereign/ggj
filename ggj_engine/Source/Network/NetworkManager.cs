@@ -17,6 +17,8 @@ namespace ggj_engine.Source.Network
     {
         private static NetworkManager _instance;
 
+        private Thread _acceptThread;
+        private Thread _sendThread;
         private Thread _recvThread;
 
         private bool _isHost;
@@ -46,17 +48,17 @@ namespace ggj_engine.Source.Network
 
         public void CreateHost()
         {
-            Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            HostTCP _host = new HostTCP();
 
-            IPAddress addr = IPAddress.Parse(_localHostIP);
-            IPEndPoint hostAddr = new IPEndPoint(addr, _port);
-
-            s.Bind(hostAddr);
-            s.Listen(int.MaxValue);
+            _host.Start(_localHostIP, _port);
 
             Log("Host created.");
 
             _isHost = true;
+
+            Log("Host is now listening.");
+
+            _host.Listen();
         }
 
         public void ConnectToHost()
@@ -67,12 +69,10 @@ namespace ggj_engine.Source.Network
                 return;
             }
 
-            Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            ClientTCP _client = new ClientTCP();
+            _client.Connect(_localHostIP, _port);
 
-            IPAddress addr = IPAddress.Parse(_localHostIP);
-            IPEndPoint hostAddr = new IPEndPoint(addr, _port);
-
-            s.Connect(hostAddr);
+            _client.Write("Hello, Host! Love, Client");
         }
 
         private void Solve()

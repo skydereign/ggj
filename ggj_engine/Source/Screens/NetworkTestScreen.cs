@@ -10,8 +10,16 @@ namespace ggj_engine.Source.Screens
     {
         public NetworkTestScreen()
         {
-            NetworkManager.Instance.CreateHost();
-            //NetworkManager.Instance.ConnectToHost();
+            Console.WriteLine("Host? yes or no");
+
+            string response = Console.ReadLine();
+            
+            if (response.CompareTo("yes") == 0)
+                NetworkManager.Instance.CreateHost();
+            else
+                NetworkManager.Instance.ConnectToHost();
+
+            Console.WriteLine();
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
