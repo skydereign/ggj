@@ -89,6 +89,11 @@
     <Compile Include="Source\Network\HostTCP.cs" />
     <Compile Include="Source\Network\NetworkManager.cs" />
     <Compile Include="Source\Screens\NetworkTestScreen.cs" />
+    <Compile Include="Source\Particles\Emitter.cs" />
+    <Compile Include="Source\Particles\Particle.cs" />
+    <Compile Include="Source\Particles\PointEmitter.cs" />
+    <Compile Include="Source\Particles\PSystem.cs" />
+    <Compile Include="Source\Particles\PSystemSparks.cs" />
     <Compile Include="Source\Screens\Screen.cs" />
     <Compile Include="Source\Network\SocketInfo.cs" />
     <Compile Include="Source\Screens\TestScreen.cs" />
