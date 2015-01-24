@@ -46,9 +46,10 @@
     <Compile Include="Source\Collisions\CircleRegion.cs" />
     <Compile Include="Source\Collisions\RectangleRegion.cs" />
     <Compile Include="Source\Collisions\Region.cs" />
-    <Compile Include="Source\Entities\Enemies\Enemy.cs" />
     <Compile Include="Source\Entities\Entity.cs" />
     <Compile Include="Source\Entities\TestEntity.cs" />
+    <Compile Include="Source\Level\Tile.cs" />
+    <Compile Include="Source\Level\TileGrid.cs" />
     <Compile Include="Source\Media\ContentLibrary.cs" />
     <Compile Include="Source\Media\FrameAnimation.cs" />
     <Compile Include="Source\Media\Sprite.cs" />
@@ -63,6 +64,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Textures\test_animation.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Textures\test_sprite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

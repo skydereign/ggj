@@ -13,7 +13,7 @@ namespace ggj_engine.Source.Entities
         public TestEntity(Vector2 position)
         {
             Position = position;
-            sprite = ContentLibrary.Sprites["test_sprite"];
+            sprite = ContentLibrary.Sprites["test_animation"];
         }
 
         public override void Update(GameTime gameTime)
@@ -23,9 +23,6 @@ namespace ggj_engine.Source.Entities
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
-            sprite.Draw(spriteBatch);
-            spriteBatch.End();
             base.Draw(spriteBatch);
         }
     }
