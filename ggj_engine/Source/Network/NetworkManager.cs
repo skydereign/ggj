@@ -88,17 +88,12 @@ namespace ggj_engine.Source.Network
 
         }
 
-        private void ReadPacket()
-        {
-
-        }
-
         private void WriteTCPToHost(string msg)
         {
 
         }
 
-        private void WriteTCPToClients(string msg)
+        public void WriteTCPToClients(string msg)
         {
             _host.WriteAll(msg);
         }
