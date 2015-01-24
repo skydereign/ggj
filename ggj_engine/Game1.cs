@@ -72,6 +72,7 @@ namespace ggj_engine
             deletedScreens = new List<Screen>();
 
             screens.Add(new TestScreen());
+            //screens.Add(new NetworkTestScreen());
         }
 
         /// <summary>
