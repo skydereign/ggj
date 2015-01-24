@@ -19,12 +19,20 @@ namespace ggj_engine.Source.Entities
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            //
+            if(sprite != null)
+            {
+                spriteBatch.Begin();
+                sprite.Draw(spriteBatch);
+                spriteBatch.End();
+            }
         }
 
         public virtual void Update(GameTime gameTime)
         {
-            //
+            if (sprite != null)
+            {
+                sprite.Update(gameTime);
+            }
         }
 
         public virtual void Destroy()

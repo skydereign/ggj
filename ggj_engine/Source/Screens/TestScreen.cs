@@ -16,7 +16,6 @@ namespace ggj_engine.Source.Screens
 
         public override void Update(GameTime gameTime)
         {
-            Console.WriteLine("Update!");
             base.Update(gameTime);
         }
     }
