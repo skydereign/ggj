@@ -14,6 +14,7 @@ namespace ggj_engine.Source.Entities
         public Vector2 Position;
         public bool Active;
         public Region CollisionRegion;
+        public Screens.Screen MyScreen;
 
         // will have Regions which will handle triggers
 
