@@ -7,24 +7,27 @@ using ggj_engine.Source.Media;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ggj_engine.Source.Utility;
+using ggj_engine.Source.Entities;
 
 namespace ggj_engine.Source.Screens
 {
     public class NetworkTestScreen : Screen
     {
-        public Camera Camera;
-        Sprite sprite;
-        Vector2 position = Vector2.Zero;
+        List<Vector2> vels;
         public NetworkTestScreen()
         {
-            sprite = ContentLibrary.Sprites["test_animation"];
-
             Camera = new Camera(Vector2.Zero, new Vector2(1280, 720));
+            vels = new List<Vector2>();
+            for (int i = 0; i < 100; ++i)
+            {
+                vels.Add(new Vector2((float)RandomUtil.Next() * 2 + .5f, (float)RandomUtil.Next() * 2 + .5f));
+                entities.Add(new TestEntity(new Vector2((float)RandomUtil.Next(-Camera.ScreenDimensions.X / 2, Camera.ScreenDimensions.X / 2), (float)RandomUtil.Next(-Camera.ScreenDimensions.Y / 2, Camera.ScreenDimensions.Y / 2))));
+            }
 
             Console.WriteLine("Host? yes or no");
 
             string response = Console.ReadLine();
-            
+
             if (response.CompareTo("yes") == 0)
                 NetworkManager.Instance.CreateHost();
             else
@@ -39,16 +42,55 @@ namespace ggj_engine.Source.Screens
 
             if (NetworkManager.Instance.IsHost)
             {
-                position.X += 1f;
-                position.Y += 1f;
+                for (int i = 0; i < entities.Count; ++i)
+                {
+                    entities[i].Position += vels[i];
 
-                sprite.Position = position;
+                    if (entities[i].Position.X > Camera.Position.X + Camera.ScreenDimensions.X / 2 / Camera.Zoom)
+                    {
+                        vels[i] = new Vector2(-vels[i].X, vels[i].Y);
+                    }
+                    if (entities[i].Position.X < Camera.Position.X - Camera.ScreenDimensions.X / 2 / Camera.Zoom)
+                    {
+                        vels[i] = new Vector2(-vels[i].X, vels[i].Y);
+                    }
+                    if (entities[i].Position.Y > Camera.Position.Y + Camera.ScreenDimensions.Y / 2 / Camera.Zoom)
+                    {
+                        vels[i] = new Vector2(vels[i].X, -vels[i].Y);
+                    }
+                    if (entities[i].Position.Y < Camera.Position.Y - Camera.ScreenDimensions.Y / 2 / Camera.Zoom)
+                    {
+                        vels[i] = new Vector2(vels[i].X, -vels[i].Y);
+                    }
 
-                NetworkManager.Instance.WriteTCPToClients("Position: " + position.X + " " + position.Y);
+                    NetworkManager.Instance.WriteTCPToClients(",Position," + i + "," + entities[i].Position.X + "," + entities[i].Position.Y + ",");
+                }
             }
             else
             {
+                lock (NetworkManager.Instance.mutexObj)
+                {
+                    string buffer = NetworkManager.Instance.Client.Buffer;
+                    NetworkManager.Instance.Client.FlushBuffer();
 
+                    //Console.WriteLine("Flushing buffer: " + buffer);
+
+                    if (buffer.Length > 0)
+                    {
+                        string[] words = buffer.Split(new char[] { ':', ' ', ',', '\0'});
+                        for (int i = 0; i < words.Length; ++i)
+                        {
+                            if (words[i] == "Position" && i + 4 < words.Length)
+                            {
+                                int id = int.Parse(words[i + 1]);
+                                float x = float.Parse(words[i + 2]);
+                                float y = float.Parse(words[i + 3]);
+
+                                entities[id].Position = new Vector2(x, y);
+                            }
+                        }
+                    }
+                }
             }
 
             base.Update(gameTime);
@@ -59,7 +101,10 @@ namespace ggj_engine.Source.Screens
             //Draw all entities
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp,
                     DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, Camera.GetViewMatrix());
-            sprite.Draw(spriteBatch);
+
+            for (int i = 0; i < entities.Count; ++i)
+                entities[i].Draw(spriteBatch);
+            
             spriteBatch.End();
             base.Draw(spriteBatch);
         }

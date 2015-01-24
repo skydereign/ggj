@@ -16,7 +16,12 @@ namespace ggj_engine.Source.Network
 
         private SocketInfo sInfo;
 
-        private byte[] buf = new byte[256];
+        private string _buffer;
+
+        public string Buffer
+        {
+            get { return _buffer; }
+        }
 
         public ClientTCP()
         {
@@ -67,12 +72,22 @@ namespace ggj_engine.Source.Network
 
             if (bytesRead > 0)
             {
-                string msg = Encoding.ASCII.GetString(buf);
+                lock (NetworkManager.Instance.mutexObj)
+                {
+                    string msg = Encoding.ASCII.GetString(buf);
 
-                Console.WriteLine("Received from host: " + msg);
+                    //Console.WriteLine("Received from host: " + msg);
+
+                    _buffer += msg;
+                }
             }
 
             return bytesRead;
+        }
+
+        public void FlushBuffer()
+        {
+            _buffer = "";
         }
 
         public void Write(byte[] data)
