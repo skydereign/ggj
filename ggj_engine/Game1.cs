@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using ggj_engine.Source.Screens;
 using ggj_engine.Source.Media;
+using ggj_engine.Source.Utility;
 #endregion
 
 namespace ggj_engine
@@ -24,6 +25,11 @@ namespace ggj_engine
         private List<Screen> screens;
         private List<Screen> createdScreens;
         private List<Screen> deletedScreens;
+        float fpsDFrameCount;
+        float fpsDTimePassed;
+        float fpsDFrameRate;
+        const float fpsSampleLength = 200;
+        bool drawFps = true;
 
         public Game1()
             : base()
@@ -56,6 +62,7 @@ namespace ggj_engine
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             ContentLibrary.LoadSprites(Content);
+            ContentLibrary.LoadFonts(Content);
 
             screens = new List<Screen>();
             createdScreens = new List<Screen>();
@@ -105,6 +112,8 @@ namespace ggj_engine
             }
             deletedScreens.Clear();
 
+            InputControl.Update(1);
+
             base.Update(gameTime);
         }
 
@@ -119,6 +128,22 @@ namespace ggj_engine
             foreach(Screen screen in screens)
             {
                 screen.Draw(spriteBatch);
+            }
+
+            //Calculate draw framerate
+            fpsDFrameCount++;
+            fpsDTimePassed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (fpsDTimePassed > fpsSampleLength)
+            {
+                fpsDFrameRate = fpsDFrameCount / fpsDTimePassed * 1000;
+                fpsDFrameCount = 0;
+                fpsDTimePassed = 0;
+            }
+            if (drawFps)
+            {
+                spriteBatch.Begin();
+                spriteBatch.DrawString(ContentLibrary.Fonts["smallFont"], "Draw fps: " + MathExt.Truncate(fpsDFrameRate,2).ToString(), new Vector2(5, 10), Color.White);
+                spriteBatch.End();
             }
 
             base.Draw(gameTime);
