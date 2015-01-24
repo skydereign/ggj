@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ggj_engine.Source.Media
 {
-    class Sprite
+    public class Sprite
     {
         // The texture that holds the images for this sprite
         Texture2D t2dTexture;
