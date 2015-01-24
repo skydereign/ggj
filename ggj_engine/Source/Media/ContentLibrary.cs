@@ -12,6 +12,7 @@ namespace ggj_engine.Source.Media
         private static SpriteDictionary sprites;
         public static SpriteDictionary Sprites { get { return sprites; } }
         public static Dictionary<string, SpriteFont> Fonts;
+        public static Dictionary<string, string> SoundFX;
         static GraphicsDevice GraphicsDevice;
 
 
@@ -43,13 +44,26 @@ namespace ggj_engine.Source.Media
             Tilesheet = content.Load<Texture2D>("Textures/tiles.png");
         }
 
-
+        /// <summary>
+        /// Loads all fonts
+        /// </summary>
+        /// <param name="content"></param>
         public static void LoadFonts(ContentManager content)
         {
             Fonts = new Dictionary<string, SpriteFont>();
 
             //add fonts
             Fonts.Add("smallFont", content.Load<SpriteFont>("Fonts/smallFont"));
+
+        }
+
+        public static void LoadSoundFX()
+        {
+            SoundFX = new Dictionary<string, string>();
+
+            //add sounds
+            SoundFX.Add("laser_shoot", "Content/Audio/SoundEffects/Laser_Shoot10.wav");
+            SoundFX.Add("fire", "Content/Audio/SoundEffects/fire-punch.wav");
 
         }
 

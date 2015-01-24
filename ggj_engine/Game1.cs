@@ -25,6 +25,10 @@ namespace ggj_engine
         private List<Screen> screens;
         private List<Screen> createdScreens;
         private List<Screen> deletedScreens;
+
+        public static FMOD.System SoundSystem;
+        public static SoundControl SoundController;
+
         float fpsDFrameCount;
         float fpsDTimePassed;
         float fpsDFrameRate;
@@ -37,6 +41,11 @@ namespace ggj_engine
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferHeight = 720;
             graphics.PreferredBackBufferWidth = 1280;
+
+            SoundSystem = new FMOD.System();
+            FMOD.Factory.System_Create(ref SoundSystem);
+            SoundSystem.init(150, FMOD.INITFLAGS.NORMAL, IntPtr.Zero);
+            SoundController = new SoundControl(SoundSystem);
 
             Content.RootDirectory = "Content";
         }
@@ -66,6 +75,9 @@ namespace ggj_engine
 
             ContentLibrary.LoadSprites(Content);
             ContentLibrary.LoadFonts(Content);
+            ContentLibrary.LoadSoundFX();
+
+            SoundController.LoadAllSounds(ContentLibrary.SoundFX.Keys, ContentLibrary.SoundFX.Values);
 
             screens = new List<Screen>();
             createdScreens = new List<Screen>();
@@ -117,6 +129,8 @@ namespace ggj_engine
             deletedScreens.Clear();
 
             InputControl.Update(1);
+            SoundSystem.update();
+            SoundController.Update();
 
             base.Update(gameTime);
         }

@@ -90,7 +90,12 @@
     <Compile Include="Source\Level\Tile.cs" />
     <Compile Include="Source\Level\TileGrid.cs" />
     <Compile Include="Source\Media\ContentLibrary.cs" />
+    <Compile Include="Source\Media\fmod\fmod.cs" />
+    <Compile Include="Source\Media\fmod\fmod_dsp.cs" />
+    <Compile Include="Source\Media\fmod\fmod_errors.cs" />
+    <Compile Include="Source\Media\fmod\fmod_memoryinfo.cs" />
     <Compile Include="Source\Media\FrameAnimation.cs" />
+    <Compile Include="Source\Media\SoundControl.cs" />
     <Compile Include="Source\Media\Sprite.cs" />
     <Compile Include="Source\Network\ClientTCP.cs" />
     <Compile Include="Source\Network\HostTCP.cs" />
@@ -122,6 +127,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Audio\SoundEffects\fire-punch.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\SoundEffects\Laser_Shoot10.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Textures\circle_region.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -151,6 +162,9 @@
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /y $(ProjectDir)fmodex.dll $(ProjectDir)$(OutDir)</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

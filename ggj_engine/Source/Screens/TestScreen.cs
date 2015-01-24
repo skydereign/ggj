@@ -70,6 +70,7 @@ namespace ggj_engine.Source.Screens
             if (InputControl.GetMouseOnLeftHeld())
             {
                 spriteBatch.Draw(ContentLibrary.Sprites["cursor"].Texture, InputControl.GetMousePosition(), Color.Blue);
+                Game1.SoundController.PlaySFX("laser_shoot", false);
             }
             else
             {
