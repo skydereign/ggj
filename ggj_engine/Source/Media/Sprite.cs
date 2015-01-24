@@ -50,6 +50,35 @@ namespace ggj_engine.Source.Media
         int iHeight;
         float scalex = 1;
         float scaley = 1;
+
+        public Sprite Clone()
+        {
+            //lassie always goes home
+            Sprite clone = new Sprite(this.t2dTexture);
+
+            clone.AutoRotate = this.AutoRotate;
+            clone.bAnimating = this.bAnimating;
+            clone.bRotateByPosition = this.bRotateByPosition;
+            clone.colorTint = this.colorTint;
+            if (CurrentAnimation != null)
+                clone.CurrentAnimation = this.CurrentAnimation;
+            Dictionary<string, FrameAnimation> newAnimations = new Dictionary<string, FrameAnimation>();
+            foreach (KeyValuePair<string, FrameAnimation> entry in faAnimations)
+            {
+                newAnimations.Add(entry.Key, entry.Value.Clone());
+            }
+            clone.faAnimations = newAnimations;
+            clone.fRotation = this.fRotation;
+            clone.IsAnimating = this.IsAnimating;
+            clone.Position = this.Position;
+            clone.Tint = this.Tint;
+            clone.iWidth = this.Width;
+            clone.iHeight = this.Height;
+
+            return clone;
+        }
+
+
         ///
         /// Vector2 representing the position of the sprite's upper left
         /// corner pixel.

@@ -7,9 +7,10 @@ using System.Text;
 
 namespace ggj_engine.Source.Media
 {
-    class ContentLibrary
+    public class ContentLibrary
     {
-        public static Dictionary<string, Sprite> Sprites;
+        private static SpriteDictionary sprites;
+        public static SpriteDictionary Sprites { get { return sprites; } }
         public static Dictionary<string, SpriteFont> Fonts;
         static GraphicsDevice GraphicsDevice;
 
@@ -27,7 +28,7 @@ namespace ggj_engine.Source.Media
         /// </summary>
         public static void LoadSprites (ContentManager content)
         {
-            Sprites = new Dictionary<string, Sprite>();
+            sprites = new SpriteDictionary();
 
             // add sprites
             Sprites.Add("test_sprite", new Sprite(content.Load<Texture2D>("Textures/test_sprite.png")));
@@ -50,6 +51,21 @@ namespace ggj_engine.Source.Media
             //add fonts
             Fonts.Add("smallFont", content.Load<SpriteFont>("Fonts/smallFont"));
 
+        }
+
+
+        public class SpriteDictionary : Dictionary<String, Sprite>
+        {
+            new public Sprite this[string index]
+            {
+                get
+                {
+                    //we pass back copies instead of original
+                    //otherwise we would have multiple Entities trying
+                    //to control the same sprite
+                    return base[index].Clone();
+                }
+            }
         }
     }
 }

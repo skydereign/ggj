@@ -148,5 +148,12 @@ namespace ggj_engine.Source.Media
                                       this.rectInitialFrame.Width, this.rectInitialFrame.Height,
                                       this.iFrameCount, this.fFrameLength, sNextAnimation);
         }
+        internal FrameAnimation Clone()
+        {
+            FrameAnimation temp = new FrameAnimation(this.rectInitialFrame.X, this.rectInitialFrame.Y,
+                                      this.rectInitialFrame.Width, this.rectInitialFrame.Height,
+                                      this.iFrameCount, this.fFrameLength, sNextAnimation);
+            return temp;
+        }
     }
 }
