@@ -106,6 +106,7 @@
     <Compile Include="Source\Particles\PSystemSparks.cs" />
     <Compile Include="Source\Screens\Screen.cs" />
     <Compile Include="Source\Network\SocketInfo.cs" />
+    <Compile Include="Source\Screens\TestEnemyScreen.cs" />
     <Compile Include="Source\Screens\TestPlayerScreen.cs" />
     <Compile Include="Source\Screens\TestScreen.cs" />
     <Compile Include="Source\Utility\Camera.cs" />

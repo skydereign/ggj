@@ -29,7 +29,6 @@ namespace ggj_engine.Source.Entities.Enemies
 
         public override void Update(GameTime gameTime)
         {
-            sprite.Position = Position;
             if(health < 0)
             {
                 Destroy();

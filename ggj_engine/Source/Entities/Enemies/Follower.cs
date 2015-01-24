@@ -1,6 +1,7 @@
 ﻿using ggj_engine.Source.AI.Actions;
 using ggj_engine.Source.AI.Conditions;
 using ggj_engine.Source.AI.DecisionTree;
+using ggj_engine.Source.Media;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -17,8 +18,11 @@ namespace ggj_engine.Source.Entities.Enemies
         private BinaryDecision playerInCombatRange;
         private float sightRange, combatRange;
 
-        public Follower()
+        public Follower(Vector2 position)
         {
+            Position = position;
+            sprite = ContentLibrary.Sprites["test_animation"];
+            sprite.Tint = Color.Red;
             sightRange = 8 * 16; // number of tiles * tileSize
             combatRange = 4 * 16;
             playerInSightRange = new BinaryDecision();
@@ -40,13 +44,18 @@ namespace ggj_engine.Source.Entities.Enemies
 
         public override void Update(GameTime gameTime)
         {
-            playerInSightRange.MakeDecision().DoAction();
+            //playerInSightRange.MakeDecision().DoAction();
             base.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
+        }
+
+        public override void OnCollision(Entity other)
+        {
+            base.OnCollision(other);
         }
     }
 }
