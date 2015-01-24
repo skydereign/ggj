@@ -46,6 +46,7 @@
     <Compile Include="Source\Collisions\CircleRegion.cs" />
     <Compile Include="Source\Collisions\RectangleRegion.cs" />
     <Compile Include="Source\Collisions\Region.cs" />
+    <Compile Include="Source\Entities\Enemies\Enemy.cs" />
     <Compile Include="Source\Entities\Entity.cs" />
     <Compile Include="Source\Entities\TestEntity.cs" />
     <Compile Include="Source\Media\ContentLibrary.cs" />

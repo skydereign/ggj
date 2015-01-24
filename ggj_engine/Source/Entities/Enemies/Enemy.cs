@@ -9,9 +9,9 @@ namespace ggj_engine.Source.Entities.Enemies
 {
     public abstract class Enemy : Entity
     {
-        protected int Health;
-        protected int Damage;
-        protected float Speed;
+        protected int health;
+        protected int damage;
+        protected float speed;
         
         protected virtual void SetDecisionTree()
         {
@@ -26,7 +26,7 @@ namespace ggj_engine.Source.Entities.Enemies
         public override void Update(GameTime gameTime)
         {
             sprite.Position = Position;
-            if(Health < 0)
+            if(health < 0)
             {
                 Destroy();
             }
@@ -38,9 +38,9 @@ namespace ggj_engine.Source.Entities.Enemies
             base.Destroy();
         }
 
-        protected void UpdateHealth()
+        protected void DecreaseHealth()
         {
-            Health--;
+            health--;
         }
     }
 }
