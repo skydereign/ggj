@@ -9,11 +9,14 @@ namespace ggj_engine.Source.Level
     {
         public int Type;
         public bool Walkable;
+        public int X, Y;
 
-        public Tile(int type, bool walkable)
+        public Tile(int type, bool walkable, int x, int y)
         {
             Type = type;
             Walkable = walkable;
+            X = x;
+            Y = y;
         }
     }
 }
