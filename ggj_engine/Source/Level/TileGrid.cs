@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using ggj_engine.Source.Media;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -7,29 +8,31 @@ using System.Text;
 
 namespace ggj_engine.Source.Level
 {
-    public class TileGrid
+    public static class TileGrid
     {
-        List<Texture2D> tileTextures;
+        public static Texture2D tileTexture;
 
-        public int Width;
-        public int Height;
-        public Tile[,] Tiles;
-        public Vector2 Position;
+        public static int Width;
+        public static int Height;
+        public static Tile[,] Tiles;
+        public static int TileSize;
+        public static Vector2 Position;
 
-        public TileGrid(int width, int height, Vector2 position)
+        public static void Init(int width, int height, Vector2 position)
         {
             Tiles = new Tile[width, height];
             Width = width;
             Height = height;
             Position = position;
+            TileSize = 16;
 
-            tileTextures = new List<Texture2D>();
-            // need to get textures
+            tileTexture = ContentLibrary.Tilesheet;
+            TileSize = 16;
 
             CreateRoom();
         }
 
-        public void CreateRoom()
+        public static void CreateRoom()
         {
             for (int j = 0; j < Height; j++)
             {
@@ -47,28 +50,22 @@ namespace ggj_engine.Source.Level
             }
         }
 
-        public void InitTiles()
+        public static void Draw(SpriteBatch spriteBatch)
         {
-            //
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
             for (int j = 0; j < Height; j++ )
             {
                 for(int i=0; i<Width; i++)
                 {
                     Tile tile = Tiles[i, j];
 
-                    // valid tile
-                    if (tileTextures.Count < tile.Type)
-                    {
-                        spriteBatch.Draw(tileTextures[tile.Type], Position, Color.White);
-                    }
+                    // should check if the tile is valid
+                    int tileX = tile.Type % ContentLibrary.NumHorzTiles;
+                    int tileY = tile.Type / ContentLibrary.NumHorzTiles;
+                    spriteBatch.Draw(tileTexture, new Rectangle((int)(Position.X + i*TileSize), (int)(Position.Y + j*TileSize), TileSize, TileSize),
+                                                  new Rectangle(tileX*TileSize, tileY*TileSize, TileSize, TileSize),
+                                                  Color.White);
                 }
             }
-            spriteBatch.End();
         }
     }
 }
