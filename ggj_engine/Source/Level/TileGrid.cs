@@ -8,22 +8,23 @@ using System.Text;
 
 namespace ggj_engine.Source.Level
 {
-    public class TileGrid
+    public static class TileGrid
     {
-        Texture2D tileTexture;
+        public static Texture2D tileTexture;
 
-        public int Width;
-        public int Height;
-        public int TileSize;
-        public Tile[,] Tiles;
-        public Vector2 Position;
+        public static int Width;
+        public static int Height;
+        public static Tile[,] Tiles;
+        public static int TileSize;
+        public static Vector2 Position;
 
-        public TileGrid(int width, int height, Vector2 position)
+        public static void Init(int width, int height, Vector2 position)
         {
             Tiles = new Tile[width, height];
             Width = width;
             Height = height;
             Position = position;
+            TileSize = 16;
 
             tileTexture = ContentLibrary.Tilesheet;
             TileSize = 16;
@@ -31,7 +32,7 @@ namespace ggj_engine.Source.Level
             CreateRoom();
         }
 
-        public void CreateRoom()
+        public static void CreateRoom()
         {
             for (int j = 0; j < Height; j++)
             {
@@ -49,12 +50,7 @@ namespace ggj_engine.Source.Level
             }
         }
 
-        public void InitTiles()
-        {
-            //
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
+        public static void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             for (int j = 0; j < Height; j++ )
