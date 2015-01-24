@@ -11,7 +11,7 @@ namespace ggj_engine.Source.Level
         public bool Walkable;
         public int X, Y;
         public Tile Parent;
-        public float g_score, h_score, f_score;
+        public float GScore, HScore, FScore;
 
         public Tile(int type, bool walkable, int x, int y)
         {
@@ -20,9 +20,9 @@ namespace ggj_engine.Source.Level
             X = x;
             Y = y;
             Parent = null;
-            g_score = 0;
-            h_score = 0;
-            f_score = 0;
+            GScore = 0;
+            HScore = 0;
+            FScore = 0;
         }
     }
 }

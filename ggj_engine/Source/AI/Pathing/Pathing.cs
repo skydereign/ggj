@@ -1,6 +1,7 @@
 ﻿using ggj_engine.Source.Entities.Enemies;
 using ggj_engine.Source.Level;
 using ggj_engine.Source.Utility;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +15,14 @@ namespace ggj_engine.Source.AI.Pathing
         private static List<Tile> closedTileList;
         private static List<Tile> path;
         private static Tile start, destination, current;
-        private static int destX, destY;
 
-        public static void FindPath(Enemy enemy)
+        public static List<Tile> FindPath(Enemy enemy, Vector2 target)
         {
             openTileList = new List<Tile>();
             closedTileList = new List<Tile>();
             path = new List<Tile>();
             start = TileGrid.Tiles[(int)enemy.Position.X / TileGrid.TileSize, (int)enemy.Position.Y / TileGrid.TileSize];
-            destX = (int)RandomUtil.Next(0, TileGrid.Width);
-            destY = (int)RandomUtil.Next(0, TileGrid.Height);
-            destination = TileGrid.Tiles[destX, destY];
+            destination = TileGrid.Tiles[(int)target.X / TileGrid.TileSize, (int)target.Y / TileGrid.TileSize];
 
             openTileList.Add(start);
             while(openTileList.Count > 0)
@@ -32,31 +30,31 @@ namespace ggj_engine.Source.AI.Pathing
                 current = getBestTile();
                 if(current == null)
                 {
-                    return;
+                    return null;
                 }
                 if(TileGrid.Tiles[(int)current.X, (int)current.Y] == 
                     TileGrid.Tiles[(int)destination.X,(int)destination.Y])
                 {
-                    getPath(current);
+                    return getPath(current);
                 }
                 openTileList.Remove(current);
                 closedTileList.Add(current);
                 List<Tile> neighbors = getNeighbors(current);
                 foreach(Tile t in neighbors)
                 {
-                    float g_score = t.g_score + 1;
-                    float h_score = (float)Math.Sqrt((destination.X - current.X) ^ 2 + (destination.Y - current.Y) ^ 2);
-                    float f_score = g_score + h_score;
-                    if(isValueInList(t, closedTileList) && f_score >= t.f_score)
+                    float gScore = t.GScore + 1;
+                    float hScore = (float)Math.Sqrt((destination.X - current.X) ^ 2 + (destination.Y - current.Y) ^ 2);
+                    float fScore = gScore + hScore;
+                    if(isValueInList(t, closedTileList) && fScore >= t.FScore)
                     {
                         continue;
                     }
-                    if(!isValueInList(t, openTileList) || f_score < t.f_score)
+                    if(!isValueInList(t, openTileList) || fScore < t.FScore)
                     {
                         t.Parent = current;
-                        t.g_score = g_score;
-                        t.h_score = h_score;
-                        t.f_score = f_score;
+                        t.GScore = gScore;
+                        t.HScore = hScore;
+                        t.FScore = fScore;
                         if(t.Walkable)
                         {
                             openTileList.Add(t);
@@ -64,6 +62,7 @@ namespace ggj_engine.Source.AI.Pathing
                     }
                 }
             }
+            return null;
         }
 
         private static bool isValueInList(Tile t, List<Tile> list)
@@ -75,12 +74,14 @@ namespace ggj_engine.Source.AI.Pathing
             return false;
         }
 
-        private static void getPath(Tile current)
+        private static List<Tile> getPath(Tile current)
         {
             if(current.Parent != null)
             {
+                path.Add(current);
                 getPath(current.Parent);
             }
+            return path;
         }
 
         private static Tile getBestTile()
@@ -89,7 +90,7 @@ namespace ggj_engine.Source.AI.Pathing
             float bestFScore = 10000000;
             for(int i = 0; i < openTileList.Count; i++)
             {
-                float fScore = openTileList.ElementAt(i).f_score;
+                float fScore = openTileList.ElementAt(i).FScore;
                 if (fScore < bestFScore)
                 {
                     bestFScore = fScore;

@@ -5,14 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ggj_engine.Source.AI.Pathing;
+using ggj_engine.Source.Level;
 
 namespace ggj_engine.Source.Entities.Enemies
 {
     public abstract class Enemy : Entity
     {
+        public float Points;
         protected int health;
         protected int damage;
         protected float speed;
+        protected List<Tile> currentPath;
         
         protected virtual void SetDecisionTree()
         {
