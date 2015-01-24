@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using ggj_engine.Source.Screens;
+using ggj_engine.Source.Media;
 #endregion
 
 namespace ggj_engine
@@ -18,6 +20,10 @@ namespace ggj_engine
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        private List<Screen> screens;
+        private List<Screen> createdScreens;
+        private List<Screen> deletedScreens;
 
         public Game1()
             : base()
@@ -34,7 +40,8 @@ namespace ggj_engine
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            ContentLibrary.Init(GraphicsDevice);
+            Screen.Game = this;
 
             base.Initialize();
         }
@@ -48,7 +55,13 @@ namespace ggj_engine
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            ContentLibrary.LoadSprites(Content);
+
+            screens = new List<Screen>();
+            createdScreens = new List<Screen>();
+            deletedScreens = new List<Screen>();
+
+            screens.Add(new TestScreen());
         }
 
         /// <summary>
@@ -70,7 +83,27 @@ namespace ggj_engine
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            // need to add InputControl
+
+            // may need to update this to call update on all screens
+            if (screens.Count > 0)
+            {
+                screens[screens.Count - 1].Update(gameTime);
+            }
+
+            foreach(Screen screen in createdScreens)
+            {
+                screens.Add(screen);
+            }
+            createdScreens.Clear();
+
+
+            foreach (Screen screen in deletedScreens)
+            {
+                screens.Remove(screen);
+                screen.Close();
+            }
+            deletedScreens.Clear();
 
             base.Update(gameTime);
         }
@@ -81,11 +114,51 @@ namespace ggj_engine
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
+            foreach(Screen screen in screens)
+            {
+                screen.Draw(spriteBatch);
+            }
 
             base.Draw(gameTime);
+        }
+
+        /// <summary>
+        /// Clear all other screens and set current to newScreen
+        /// </summary>
+        /// <param name="newScreen"></param>
+        public void SetScreen(Screen newScreen)
+        {
+            foreach(Screen screen in screens)
+            {
+                screen.Close();
+            }
+
+            screens.Clear();
+            screens.Add(newScreen);
+        }
+
+        /// <summary>
+        /// Add a new screen to the top
+        /// </summary>
+        /// <param name="screen"></param>
+        public void PushScreen(Screen screen)
+        {
+            createdScreens.Add(screen);
+        }
+
+        public void RemoveScreen(Screen screen)
+        {
+            deletedScreens.Add(screen);
+        }
+
+        public void PopScreen()
+        {
+            if (screens.Count > 0)
+            {
+                deletedScreens.Add(screens[screens.Count - 1]);
+            }
         }
     }
 }

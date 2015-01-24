@@ -42,9 +42,11 @@
     <Compile Include="Source\Collisions\RectangleRegion.cs" />
     <Compile Include="Source\Collisions\Region.cs" />
     <Compile Include="Source\Entities\Entity.cs" />
+    <Compile Include="Source\Media\ContentLibrary.cs" />
     <Compile Include="Source\Media\FrameAnimation.cs" />
     <Compile Include="Source\Media\Sprite.cs" />
     <Compile Include="Source\Screens\Screen.cs" />
+    <Compile Include="Source\Screens\TestScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

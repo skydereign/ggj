@@ -8,8 +8,10 @@ using System.Text;
 
 namespace ggj_engine.Source.Screens
 {
-    public abstract class Screen
+    public class Screen
     {
+        public bool Debug;
+
         protected static Game1 game;
         public static Game1 Game { set { game = value; } }
 
@@ -27,7 +29,7 @@ namespace ggj_engine.Source.Screens
             deletedEntities.Add(entity);
         }
 
-        public void HandleEntities()
+        public void CleanupEntities()
         {
             foreach(Entity e in createdEntities)
             {
@@ -47,16 +49,36 @@ namespace ggj_engine.Source.Screens
 
         public virtual void Update(GameTime gameTime)
         {
-            HandleEntities();
+            foreach(Entity e in entities)
+            {
+                e.Update(gameTime);
+            }
+
+            CleanupEntities();
         }
 
-        public abstract void Draw(SpriteBatch spriteBatch);
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+            if(Debug)
+            {
+                //
+            }
+
+            foreach (Entity e in entities)
+            {
+                e.Draw(spriteBatch);
+            }
+
+        }
 
 
         /// <summary>
         /// Used to clean up a scene when it is closed
         /// Might want to call destroy on all entities
         /// </summary>
-        public abstract void Close();
+        public virtual void Close()
+        {
+            //
+        }
     }
 }
