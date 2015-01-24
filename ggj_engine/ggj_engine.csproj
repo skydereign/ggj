@@ -97,6 +97,10 @@
     <Compile Include="Source\Utility\InputControl.cs" />
     <Compile Include="Source\Utility\Math.cs" />
     <Compile Include="Source\Utility\RandomUtil.cs" />
+    <Compile Include="Source\Weapons\Inputs\EquipInput.cs" />
+    <Compile Include="Source\Weapons\Inputs\EquipKeyInput.cs" />
+    <Compile Include="Source\Weapons\Inputs\EquipMouseInput.cs" />
+    <Compile Include="Source\Weapons\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
