@@ -8,13 +8,13 @@ using System.Text;
 
 namespace ggj_engine.Source.AI.Pathing
 {
-    public class Pathing
+    public static class Pathing
     {
-        private List<Tile> openTileList;
-        private List<Tile> closedTileList;
-        private List<Tile> path;
-        private Tile start, destination, current;
-        private int destX, destY;
+        private static List<Tile> openTileList;
+        private static List<Tile> closedTileList;
+        private static List<Tile> path;
+        private static Tile start, destination, current;
+        private static int destX, destY;
 
         public static void FindPath(Enemy enemy)
         {
@@ -66,7 +66,7 @@ namespace ggj_engine.Source.AI.Pathing
             }
         }
 
-        private bool isValueInList(Tile t, List<Tile> list)
+        private static bool isValueInList(Tile t, List<Tile> list)
         {
             if(list.Contains(t))
             {
@@ -75,7 +75,7 @@ namespace ggj_engine.Source.AI.Pathing
             return false;
         }
 
-        private void getPath(Tile current)
+        private static void getPath(Tile current)
         {
             if(current.Parent != null)
             {
@@ -83,7 +83,7 @@ namespace ggj_engine.Source.AI.Pathing
             }
         }
 
-        private Tile getBestTile()
+        private static Tile getBestTile()
         {
             Tile bestTile = null;
             float bestFScore = 10000000;
@@ -99,7 +99,7 @@ namespace ggj_engine.Source.AI.Pathing
             return bestTile;
         }
 
-        private List<Tile> getNeighbors(Tile tile)
+        private static List<Tile> getNeighbors(Tile tile)
         {
             List<Tile> neighbors = new List<Tile>();
             neighbors.Add(TileGrid.Tiles[tile.X + 1, tile.Y + 1]);

@@ -31,7 +31,6 @@ namespace ggj_engine.Source.Entities.Enemies
             {
                 Destroy();
             }
-            Pathing.FindPath(this);
             base.Update(gameTime);
         }
 
