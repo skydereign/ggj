@@ -41,11 +41,11 @@ namespace ggj_engine.Source.Level
                 {
                     if(i==0 || j==0 || i==Width-1 || j==Height-1)
                     {
-                        Tiles[i, j] = new Tile(1, false);
+                        Tiles[i, j] = new Tile(1, false, i, j);
                     }
                     else
                     {
-                        Tiles[i, j] = new Tile(0, true);
+                        Tiles[i, j] = new Tile(0, true, i, j);
                     }
                 }
             }

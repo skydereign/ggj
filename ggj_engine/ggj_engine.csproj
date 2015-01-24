@@ -43,10 +43,13 @@
     <Compile Include="Source\AI\DecisionTree\BinaryDecision.cs" />
     <Compile Include="Source\AI\DecisionTree\IBinaryDecision.cs" />
     <Compile Include="Source\AI\DecisionTree\IBinaryNode.cs" />
+    <Compile Include="Source\AI\Pathing\Pathing.cs" />
     <Compile Include="Source\Collisions\CircleRegion.cs" />
     <Compile Include="Source\Collisions\RectangleRegion.cs" />
     <Compile Include="Source\Collisions\Region.cs" />
+    <Compile Include="Source\Entities\Enemies\Enemy.cs" />
     <Compile Include="Source\Entities\Entity.cs" />
+    <Compile Include="Source\Entities\Player.cs" />
     <Compile Include="Source\Entities\TestEntity.cs" />
     <Compile Include="Source\Level\Tile.cs" />
     <Compile Include="Source\Level\TileGrid.cs" />
@@ -61,6 +64,7 @@
     <Compile Include="Source\Utility\Globals.cs" />
     <Compile Include="Source\Utility\InputControl.cs" />
     <Compile Include="Source\Utility\Math.cs" />
+    <Compile Include="Source\Utility\RandomUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -95,6 +99,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

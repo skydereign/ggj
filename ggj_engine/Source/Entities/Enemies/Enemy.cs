@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ggj_engine.Source.AI.Pathing;
 
 namespace ggj_engine.Source.Entities.Enemies
 {

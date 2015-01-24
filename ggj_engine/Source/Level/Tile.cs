@@ -9,11 +9,20 @@ namespace ggj_engine.Source.Level
     {
         public int Type;
         public bool Walkable;
+        public int X, Y;
+        public Tile Parent;
+        public float g_score, h_score, f_score;
 
-        public Tile(int type, bool walkable)
+        public Tile(int type, bool walkable, int x, int y)
         {
             Type = type;
             Walkable = walkable;
+            X = x;
+            Y = y;
+            Parent = null;
+            g_score = 0;
+            h_score = 0;
+            f_score = 0;
         }
     }
 }
