@@ -287,12 +287,25 @@ namespace ggj_engine.Source.Media
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, int XOffset, int YOffset)
+        public void Draw(SpriteBatch spriteBatch, int XOffset = 0, int YOffset = 0)
         {
             if (bAnimating)
+            {
+                Rectangle sourceRectangle;
+
+                if(CurrentAnimation == null)
+                {
+                    sourceRectangle = t2dTexture.Bounds;
+                }
+                else
+                {
+                    sourceRectangle = CurrentFrameAnimation.FrameRectangle;
+                }
+
                 spriteBatch.Draw(t2dTexture, (v2Position + new Vector2(XOffset, YOffset) + v2Center),
-                                CurrentFrameAnimation.FrameRectangle, colorTint,
+                                sourceRectangle, colorTint,
                                 fRotation, v2Center, 1f, SpriteEffects.None, 0);
+            }
         }
     }
 }

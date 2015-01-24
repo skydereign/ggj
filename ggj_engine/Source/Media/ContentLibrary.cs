@@ -25,6 +25,7 @@ namespace ggj_engine.Source.Media
             Sprites = new Dictionary<string, Sprite>();
 
             // add sprites
+            Sprites.Add("test_sprite", new Sprite(content.Load<Texture2D>("Textures/test_sprite.png")));
         }
     }
 }
