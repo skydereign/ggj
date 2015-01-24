@@ -21,6 +21,7 @@ namespace ggj_engine.Source.Collisions
             sprite = ContentLibrary.Sprites["circle_region"];
             sprite.ScaleX = radius / Globals.DebugCircleSize;
             sprite.ScaleY = radius / Globals.DebugCircleSize;
+            Active = true;
         }
 
         public override bool Colliding(Region other)
