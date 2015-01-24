@@ -53,6 +53,8 @@
     <Compile Include="Source\Media\ContentLibrary.cs" />
     <Compile Include="Source\Media\FrameAnimation.cs" />
     <Compile Include="Source\Media\Sprite.cs" />
+    <Compile Include="Source\Network\NetworkManager.cs" />
+    <Compile Include="Source\Screens\NetworkTestScreen.cs" />
     <Compile Include="Source\Screens\Screen.cs" />
     <Compile Include="Source\Screens\TestScreen.cs" />
   </ItemGroup>
