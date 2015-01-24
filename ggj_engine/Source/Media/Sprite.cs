@@ -48,7 +48,8 @@ namespace ggj_engine.Source.Media
         // Calculated width and height of the sprite
         int iWidth;
         int iHeight;
-
+        int scalex = 1;
+        int scaley = 1;
         ///
         /// Vector2 representing the position of the sprite's upper left
         /// corner pixel.
@@ -106,6 +107,18 @@ namespace ggj_engine.Source.Media
         public int Height
         {
             get { return iHeight; }
+        }
+
+        public int ScaleX
+        {
+            get { return scalex; }
+            set { scalex = value; }
+        }
+
+        public int ScaleY
+        {
+            get { return scaley; }
+            set { scaley = value; }
         }
 
         ///
@@ -305,7 +318,7 @@ namespace ggj_engine.Source.Media
 
                 spriteBatch.Draw(t2dTexture, (v2Position + new Vector2(XOffset, YOffset) + v2Center),
                                 sourceRectangle, colorTint,
-                                fRotation, v2Center, 1f, SpriteEffects.None, Depth);
+                                fRotation, v2Center, new Vector2(scalex,scaley), SpriteEffects.None, Depth);
             }
         }
     }

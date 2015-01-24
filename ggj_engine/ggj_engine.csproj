@@ -53,6 +53,8 @@
     <Compile Include="Source\Media\ContentLibrary.cs" />
     <Compile Include="Source\Media\FrameAnimation.cs" />
     <Compile Include="Source\Media\Sprite.cs" />
+    <Compile Include="Source\Particles\Emitter.cs" />
+    <Compile Include="Source\Particles\PSystem.cs" />
     <Compile Include="Source\Screens\Screen.cs" />
     <Compile Include="Source\Screens\TestScreen.cs" />
     <Compile Include="Source\Utility\Camera.cs" />
@@ -81,6 +83,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Textures\tiles.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Textures\white_pixel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />
