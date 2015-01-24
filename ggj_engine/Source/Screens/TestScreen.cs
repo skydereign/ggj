@@ -1,5 +1,8 @@
 ﻿using ggj_engine.Source.Entities;
 using ggj_engine.Source.Level;
+using ggj_engine.Source.Utility;
+using ggj_engine.Source.Media;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -29,6 +32,17 @@ namespace ggj_engine.Source.Screens
         {
             level.Draw(spriteBatch);
             base.Draw(spriteBatch);
+
+            spriteBatch.Begin();
+            if (InputControl.GetMouseOnLeftHeld())
+            {
+                spriteBatch.Draw(ContentLibrary.Sprites["cursor"].Texture, InputControl.GetMousePosition(), Color.Blue);
+            }
+            else
+            {
+                spriteBatch.Draw(ContentLibrary.Sprites["cursor"].Texture, InputControl.GetMousePosition(), Color.White);
+            }
+            spriteBatch.End();
         }
     }
 }
