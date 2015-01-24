@@ -48,6 +48,8 @@
     <Compile Include="Source\Collisions\Region.cs" />
     <Compile Include="Source\Entities\Entity.cs" />
     <Compile Include="Source\Entities\TestEntity.cs" />
+    <Compile Include="Source\Level\Tile.cs" />
+    <Compile Include="Source\Level\TileGrid.cs" />
     <Compile Include="Source\Media\ContentLibrary.cs" />
     <Compile Include="Source\Media\FrameAnimation.cs" />
     <Compile Include="Source\Media\Sprite.cs" />
