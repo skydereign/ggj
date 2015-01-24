@@ -7,13 +7,14 @@ using System.Text;
 
 namespace ggj_engine.Source.Level
 {
-    public class TileGrid
+    public static class TileGrid
     {
         List<Texture2D> tileTextures;
 
-        public int Width;
-        public int Height;
-        public Tile[,] Tiles;
+        public static int Width;
+        public static int Height;
+        public static Tile[,] Tiles;
+        public static int TileSize;
         public Vector2 Position;
 
         public TileGrid(int width, int height, Vector2 position)
@@ -22,6 +23,7 @@ namespace ggj_engine.Source.Level
             Width = width;
             Height = height;
             Position = position;
+            TileSize = 16;
 
             tileTextures = new List<Texture2D>();
             // need to get textures
