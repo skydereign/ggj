@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ggj_engine.Source.AI
+namespace ggj_engine.Source.AI.Pathing
 {
     public class Pathing
     {
@@ -16,7 +16,7 @@ namespace ggj_engine.Source.AI
         private Tile start, destination, current;
         private int destX, destY;
 
-        public void FindPath(Enemy enemy)
+        public static void FindPath(Enemy enemy)
         {
             openTileList = new List<Tile>();
             closedTileList = new List<Tile>();
@@ -57,7 +57,10 @@ namespace ggj_engine.Source.AI
                         t.g_score = g_score;
                         t.h_score = h_score;
                         t.f_score = f_score;
-                        openTileList.Add(t);
+                        if(t.Walkable)
+                        {
+                            openTileList.Add(t);
+                        }
                     }
                 }
             }
