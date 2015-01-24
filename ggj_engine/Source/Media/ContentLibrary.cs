@@ -12,6 +12,10 @@ namespace ggj_engine.Source.Media
         public static Dictionary<string, Sprite> Sprites;
         static GraphicsDevice GraphicsDevice;
 
+
+        public static Texture2D Tilesheet;
+        public static int NumHorzTiles = 10;
+
         public static void Init(GraphicsDevice graphicsDevice)
         {
             GraphicsDevice = graphicsDevice;
@@ -30,6 +34,8 @@ namespace ggj_engine.Source.Media
             Sprite animated_example = new Sprite(content.Load<Texture2D>("Textures/test_animation.png"));
             animated_example.AddAnimation("default", 0, 0, 20, 20, 4, 0.1f);
             Sprites.Add("test_animation", animated_example);
+
+            Tilesheet = content.Load<Texture2D>("Textures/tiles.png");
         }
     }
 }
