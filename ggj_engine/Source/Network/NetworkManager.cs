@@ -53,13 +53,17 @@ namespace ggj_engine.Source.Network
 
             s.Bind(hostAddr);
             s.Listen(int.MaxValue);
+
+            Log("Host created.");
+
+            _isHost = true;
         }
 
         public void ConnectToHost()
         {
             if (_isHost)
             {
-                Console.WriteLine("Cannot connect to host when this is the host");
+                Log("Cannot connect to host when this is the host");
                 return;
             }
 
@@ -96,9 +100,9 @@ namespace ggj_engine.Source.Network
 
         }
 
-        public void FlushDebug()
+        public void Log(string msg)
         {
-
+            Console.WriteLine("ALERT: NetworkManager:  " + msg);
         }
 
         public void Close()
