@@ -66,10 +66,7 @@ namespace ggj_engine.Source.Screens
                 //
             }
 
-            foreach (Entity e in entities)
-            {
-                e.Draw(spriteBatch);
-            }
+
 
         }
 

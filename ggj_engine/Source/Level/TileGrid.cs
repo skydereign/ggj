@@ -52,7 +52,6 @@ namespace ggj_engine.Source.Level
 
         public static void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             for (int j = 0; j < Height; j++ )
             {
                 for(int i=0; i<Width; i++)
@@ -67,7 +66,6 @@ namespace ggj_engine.Source.Level
                                                   Color.White);
                 }
             }
-            spriteBatch.End();
         }
     }
 }

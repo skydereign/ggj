@@ -21,9 +21,7 @@ namespace ggj_engine.Source.Entities
         {
             if(sprite != null)
             {
-                spriteBatch.Begin();
                 sprite.Draw(spriteBatch);
-                spriteBatch.End();
             }
         }
 
