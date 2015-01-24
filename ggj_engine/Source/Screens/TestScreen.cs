@@ -2,6 +2,7 @@
 using ggj_engine.Source.Level;
 using ggj_engine.Source.Utility;
 using ggj_engine.Source.Media;
+using ggj_engine.Source.Particles;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System;
