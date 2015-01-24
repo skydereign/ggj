@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ggj_engine.Source.Network;
+using Microsoft.Xna.Framework;
 
 namespace ggj_engine.Source.Screens
 {
     public class NetworkTestScreen : Screen
     {
+        Vector2 position = Vector2.Zero;
         public NetworkTestScreen()
         {
             Console.WriteLine("Host? yes or no");
@@ -24,6 +26,10 @@ namespace ggj_engine.Source.Screens
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
+            NetworkManager.Instance.Solve();
+
+            
+
             base.Update(gameTime);
         }
 

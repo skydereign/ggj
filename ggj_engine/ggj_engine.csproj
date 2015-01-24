@@ -61,6 +61,7 @@
     <Compile Include="Source\Network\NetworkManager.cs" />
     <Compile Include="Source\Screens\NetworkTestScreen.cs" />
     <Compile Include="Source\Screens\Screen.cs" />
+    <Compile Include="Source\Network\SocketInfo.cs" />
     <Compile Include="Source\Screens\TestScreen.cs" />
   </ItemGroup>
   <ItemGroup>

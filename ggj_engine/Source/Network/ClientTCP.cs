@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace ggj_engine.Source.Network
 {
@@ -13,7 +14,7 @@ namespace ggj_engine.Source.Network
         private string _hostIP;
         private int _port;
 
-        private Socket _s;
+        private SocketInfo sInfo;
 
         private byte[] buf = new byte[256];
 
@@ -26,13 +27,34 @@ namespace ggj_engine.Source.Network
         {
             _hostIP = hostIP;
             _port = port;
-            
-            _s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            sInfo = new SocketInfo();
+
+            sInfo.sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             IPAddress addr = IPAddress.Parse(_hostIP);
             IPEndPoint hostAddr = new IPEndPoint(addr, _port);
-            
-            _s.Connect(hostAddr);
+
+            sInfo.sock.Connect(hostAddr);
+
+            sInfo.ip = sInfo.sock.LocalEndPoint as IPEndPoint;
+            sInfo.host = sInfo.sock.RemoteEndPoint as IPEndPoint;
+        }
+
+        public void ReadOnThread()
+        {
+            ThreadStart ts = new ThreadStart(
+                () =>
+                {
+                    //if there is an exception thrown, catch it and continue looking for connections
+                    while (true)
+                    {
+                        Read();
+                    }
+                });
+
+            Thread t = new Thread(ts);
+            t.Start();
         }
 
         public int Read()
@@ -41,11 +63,14 @@ namespace ggj_engine.Source.Network
 
             byte[] buf = new byte[256];
 
-            bytesRead = _s.Receive(buf);
+            bytesRead = sInfo.sock.Receive(buf);
 
-            string msg = Encoding.ASCII.GetString(buf);
+            if (bytesRead > 0)
+            {
+                string msg = Encoding.ASCII.GetString(buf);
 
-            Console.WriteLine("Received from host: " + msg);
+                Console.WriteLine("Received from host: " + msg);
+            }
 
             return bytesRead;
         }
@@ -58,10 +83,10 @@ namespace ggj_engine.Source.Network
         public void Write(string data)
         {
             byte[] bytes = Encoding.ASCII.GetBytes(data);
-
+            
             Console.WriteLine("Writing to host: " + data);
 
-            _s.Send(bytes);
+            sInfo.sock.Send(bytes);
         }
     }
 }

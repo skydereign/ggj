@@ -13,11 +13,19 @@ namespace ggj_engine.Source.Network
         private string _ip;
         private int _port;
 
-        private List<IPEndPoint> _clientIPs;
+        private List<SocketInfo> _clientInfo;
 
-        private Socket _s;
+        private SocketInfo hostInfo;
 
         private Thread listeningThread;
+
+        public int NumConnectedPlayers
+        {
+            get
+            {
+                return _clientInfo.Count;
+            }
+        }
 
         public HostTCP()
         {
@@ -29,19 +37,25 @@ namespace ggj_engine.Source.Network
             _ip = ip;
             _port = port;
 
-            _clientIPs = new List<IPEndPoint>();
+            _clientInfo = new List<SocketInfo>();
 
-            _s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            hostInfo = new SocketInfo();
+
+            hostInfo.sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             IPAddress addr = IPAddress.Parse(_ip);
             IPEndPoint hostAddr = new IPEndPoint(addr, _port);
 
-            _s.Bind(hostAddr);
+            hostInfo.sock.Bind(hostAddr);
+
+            //hostInfo.ip = hostInfo.sock.LocalEndPoint as IPEndPoint;
+            //hostInfo.host = hostInfo.sock.RemoteEndPoint as IPEndPoint;
         }
 
+        //Listen for any connections
         public void Listen()
         {   
-            _s.Listen(10);
+            hostInfo.sock.Listen(10);
 
             ThreadStart ts = new ThreadStart(
                 () =>
@@ -49,21 +63,17 @@ namespace ggj_engine.Source.Network
                     //if there is an exception thrown, catch it and continue looking for connections
                     while (true)
                     {
-                        try
+                        if (_clientInfo.Count < NetworkManager.MAXNUMPLAYERS)
                         {
-                            //continuously poll for connections
-                            while (true)
+                            try
                             {
-                                byte[] buf = new byte[1024];
-                                Socket handler = _s.Accept();
-                                Console.WriteLine("Client connected");
-                                if (handler.Receive(buf) > 0)
-                                    Console.WriteLine("Data received from client: " + Encoding.ASCII.GetString(buf));
+                                //continuously poll for connections
+                                LookForConnections();
                             }
-                        }
-                        catch (SocketException e)
-                        {
-
+                            catch (SocketException e)
+                            {
+                                Console.WriteLine("EXCPN THROWN:\n" + e.Message);
+                            }
                         }
                     }
                 }
@@ -73,13 +83,40 @@ namespace ggj_engine.Source.Network
             listeningThread.Start();
         }
 
+        private void LookForConnections()
+        {
+            while (_clientInfo.Count < NetworkManager.MAXNUMPLAYERS)
+            {
+                byte[] buf = new byte[1024];
+
+                Socket handler = hostInfo.sock.Accept();
+
+                _clientInfo.Add(new SocketInfo());
+                _clientInfo[NumConnectedPlayers - 1].ip = handler.LocalEndPoint as IPEndPoint;
+                _clientInfo[NumConnectedPlayers - 1].host = handler.RemoteEndPoint as IPEndPoint;
+                _clientInfo[NumConnectedPlayers - 1].sock = handler;
+
+
+                Console.WriteLine("Client connected: " + _clientInfo.Count);
+
+                if (handler.Receive(buf) > 0)
+                {
+                    Console.WriteLine("Data received from client: " + Encoding.ASCII.GetString(buf));
+                    _clientInfo[NumConnectedPlayers - 1].sock.Send(Encoding.ASCII.GetBytes("Hello, Client! Love you too! - Host"));
+                    _clientInfo[NumConnectedPlayers - 1].sock.Send(Encoding.ASCII.GetBytes("Hello, Client! Love you too!2222 - Host"));
+                }
+            }
+
+            WriteAll("All clients loaded! Awesome!");
+        }
+
         public int Read()
         {
             int bytesRead = 0;
 
             byte[] buf = new byte[256];
 
-            bytesRead = _s.Receive(buf);
+            bytesRead = hostInfo.sock.Receive(buf);
 
             string msg = Encoding.ASCII.GetString(buf);
 
@@ -88,13 +125,30 @@ namespace ggj_engine.Source.Network
             return bytesRead;
         }
 
-        public void Write(string data)
+        public void WriteAll(string data)
+        {
+            byte[] bytes = Encoding.ASCII.GetBytes(data);
+
+            Console.WriteLine("Writing to all clients: " + data);
+
+            for(int i = 0; i < _clientInfo.Count; ++i)
+            {
+                Write(bytes, _clientInfo[i]);
+            }
+        }
+
+        public void Write(byte[] data, SocketInfo info)
+        {
+            info.sock.Send(data);
+        }
+
+        public void Write(string data, SocketInfo info)
         {
             byte[] bytes = Encoding.ASCII.GetBytes(data);
 
             Console.WriteLine("Writing to client: " + data);
 
-            
+            info.sock.Send(bytes);
         }
     }
 }

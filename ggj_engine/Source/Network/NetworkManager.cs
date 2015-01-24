@@ -15,17 +15,17 @@ namespace ggj_engine.Source.Network
 
     public class NetworkManager
     {
-        private static NetworkManager _instance;
+        public const int MAXNUMPLAYERS = 1;
 
-        private Thread _acceptThread;
-        private Thread _sendThread;
-        private Thread _recvThread;
+        private static NetworkManager _instance;
 
         private bool _isHost;
 
         private string _hostIP = "127.0.0.1";
         private string _localHostIP = "127.0.0.1";
         private int _port = 1337;
+
+        private HostTCP _host;
 
         public bool IsHost
         {
@@ -46,9 +46,15 @@ namespace ggj_engine.Source.Network
             }
         }
 
+        //private constructor so only one instance can be created
+        private NetworkManager()
+        {
+
+        }
+
         public void CreateHost()
         {
-            HostTCP _host = new HostTCP();
+            _host = new HostTCP();
 
             _host.Start(_localHostIP, _port);
 
@@ -71,16 +77,13 @@ namespace ggj_engine.Source.Network
 
             ClientTCP _client = new ClientTCP();
             _client.Connect(_localHostIP, _port);
-
+            
             _client.Write("Hello, Host! Love, Client");
+
+            _client.ReadOnThread();
         }
 
-        private void Solve()
-        {
-
-        }
-
-        private NetworkManager()
+        public void Solve()
         {
 
         }
@@ -90,9 +93,14 @@ namespace ggj_engine.Source.Network
 
         }
 
-        private void WriteTCPPacket()
+        private void WriteTCPToHost(string msg)
         {
 
+        }
+
+        private void WriteTCPToClients(string msg)
+        {
+            _host.WriteAll(msg);
         }
 
         private void WriteUDPPacket()
