@@ -15,7 +15,8 @@ namespace ggj_engine.Source.Network
 
     public class NetworkManager
     {
-        public const int MAXNUMPLAYERS = 1;
+        public Mutex mutexObj = new Mutex();
+        public const int MAXNUMPLAYERS = 8;
 
         private static NetworkManager _instance;
 
@@ -26,6 +27,23 @@ namespace ggj_engine.Source.Network
         private int _port = 1337;
 
         private HostTCP _host;
+        private ClientTCP _client;
+
+        public HostTCP Host
+        {
+            get
+            {
+                return _host;
+            }
+        }
+
+        public ClientTCP Client
+        {
+            get
+            {
+                return _client;
+            }
+        }
 
         public bool IsHost
         {
@@ -75,7 +93,7 @@ namespace ggj_engine.Source.Network
                 return;
             }
 
-            ClientTCP _client = new ClientTCP();
+            _client = new ClientTCP();
             _client.Connect(_localHostIP, _port);
             
             _client.Write("Hello, Host! Love, Client");

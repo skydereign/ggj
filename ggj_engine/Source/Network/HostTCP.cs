@@ -129,7 +129,7 @@ namespace ggj_engine.Source.Network
         {
             byte[] bytes = Encoding.ASCII.GetBytes(data);
 
-            Console.WriteLine("Writing to all clients: " + data);
+            //Console.WriteLine("Writing to all clients: " + data);
 
             for(int i = 0; i < _clientInfo.Count; ++i)
             {
@@ -146,7 +146,7 @@ namespace ggj_engine.Source.Network
         {
             byte[] bytes = Encoding.ASCII.GetBytes(data);
 
-            Console.WriteLine("Writing to client: " + data);
+            //Console.WriteLine("Writing to client: " + data);
 
             info.sock.Send(bytes);
         }
