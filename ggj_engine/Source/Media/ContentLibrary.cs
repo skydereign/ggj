@@ -10,6 +10,7 @@ namespace ggj_engine.Source.Media
     class ContentLibrary
     {
         public static Dictionary<string, Sprite> Sprites;
+        public static Dictionary<string, SpriteFont> Fonts;
         static GraphicsDevice GraphicsDevice;
 
         public static void Init(GraphicsDevice graphicsDevice)
@@ -31,6 +32,16 @@ namespace ggj_engine.Source.Media
             Sprite animated_example = new Sprite(content.Load<Texture2D>("Textures/test_animation.png"));
             animated_example.AddAnimation("default", 0, 0, 20, 20, 4, 0.1f);
             Sprites.Add("test_animation", animated_example);
+        }
+
+
+        public static void LoadFonts(ContentManager content)
+        {
+            Fonts = new Dictionary<string, SpriteFont>();
+
+            //add fonts
+            Fonts.Add("smallFont", content.Load<SpriteFont>("Fonts/smallFont"));
+
         }
     }
 }
