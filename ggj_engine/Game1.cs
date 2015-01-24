@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using ggj_engine.Source.Screens;
 using ggj_engine.Source.Media;
+using ggj_engine.Source.Utility;
 #endregion
 
 namespace ggj_engine
@@ -104,6 +105,8 @@ namespace ggj_engine
                 screen.Close();
             }
             deletedScreens.Clear();
+
+            InputControl.Update(1);
 
             base.Update(gameTime);
         }

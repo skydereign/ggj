@@ -1,5 +1,8 @@
 ﻿using ggj_engine.Source.Entities;
 using ggj_engine.Source.Level;
+using ggj_engine.Source.Utility;
+using ggj_engine.Source.Media;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -22,6 +25,22 @@ namespace ggj_engine.Source.Screens
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+
+            spriteBatch.Begin();
+            if (InputControl.GetMouseOnLeftHeld())
+            {
+                spriteBatch.Draw(ContentLibrary.Sprites["cursor"].Texture, InputControl.GetMousePosition(), Color.Blue);
+            }
+            else
+            {
+                spriteBatch.Draw(ContentLibrary.Sprites["cursor"].Texture, InputControl.GetMousePosition(), Color.White);
+            }
+            spriteBatch.End();
         }
     }
 }

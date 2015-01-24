@@ -26,6 +26,7 @@ namespace ggj_engine.Source.Media
 
             // add sprites
             Sprites.Add("test_sprite", new Sprite(content.Load<Texture2D>("Textures/test_sprite.png")));
+            Sprites.Add("cursor", new Sprite(content.Load<Texture2D>("Textures/cursor.png")));
 
             Sprite animated_example = new Sprite(content.Load<Texture2D>("Textures/test_animation.png"));
             animated_example.AddAnimation("default", 0, 0, 20, 20, 4, 0.1f);
