@@ -1,4 +1,5 @@
 ﻿using ggj_engine.Source.Entities;
+using ggj_engine.Source.Entities.Player;
 using ggj_engine.Source.Level;
 using ggj_engine.Source.Media;
 using ggj_engine.Source.Utility;
@@ -15,8 +16,9 @@ namespace ggj_engine.Source.Screens
     {
         public TestPlayerScreen()
         {
-            AddEntity(new TestEntity(new Vector2(100, 100)));
-            AddEntity(new TestEntity(new Vector2(110, 110)));
+            // AddEntity(new TestEntity(new Vector2(100, 100)));
+            AddEntity(new TestEntity(new Vector2(130, 110)));
+            AddEntity(new Player(new Vector2(100, 100)));
 
             Camera = new Camera(Vector2.Zero, new Vector2(1280,720));
 
@@ -26,31 +28,31 @@ namespace ggj_engine.Source.Screens
         public override void Update(GameTime gameTime)
         {
             //Camera movement
-            if (InputControl.GetKeyboardKeyHeld(Microsoft.Xna.Framework.Input.Keys.W))
-            {
-                Camera.Position.Y -= 1f;
-            }
-            if (InputControl.GetKeyboardKeyHeld(Microsoft.Xna.Framework.Input.Keys.A))
-            {
-                Camera.Position.X -= 1f;
-            }
-            if (InputControl.GetKeyboardKeyHeld(Microsoft.Xna.Framework.Input.Keys.S))
-            {
-                Camera.Position.Y += 1f;
-            }
-            if (InputControl.GetKeyboardKeyHeld(Microsoft.Xna.Framework.Input.Keys.D))
-            {
-                Camera.Position.X += 1f;
-            }
-            //Camera Zoom
-            if (InputControl.GetMouseWheelUp())
-            {
-                Camera.Zoom -= 0.05f;
-            }
-            if (InputControl.GetMouseWheelDown())
-            {
-                Camera.Zoom += 0.05f;
-            }
+            //if (InputControl.GetKeyboardKeyHeld(Microsoft.Xna.Framework.Input.Keys.W))
+            //{
+            //    Camera.Position.Y -= 1f;
+            //}
+            //if (InputControl.GetKeyboardKeyHeld(Microsoft.Xna.Framework.Input.Keys.A))
+            //{
+            //    Camera.Position.X -= 1f;
+            //}
+            //if (InputControl.GetKeyboardKeyHeld(Microsoft.Xna.Framework.Input.Keys.S))
+            //{
+            //    Camera.Position.Y += 1f;
+            //}
+            //if (InputControl.GetKeyboardKeyHeld(Microsoft.Xna.Framework.Input.Keys.D))
+            //{
+            //    Camera.Position.X += 1f;
+            //}
+            ////Camera Zoom
+            //if (InputControl.GetMouseWheelUp())
+            //{
+            //    Camera.Zoom -= 0.05f;
+            //}
+            //if (InputControl.GetMouseWheelDown())
+            //{
+            //    Camera.Zoom += 0.05f;
+            //}
 
             base.Update(gameTime);
         }
@@ -76,7 +78,5 @@ namespace ggj_engine.Source.Screens
             spriteBatch.DrawString(ContentLibrary.Fonts["smallFont"], "Camera pos: [" + Camera.Position.X.ToString() + " | " + Camera.Position.Y.ToString() + "]", new Vector2(5, 30), Color.White);
             spriteBatch.End();
         }
-    }
-
     }
 }

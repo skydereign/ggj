@@ -86,12 +86,15 @@
     <Compile Include="Source\Entities\Enemies\Enemy.cs" />
     <Compile Include="Source\Entities\Enemies\Follower.cs" />
     <Compile Include="Source\Entities\Entity.cs" />
+    <Compile Include="Source\Entities\Player\Player.cs" />
     <Compile Include="Source\Entities\TestEntity.cs" />
     <Compile Include="Source\Level\Tile.cs" />
     <Compile Include="Source\Level\TileGrid.cs" />
     <Compile Include="Source\Media\ContentLibrary.cs" />
     <Compile Include="Source\Media\FrameAnimation.cs" />
     <Compile Include="Source\Media\Sprite.cs" />
+    <Compile Include="Source\Movement\MovementDelegate.cs" />
+    <Compile Include="Source\Movement\MovementManager.cs" />
     <Compile Include="Source\Network\ClientTCP.cs" />
     <Compile Include="Source\Network\HostTCP.cs" />
     <Compile Include="Source\Network\NetworkManager.cs" />
@@ -151,6 +154,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
