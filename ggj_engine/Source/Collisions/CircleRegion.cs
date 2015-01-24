@@ -19,8 +19,8 @@ namespace ggj_engine.Source.Collisions
             Radius = radius;
             Position = position;
             sprite = ContentLibrary.Sprites["circle_region"];
-            sprite.ScaleX = radius / Globals.DebugCircleSize;
-            sprite.ScaleY = radius / Globals.DebugCircleSize;
+            sprite.ScaleX = radius*2 / Globals.DebugCircleSize;
+            sprite.ScaleY = radius*2 / Globals.DebugCircleSize;
             Active = true;
         }
 
@@ -37,7 +37,7 @@ namespace ggj_engine.Source.Collisions
 
         public override void Draw (SpriteBatch spriteBatch)
         {
-            sprite.Position = Position -= new Vector2(Radius / 2, Radius / 2);
+            sprite.Position = Position -= new Vector2(Radius, Radius);
             sprite.Draw(spriteBatch);
         }
     }
