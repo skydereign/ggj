@@ -13,13 +13,11 @@ namespace ggj_engine.Source.Screens
 {
     public class TestScreen : Screen
     {
-        public TileGrid level;
-
         public TestScreen()
         {
             AddEntity(new TestEntity(new Vector2(100, 100)));
 
-            level = new TileGrid(10, 10, new Vector2(0, 0));
+            TileGrid.Init(10, 10, new Vector2(0, 0));
         }
 
         public override void Update(GameTime gameTime)
@@ -29,6 +27,7 @@ namespace ggj_engine.Source.Screens
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            TileGrid.Draw(spriteBatch);
             base.Draw(spriteBatch);
 
             spriteBatch.Begin();
