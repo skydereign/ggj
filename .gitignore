@@ -1,3 +1,7 @@
+#ged undo
+*.ged.undo*
+*.undo
+
 #OS junk files
 [Tt]humbs.db
 *.DS_Store
