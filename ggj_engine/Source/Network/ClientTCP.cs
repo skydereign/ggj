@@ -53,6 +53,7 @@ namespace ggj_engine.Source.Network
             return SocketConnected(sInfo.sock);
         }
 
+        //http://stackoverflow.com/questions/2661764/how-to-check-if-a-socket-is-connected-disconnected-in-c
         bool SocketConnected(Socket s)
         {
             bool part1 = s.Poll(1000, SelectMode.SelectRead);

@@ -95,7 +95,6 @@
     <Compile Include="Source\Network\ClientTCP.cs" />
     <Compile Include="Source\Network\HostTCP.cs" />
     <Compile Include="Source\Network\NetworkManager.cs" />
-    <None Include="Source\Screens\NetworkTestScreen.cs.backup" />
     <Compile Include="Source\Screens\NetworkTestScreen.cs" />
     <Compile Include="Source\Particles\Emitter.cs" />
     <Compile Include="Source\Particles\Particle.cs" />
