@@ -54,6 +54,7 @@ namespace ggj_engine.Source.Media
 
             //add fonts
             Fonts.Add("smallFont", content.Load<SpriteFont>("Fonts/smallFont"));
+            Fonts.Add("pixelFont", content.Load<SpriteFont>("Fonts/PixelFont"));
 
         }
 

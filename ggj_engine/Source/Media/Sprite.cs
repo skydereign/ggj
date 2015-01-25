@@ -44,6 +44,7 @@ namespace ggj_engine.Source.Media
 
         // Calcualted center of the sprite
         Vector2 v2Center;
+        Vector2 origin;
 
         // Calculated width and height of the sprite
         int iWidth;
@@ -120,6 +121,21 @@ namespace ggj_engine.Source.Media
                 v2Position.Y = value;
                 UpdateRotation();
             }
+        }
+
+
+        public Vector2 Center
+        {
+            get { return origin; }
+            set
+            {
+                origin = value;
+            }
+        }
+
+        public void CenterOrigin()
+        {
+            origin = new Vector2((float)Width / 2f, (float)Height / 2f);
         }
 
         ///
@@ -347,7 +363,7 @@ namespace ggj_engine.Source.Media
 
                 spriteBatch.Draw(t2dTexture, (v2Position + new Vector2(XOffset, YOffset) + v2Center),
                                 sourceRectangle, colorTint,
-                                fRotation, v2Center, new Vector2(scalex,scaley), SpriteEffects.None, Depth);
+                                fRotation, v2Center + origin, new Vector2(scalex,scaley), SpriteEffects.None, Depth);
             }
         }
     }

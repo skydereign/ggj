@@ -91,13 +91,16 @@
     <Compile Include="Source\Entities\Enemies\YourMom.cs" />
     <Compile Include="Source\Entities\Entity.cs" />
     <Compile Include="Source\Entities\Player\Player.cs" />
+    <Compile Include="Source\Entities\Player\Shield.cs" />
     <Compile Include="Source\Entities\Projectiles\Rocket.cs" />
     <Compile Include="Source\Entities\Projectiles\Cannonball.cs" />
     <Compile Include="Source\Entities\Projectiles\Arrow.cs" />
     <Compile Include="Source\Entities\Projectiles\Bullet.cs" />
     <Compile Include="Source\Entities\Projectiles\Projectile.cs" />
+    <Compile Include="Source\Entities\StarBackground.cs" />
     <Compile Include="Source\Entities\TestEntity.cs" />
     <Compile Include="Source\Entities\Weapon.cs" />
+    <Compile Include="Source\GameManagement\GameManager.cs" />
     <Compile Include="Source\Level\Tile.cs" />
     <Compile Include="Source\Level\TileGrid.cs" />
     <Compile Include="Source\Media\ContentLibrary.cs" />
@@ -174,6 +177,9 @@
     <Content Include="Content\Textures\white_pixel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Content\Fonts\PixelFont.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="fmodex.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
