@@ -2,6 +2,7 @@
 using ggj_engine.Source.AI.Conditions;
 using ggj_engine.Source.AI.DecisionTree;
 using ggj_engine.Source.AI.Pathing;
+using ggj_engine.Source.Collisions;
 using ggj_engine.Source.Level;
 using ggj_engine.Source.Media;
 using ggj_engine.Source.Screens;
@@ -32,7 +33,8 @@ namespace ggj_engine.Source.Entities.Enemies
             Speed = 3.0f;
             sprite = ContentLibrary.Sprites["test_animation"];
             sprite.Tint = Color.Red;
-            sightRange = 12 * 16; // number of tiles * tileSize
+            CollisionRegion = new CircleRegion(12, Position);
+            sightRange = 12 * 16;
             combatRange = 6 * 16;
             playerInSightRange = new BinaryDecision();
             playerInCombatRange = new BinaryDecision();
@@ -88,11 +90,6 @@ namespace ggj_engine.Source.Entities.Enemies
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-        }
-
-        public override void OnCollision(Entity other)
-        {
-            base.OnCollision(other);
         }
 
         public void ShootAtPlayer(GameTime gameTime)

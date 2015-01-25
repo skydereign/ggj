@@ -11,6 +11,8 @@ namespace ggj_engine.Source.Particles
     public abstract class PSystem : Entities.Entity
     {
         protected List<Emitter> emitters = new List<Emitter>();
+        public bool Dead;
+        private int deathTimer;
 
         /// <summary>
         /// Update loop
@@ -22,8 +24,21 @@ namespace ggj_engine.Source.Particles
             {
                 e.Update();
             }
-
+            if (Dead)
+            {
+                deathTimer--;
+                if (deathTimer <= 0)
+                {
+                    MyScreen.DeleteEntity(this);
+                }
+            }
             base.Update(gameTime);
+        }
+
+        public void Kill(int timeToDeath)
+        {
+            deathTimer = timeToDeath;
+            Dead = true;
         }
 
         /// <summary>

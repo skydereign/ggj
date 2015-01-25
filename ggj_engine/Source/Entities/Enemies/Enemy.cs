@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using ggj_engine.Source.AI.Pathing;
 using ggj_engine.Source.Level;
+using ggj_engine.Source.Entities.Projectiles;
 
 namespace ggj_engine.Source.Entities.Enemies
 {
@@ -48,6 +49,14 @@ namespace ggj_engine.Source.Entities.Enemies
         protected void DecreaseHealth()
         {
             health--;
+        }
+        public override void OnCollision(Entity other)
+        {
+            if (other is Projectile)
+            {
+                MyScreen.DeleteEntity(this);
+            }
+            base.OnCollision(other);
         }
     }
 }

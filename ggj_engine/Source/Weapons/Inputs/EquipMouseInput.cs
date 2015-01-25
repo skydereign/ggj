@@ -26,7 +26,6 @@ namespace ggj_engine.Source.Weapons.Inputs
             {
                 foreach (Trigger myTrigger in triggerList)
                 {
-                    Console.WriteLine("Added trigger " + myTrigger);
                     triggers.Add(myTrigger);
                 }
             }

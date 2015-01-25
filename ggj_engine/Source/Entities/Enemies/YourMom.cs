@@ -2,6 +2,7 @@
 using ggj_engine.Source.AI.Conditions;
 using ggj_engine.Source.AI.DecisionTree;
 using ggj_engine.Source.AI.Pathing;
+using ggj_engine.Source.Collisions;
 using ggj_engine.Source.Level;
 using ggj_engine.Source.Media;
 using ggj_engine.Source.Utility;
@@ -31,6 +32,7 @@ namespace ggj_engine.Source.Entities.Enemies
             Speed = 1.5f;
             sprite = ContentLibrary.Sprites["test_animation"];
             sprite.Tint = Color.SaddleBrown;
+            CollisionRegion = new CircleRegion(12, Position);
             sightRange = 15 * 16;
             combatRange = 10 * 16;
             evadeRange = 8 * 16;
@@ -94,11 +96,6 @@ namespace ggj_engine.Source.Entities.Enemies
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-        }
-
-        public override void OnCollision(Entity other)
-        {
-            base.OnCollision(other);
         }
 
         public void ShootAtPlayer(GameTime gameTime)

@@ -14,13 +14,16 @@ namespace ggj_engine.Source.Screens
 {
     class TestPlayerScreen : Screen
     {
-        public GameManagement.GameManager GameManager;
-
         public TestPlayerScreen()
         {
             // AddEntity(new TestEntity(new Vector2(100, 100)));
             AddEntity(new TestEntity(new Vector2(130, 110)));
             AddEntity(new Player(new Vector2(100, 100)));
+            AddEntity(new Spawn(100, 100));
+            AddEntity(new Spawn(300, 700));
+            AddEntity(new Spawn(500, 400));
+            AddEntity(new Spawn(800, 600));
+
             AddEntity(new StarBackground());
 
             Camera = new Camera(Vector2.Zero, new Vector2(1280,720));
@@ -41,7 +44,6 @@ namespace ggj_engine.Source.Screens
                 Camera.Zoom += 0.05f;
             }
 
-            GameManager.Update(gameTime);
 
             base.Update(gameTime);
         }
