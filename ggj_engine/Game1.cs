@@ -76,6 +76,8 @@ namespace ggj_engine
             ContentLibrary.LoadSprites(Content);
             ContentLibrary.LoadFonts(Content);
             ContentLibrary.LoadSoundFX();
+            
+            Debug.LoadContent();
 
             SoundController.LoadAllSounds(ContentLibrary.SoundFX.Keys, ContentLibrary.SoundFX.Values);
 
