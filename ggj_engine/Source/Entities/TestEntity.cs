@@ -20,6 +20,10 @@ namespace ggj_engine.Source.Entities
             CollisionRegion = new CircleRegion(14, position);
         }
 
+        public override void Init()
+        {
+            base.Init();
+        }
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);

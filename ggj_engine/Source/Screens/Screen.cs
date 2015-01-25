@@ -25,6 +25,7 @@ namespace ggj_engine.Source.Screens
         {
             createdEntities.Add(entity);
             entity.MyScreen = this;
+            entity.Init();
         }
 
         public void DeleteEntity(Entity entity)
