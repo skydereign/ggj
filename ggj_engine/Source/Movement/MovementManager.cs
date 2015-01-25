@@ -35,8 +35,8 @@ namespace ggj_engine.Source.Movement
             movementInputs.Add(new MovementKeyInput(MovementKeyInput.Types.Held, Keys.S, moveDown));
             movementInputs.Add(new MovementKeyInput(MovementKeyInput.Types.Held, Keys.D, moveRight));
 
-            movementInputs.Add(new MovementMouseInput(MovementMouseInput.Types.Held, MovementMouseInput.Button.Left, moveTowardsMouse));
-            movementInputs.Add(new MovementMouseInput(MovementMouseInput.Types.Pressed, MovementMouseInput.Button.Right, resetPosition));
+            movementInputs.Add(new MovementMouseInput(MovementMouseInput.Types.Held, MovementMouseInput.Button.Right, moveTowardsMouse));
+            //movementInputs.Add(new MovementMouseInput(MovementMouseInput.Types.Pressed, MovementMouseInput.Button.Right, resetPosition));
         }
 
         public Vector2 Update(GameTime gameTime, Vector2 currPosition, Vector2 mousePosition)
