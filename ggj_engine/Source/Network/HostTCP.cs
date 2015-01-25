@@ -13,7 +13,9 @@ namespace ggj_engine.Source.Network
         private string _ip;
         private int _port;
 
-        public string[] Buffer;
+        public string buffer = "";
+
+        public string[] ClientBuffers;
 
         public List<SocketInfo> _clientInfo;
 
@@ -125,7 +127,7 @@ namespace ggj_engine.Source.Network
                         //Read();
                         for(int i = 0; i < NumConnectedPlayers; ++i)
                         {
-                            Buffer[i] += ReadFromClient(i);
+                            ClientBuffers[i] += ReadFromClient(i);
                         }
                     }
                 });
@@ -186,14 +188,17 @@ namespace ggj_engine.Source.Network
 
         public void WriteAll(string data)
         {
-            byte[] bytes = Encoding.ASCII.GetBytes(data);
-
-            //Console.WriteLine("Writing to all clients: " + data);
-
-            for(int i = 0; i < _clientInfo.Count; ++i)
+            if (data.Length > 0)
             {
-                if (_clientInfo[i].sock.Connected)
-                    Write(bytes, _clientInfo[i]);
+                byte[] bytes = Encoding.ASCII.GetBytes(data);
+
+                //Console.WriteLine("Writing to all clients: " + data);
+
+                for (int i = 0; i < _clientInfo.Count; ++i)
+                {
+                    if (_clientInfo[i].sock.Connected)
+                        Write(bytes, _clientInfo[i]);
+                }
             }
         }
 

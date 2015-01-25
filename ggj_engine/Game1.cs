@@ -86,8 +86,8 @@ namespace ggj_engine
             deletedScreens = new List<Screen>();
 
             //screens.Add(new TestScreen());
-            screens.Add(new TestPlayerScreen());
-            //screens.Add(new NetworkTestScreen());
+            //screens.Add(new TestPlayerScreen());
+            screens.Add(new MultiplayerTestScreen());
         }
 
         /// <summary>

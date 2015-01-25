@@ -113,6 +113,7 @@
     <Compile Include="Source\Network\NetworkManager.cs" />
     <Compile Include="Source\Particles\CircleEmitter.cs" />
     <Compile Include="Source\Particles\Systems\PSystemRocketSmoke.cs" />
+    <Compile Include="Source\Screens\MultiplayerTestScreen.cs" />
     <Compile Include="Source\Screens\NetworkTestScreen.cs" />
     <Compile Include="Source\Particles\Emitter.cs" />
     <Compile Include="Source\Particles\Particle.cs" />

@@ -6,6 +6,7 @@ using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using Microsoft.Xna.Framework;
+using ggj_engine.Source.Entities.Player;
 
 namespace ggj_engine.Source.Network
 {
@@ -77,6 +78,20 @@ namespace ggj_engine.Source.Network
             packetsReceived = new List<string>();
         }
 
+        public void DetermineHost()
+        {
+            Console.WriteLine("Host? yes or no");
+
+            string response = Console.ReadLine();
+
+            if (response.CompareTo("yes") == 0)
+                NetworkManager.Instance.CreateHost();
+            else
+                NetworkManager.Instance.ConnectToHost();
+
+            Console.WriteLine();
+        }
+
         public void CreateHost()
         {
             _host = new HostTCP();
@@ -114,7 +129,7 @@ namespace ggj_engine.Source.Network
 
             if (IsHost)
             {
-                ManageHostGameState(gameTime);
+                ManageHostGameState(gameTime, entities);
             }
             else
             {
@@ -122,13 +137,36 @@ namespace ggj_engine.Source.Network
             }
         }
 
-        private void ManageHostGameState(Microsoft.Xna.Framework.GameTime gameTime)
+        private void ManageHostGameState(Microsoft.Xna.Framework.GameTime gameTime, List<Entities.Entity> entities)
         {
             //get data from game state and send to clients
             CheckConnectedClients();
             GetDataFromClients(gameTime);
-            SendDataToClients(gameTime);
+
+            BeginPacket(gameTime);
+
+            AddEntityDataToPacket(entities);
+
+            EndPacket();
+
+            SubmitDataToClients();
             GetACKFromClients();
+        }
+
+        private void AddEntityDataToPacket(List<Entities.Entity> entities)
+        {
+            for(int i = 0; i < entities.Count; ++i)
+            {
+                //send player data
+                if(entities[i] is Entities.Player.Player)
+                {
+                    AddDataToPacket(",P," + i + "," + (entities[i] as Player).PlayerID + "," + entities[i].Position.X + "," + entities[i].Position.Y + ",");
+                }
+                else if(entities[i] is Entities.Enemies.Enemy)
+                {
+                    AddDataToPacket(",E," + i + "," + entities[i].Position.X + "," + entities[i].Position.Y + ",");
+                }
+            }
         }
 
         private void CheckConnectedClients()
@@ -144,26 +182,38 @@ namespace ggj_engine.Source.Network
             }
         }
 
-        private void SendDataToClients(Microsoft.Xna.Framework.GameTime gameTime)
+        private void SubmitDataToClients()
         {
-            //if data to send > 0
+            Host.WriteAll(Host.buffer);
 
+            //clear buffer
+            Host.buffer = "";
+        }
+
+        private void AddDataToPacket(string data)
+        {
+            Host.buffer += (data);
+        }
+
+        public void BeginPacket(Microsoft.Xna.Framework.GameTime gameTime)
+        {
             //send start of packet block
-            Host.WriteAll(IPSOFBlock + '\n');
+            Host.buffer += (IPSOFBlock + '\n');
 
             //write packet order number
-            Host.WriteAll(Host.CurrentPacketNumber.ToString() + '\n');
+            Host.buffer += (Host.CurrentPacketNumber.ToString() + '\n');
 
             //increment host packet number
             Host.CurrentPacketNumber++;
 
             //write the time the packet was sent
-            Host.WriteAll("Time " + gameTime.ElapsedGameTime.Milliseconds + '\n');
+            Host.buffer += ("Time " + MillisSinceHostCreation + '\n');
+        }
 
-            Host.WriteAll("This should be one packet\n");
-
+        public void EndPacket()
+        {
             //send end of packet block
-            Host.WriteAll(IPEOFBlock + '\n');
+            Host.buffer += (IPEOFBlock + '\n');
         }
 
         private void GetACKFromClients()
@@ -211,8 +261,9 @@ namespace ggj_engine.Source.Network
                         else if (words[i] == "P" && i + 4 < words.Length)
                         {
                             int id = int.Parse(words[i + 1]);
-                            float x = float.Parse(words[i + 2]);
-                            float y = float.Parse(words[i + 3]);
+                            int playerID = int.Parse(words[i + 2]);
+                            float x = float.Parse(words[i + 3]);
+                            float y = float.Parse(words[i + 4]);
 
                             entities[id].Position = new Vector2(x, y);
                         }

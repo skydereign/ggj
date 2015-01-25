@@ -24,16 +24,7 @@ namespace ggj_engine.Source.Screens
                 entities.Add(new TestEntity(new Vector2((float)RandomUtil.Next(-Camera.ScreenDimensions.X / 2, Camera.ScreenDimensions.X / 2), (float)RandomUtil.Next(-Camera.ScreenDimensions.Y / 2, Camera.ScreenDimensions.Y / 2))));
             }
 
-            Console.WriteLine("Host? yes or no");
-
-            string response = Console.ReadLine();
-
-            if (response.CompareTo("yes") == 0)
-                NetworkManager.Instance.CreateHost();
-            else
-                NetworkManager.Instance.ConnectToHost();
-
-            Console.WriteLine();
+            NetworkManager.Instance.DetermineHost();
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
