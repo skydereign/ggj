@@ -10,7 +10,7 @@ namespace ggj_engine.Source.Movement
 {
     class MovementKeyInput : MovementDelegate
     {
-        public enum Types { Pressed, Held, Released, Standby };
+        public enum Types { Pressed, Held, Released, Standby, Count };
 
         public Keys key;
 
@@ -24,9 +24,12 @@ namespace ggj_engine.Source.Movement
             this.key = key;
 
             movementList = new List<Movement>();
-            foreach (Movement move in movements)
+            if (movements != null)
             {
-                movementList.Add(move);
+                foreach (Movement move in movements)
+                {
+                    movementList.Add(move);
+                }
             }
         }
 

@@ -19,12 +19,10 @@ namespace ggj_engine.Source.Entities.Player
 
         public Player(Vector2 position)
         {
-            Position = position;
             sprite = ContentLibrary.Sprites["test_animation"];
+            Position = position + new Vector2(12, 12);
             CollisionRegion = new CircleRegion(14, position);
             movementManager = new MovementManager();
-
-
         }
 
         public override void Update(GameTime gameTime)
@@ -35,10 +33,10 @@ namespace ggj_engine.Source.Entities.Player
                 MyScreen.AddEntity(Weapon);
             }
 
-
             Weapon.Position = Position;
 
-            Vector2 mousePosition = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition());
+            Vector2 mousePosition = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - new Vector2(sprite.Width/2, sprite.Height/2);
+
             Position = movementManager.Update(gameTime, Position, mousePosition);
             
             //Make camera follow player
