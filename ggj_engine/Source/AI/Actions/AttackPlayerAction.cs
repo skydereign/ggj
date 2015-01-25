@@ -25,7 +25,7 @@ namespace ggj_engine.Source.AI.Actions
 
         public void DoAction()
         {
-            
+            enemy.FireDelay = 1000.0f;
         }
     }
 }

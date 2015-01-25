@@ -11,13 +11,14 @@ namespace ggj_engine.Source.Entities.Enemies
 {
     public abstract class Enemy : Entity
     {
-        public float Points, Speed;
+        public float Speed, FireDelay;
         public Stack<Tile> CurrentPath;
         public Tile CurrentTile;
         public bool Patrolling, Following, Attacking;
         public bool PopOffTop, PerformingAction;
         protected int health;
         protected int damage;
+        protected float fireCounter;
         protected List<Vector2> wayPoints;
         
         protected virtual void SetDecisionTree()
