@@ -13,6 +13,7 @@ namespace ggj_engine.Source.Media
         public static SpriteDictionary Sprites { get { return sprites; } }
         public static Dictionary<string, SpriteFont> Fonts;
         public static Dictionary<string, string> SoundFX;
+        public static Dictionary<string, string> BGM;
         static GraphicsDevice GraphicsDevice;
 
 
@@ -69,6 +70,14 @@ namespace ggj_engine.Source.Media
             SoundFX.Add("bow", "Content/Audio/SoundEffects/bow.wav");
             SoundFX.Add("cannon", "Content/Audio/SoundEffects/cannon.wav");
             SoundFX.Add("rocket", "Content/Audio/SoundEffects/rocket.wav");
+        }
+
+        public static void LoadBGM()
+        {
+            BGM = new Dictionary<string, string>();
+            
+            //add music
+            BGM.Add("title_screen", "Content/Audio/BGM/title_screen.wav");
         }
 
 
