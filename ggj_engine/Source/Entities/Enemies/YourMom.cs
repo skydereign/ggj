@@ -52,10 +52,15 @@ namespace ggj_engine.Source.Entities.Enemies
             Vector2 wayPoint2 = new Vector2(40, TileGrid.Height * 16 - 40);
             Vector2 wayPoint3 = new Vector2(40, 40);
             Vector2 wayPoint4 = new Vector2(TileGrid.Width * 16 - 40, 40);
+            Vector2 wayPoint5 = new Vector2((TileGrid.Width / 2) * 16, (TileGrid.Height / 2) * 16);
+            Vector2 wayPoint6 = new Vector2((TileGrid.Width / 3) * 16, (TileGrid.Height / 3) * 16);
+            Vector2 wayPoint7 = new Vector2(((TileGrid.Width / 2) + (TileGrid.Width / 4)) * 16, ((TileGrid.Width / 2) + (TileGrid.Width / 4)) * 16);
             wayPoints.Add(wayPoint1);
             wayPoints.Add(wayPoint2);
             wayPoints.Add(wayPoint3);
             wayPoints.Add(wayPoint4);
+            wayPoints.Add(wayPoint5);
+            wayPoints.Add(wayPoint6);
         }
 
         protected override void SetDecisionTree()

@@ -21,7 +21,7 @@ namespace ggj_engine.Source.AI.Actions
         {
             this.enemy = enemy;
             this.destination = destination;
-            iterator = 0;
+            iterator = (int)RandomUtil.Next(destination.Count);
             nextSpot = destination[iterator];
         }
 
@@ -40,12 +40,17 @@ namespace ggj_engine.Source.AI.Actions
                 enemy.CurrentTile = enemy.CurrentPath.Pop();
                 enemy.PopOffTop = false;
             }
-            iterator++;
-            nextSpot = destination[iterator];
-            if(iterator >= 3)
+            int prevIterator = iterator;
+            iterator = (int)RandomUtil.Next(destination.Count);
+            while (iterator == prevIterator)
             {
-                iterator = -1;
+                iterator = (int)RandomUtil.Next(destination.Count);
             }
+            if (iterator >= destination.Count)
+            {
+                iterator = 0;
+            }
+            nextSpot = destination[iterator];
         }
     }
 }

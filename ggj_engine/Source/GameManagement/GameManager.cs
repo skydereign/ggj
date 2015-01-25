@@ -29,6 +29,8 @@ namespace ggj_engine.Source.GameManagement
         public PlayerInfo MainPlayer;
         public List<PlayerInfo> AllPlayers;
         public float MillisecondsRemaining;
+        public float EnemySpawnTimer;
+        private int enemyCount, maxEnemyCount;
 
         public GameManager(Screens.Screen myScreen)
         {
@@ -40,11 +42,14 @@ namespace ggj_engine.Source.GameManagement
             AllPlayers = new List<PlayerInfo>();
             AllPlayers.Add(MainPlayer);
             MillisecondsRemaining = GAME_LENGTH;
+            enemyCount = 0;
+            maxEnemyCount = enemyCount;
         }
 
         public void Update(GameTime gameTime)
         {
             MillisecondsRemaining -= gameTime.ElapsedGameTime.Milliseconds;
+            EnemySpawnTimer += gameTime.ElapsedGameTime.Milliseconds;
 
             if (MillisecondsRemaining % 60000 == 0 && MillisecondsRemaining > 0)
             {
@@ -52,10 +57,9 @@ namespace ggj_engine.Source.GameManagement
                 ((Player)MyScreen.GetEntity("Player").ElementAt(0)).ChangeMovementAndWeapon();
             }
 
-            if (MillisecondsRemaining % 5000 == 0 && MillisecondsRemaining > 0)
+            if (EnemySpawnTimer > 5000f)
             {
-                int enemyCount = 0;
-                while (enemyCount < 5)
+                while (enemyCount < maxEnemyCount + 5)
                 {
                     
                     int randX = (int)RandomUtil.Next(TileGrid.Width);
@@ -75,6 +79,8 @@ namespace ggj_engine.Source.GameManagement
                         enemyCount++;
                     }
                 }
+                maxEnemyCount = enemyCount;
+                EnemySpawnTimer = 0.0f;
             }
 
 
