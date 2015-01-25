@@ -1,5 +1,7 @@
 ﻿using ggj_engine.Source.Entities;
+using ggj_engine.Source.Entities.Enemies;
 using ggj_engine.Source.Entities.Player;
+using ggj_engine.Source.Level;
 using ggj_engine.Source.Media;
 using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
@@ -44,10 +46,35 @@ namespace ggj_engine.Source.GameManagement
         {
             MillisecondsRemaining -= gameTime.ElapsedGameTime.Milliseconds;
 
-            if (MillisecondsRemaining % 60000 == 0)
+            if (MillisecondsRemaining % 60000 == 0 && MillisecondsRemaining > 0)
             {
                 ScoreManager.ChangeGameGoals();
                 ((Player)MyScreen.GetEntity("Player").ElementAt(0)).ChangeMovementAndWeapon();
+            }
+
+            if (MillisecondsRemaining % 5000 == 0 && MillisecondsRemaining > 0)
+            {
+                int enemyCount = 0;
+                while (enemyCount < 5)
+                {
+                    
+                    int randX = (int)RandomUtil.Next(TileGrid.Width);
+                    int randY = (int)RandomUtil.Next(TileGrid.Height);
+
+                    if (TileGrid.Tiles[randX, randY].Walkable)
+                    {
+                        float chooseEnemy = (float)RandomUtil.Next(1);
+                        if (chooseEnemy > 0.5f)
+                        {
+                            MyScreen.AddEntity(new YourMom(new Vector2(randX * Globals.TileSize, randY * Globals.TileSize)));
+                        }
+                        else
+                        {
+                            MyScreen.AddEntity(new Follower(new Vector2(randX * Globals.TileSize, randY * Globals.TileSize)));
+                        }
+                        enemyCount++;
+                    }
+                }
             }
 
 
