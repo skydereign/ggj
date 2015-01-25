@@ -11,17 +11,21 @@ namespace ggj_engine.Source.Entities.Enemies
 {
     public abstract class Enemy : Entity
     {
-        public float Points;
+        public float Speed, FireDelay;
+        public Stack<Tile> CurrentPath;
+        public Tile CurrentTile;
+        public bool Patrolling, Following, Attacking;
+        public bool PopOffTop, PerformingAction;
         protected int health;
         protected int damage;
-        protected float speed;
-        protected List<Tile> currentPath;
+        protected float fireCounter;
+        protected List<Vector2> wayPoints;
         
         protected virtual void SetDecisionTree()
         {
             //
         }
-
+        
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
@@ -29,7 +33,6 @@ namespace ggj_engine.Source.Entities.Enemies
 
         public override void Update(GameTime gameTime)
         {
-            sprite.Position = Position;
             if(health < 0)
             {
                 Destroy();

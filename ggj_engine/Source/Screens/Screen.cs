@@ -21,10 +21,31 @@ namespace ggj_engine.Source.Screens
         protected List<Entity> createdEntities = new List<Entity>();
         protected List<Entity> deletedEntities = new List<Entity>();
 
+        /// <summary>
+        /// Finish creating and initializing entities
+        /// </summary>
+        public Screen()
+        {
+            CleanupEntities();
+        }
+
         public void AddEntity(Entity entity)
         {
             createdEntities.Add(entity);
             entity.MyScreen = this;
+        }
+
+        public List<Entity> GetEntity(String str)
+        {
+            List<Entity> tempEntities = new List<Entity>();
+            foreach(Entity e in entities)
+            {
+                if(e.GetType().Name.Equals(str))
+                {
+                    tempEntities.Add(e);
+                }
+            }
+            return tempEntities;
         }
 
         public void DeleteEntity(Entity entity)
@@ -36,8 +57,12 @@ namespace ggj_engine.Source.Screens
         {
             foreach(Entity e in createdEntities)
             {
-                e.Active = true;
                 entities.Add(e);
+            }
+            foreach (Entity e in createdEntities)
+            {
+                e.Active = true;
+                e.Init();
             }
             createdEntities.Clear();
 

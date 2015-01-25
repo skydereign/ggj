@@ -88,6 +88,11 @@ namespace ggj_engine
             //screens.Add(new TestScreen());
             //screens.Add(new TestPlayerScreen());
             screens.Add(new MultiplayerTestScreen());
+
+            //screens.Add(new TestScreen());
+            //screens.Add(new TestPlayerScreen());
+            //screens.Add(new TestEnemyScreen());
+            //screens.Add(new NetworkTestScreen());
         }
 
         /// <summary>

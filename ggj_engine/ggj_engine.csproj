@@ -79,6 +79,7 @@
     <Compile Include="Source\AI\DecisionTree\BinaryDecision.cs" />
     <Compile Include="Source\AI\DecisionTree\IBinaryDecision.cs" />
     <Compile Include="Source\AI\DecisionTree\IBinaryNode.cs" />
+    <Compile Include="Source\AI\Pathing\EnemyMovement.cs" />
     <Compile Include="Source\AI\Pathing\Pathing.cs" />
     <Compile Include="Source\Collisions\CircleRegion.cs" />
     <Compile Include="Source\Collisions\RectangleRegion.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Source\Particles\Systems\PSystemSparks.cs" />
     <Compile Include="Source\Screens\Screen.cs" />
     <Compile Include="Source\Network\SocketInfo.cs" />
+    <Compile Include="Source\Screens\TestEnemyScreen.cs" />
     <Compile Include="Source\Screens\TestPlayerScreen.cs" />
     <Compile Include="Source\Screens\TestScreen.cs" />
     <Compile Include="Source\Utility\Camera.cs" />
@@ -169,7 +171,9 @@
     <Content Include="Content\Textures\white_pixel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="fmodex.dll" />
+    <None Include="fmodex.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
