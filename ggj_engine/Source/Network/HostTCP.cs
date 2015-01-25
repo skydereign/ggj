@@ -13,11 +13,15 @@ namespace ggj_engine.Source.Network
         private string _ip;
         private int _port;
 
-        private List<SocketInfo> _clientInfo;
+        public string[] Buffer;
+
+        public List<SocketInfo> _clientInfo;
 
         private SocketInfo hostInfo;
 
         private Thread listeningThread;
+
+        public int CurrentPacketNumber;
 
         public int NumConnectedPlayers
         {
@@ -110,6 +114,61 @@ namespace ggj_engine.Source.Network
             WriteAll("All clients loaded! Awesome!");
         }
 
+        public void ReadOnThread()
+        {
+            ThreadStart ts = new ThreadStart(
+                () =>
+                {
+                    //if there is an exception thrown, catch it and continue looking for connections
+                    while (true)
+                    {
+                        //Read();
+                        for(int i = 0; i < NumConnectedPlayers; ++i)
+                        {
+                            Buffer[i] += ReadFromClient(i);
+                        }
+                    }
+                });
+
+            Thread t = new Thread(ts);
+            t.Start();
+        }
+
+        public void CheckConnectedClients()
+        {
+            for(int i = 0; i < _clientInfo.Count; ++i)
+            {
+                if(!SocketConnected(_clientInfo[i].sock))
+                {
+                    NetworkManager.Instance.Log("Client " + i + " disconnected from host");
+                    _clientInfo[i].sock.Close();
+
+                    _clientInfo.RemoveAt(i);
+                    --i;
+                }
+            }
+        }
+
+        //http://stackoverflow.com/questions/2661764/how-to-check-if-a-socket-is-connected-disconnected-in-c
+        bool SocketConnected(Socket s)
+        {
+            bool part1 = s.Poll(1000, SelectMode.SelectRead);
+            bool part2 = (s.Available == 0);
+            if (part1 && part2)
+                return false;
+            else
+                return true;
+        }
+
+        public string ReadFromClient(int i)
+        {
+            string msg = "";
+
+
+
+            return msg;
+        }
+
         public int Read()
         {
             int bytesRead = 0;
@@ -129,11 +188,12 @@ namespace ggj_engine.Source.Network
         {
             byte[] bytes = Encoding.ASCII.GetBytes(data);
 
-            Console.WriteLine("Writing to all clients: " + data);
+            //Console.WriteLine("Writing to all clients: " + data);
 
             for(int i = 0; i < _clientInfo.Count; ++i)
             {
-                Write(bytes, _clientInfo[i]);
+                if (_clientInfo[i].sock.Connected)
+                    Write(bytes, _clientInfo[i]);
             }
         }
 
@@ -146,7 +206,7 @@ namespace ggj_engine.Source.Network
         {
             byte[] bytes = Encoding.ASCII.GetBytes(data);
 
-            Console.WriteLine("Writing to client: " + data);
+            //Console.WriteLine("Writing to client: " + data);
 
             info.sock.Send(bytes);
         }
