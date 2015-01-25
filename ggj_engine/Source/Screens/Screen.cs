@@ -57,8 +57,11 @@ namespace ggj_engine.Source.Screens
         {
             foreach(Entity e in createdEntities)
             {
-                e.Active = true;
                 entities.Add(e);
+            }
+            foreach (Entity e in createdEntities)
+            {
+                e.Active = true;
                 e.Init();
             }
             createdEntities.Clear();
