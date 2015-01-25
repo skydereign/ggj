@@ -17,12 +17,13 @@ namespace ggj_engine.Source.Entities.Enemies
         public bool Patrolling, PopOffTop, PerformingAction;
         protected int health;
         protected int damage;
+        protected List<Vector2> wayPoints;
         
         protected virtual void SetDecisionTree()
         {
             //
         }
-
+        
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
@@ -45,11 +46,6 @@ namespace ggj_engine.Source.Entities.Enemies
         protected void DecreaseHealth()
         {
             health--;
-        }
-
-        protected void FinishedAction()
-        {
-            PerformingAction = false;
         }
     }
 }

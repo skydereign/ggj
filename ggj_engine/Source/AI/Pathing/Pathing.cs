@@ -27,13 +27,16 @@ namespace ggj_engine.Source.AI.Pathing
 
         public static Stack<Tile> FindPath(Enemy enemy, Vector2 target)
         {
+            clearTileInformation();
             openTileList = new List<Tile>();
             closedTileList = new List<Tile>();
             path = new Stack<Tile>();
             start = TileGrid.Tiles[(int)enemy.Position.X / TileGrid.TileSize, (int)enemy.Position.Y / TileGrid.TileSize];
             destination = TileGrid.Tiles[(int)target.X / TileGrid.TileSize, (int)target.Y / TileGrid.TileSize];
-            Console.WriteLine("start: " + new Vector2(start.X, start.Y));
-            Console.WriteLine("destination: " + new Vector2(destination.X, destination.Y));
+            if(!destination.Walkable)
+            {
+                return null;
+            }
             openTileList.Add(start);
             while(openTileList.Count > 0)
             {
@@ -124,7 +127,22 @@ namespace ggj_engine.Source.AI.Pathing
             neighbors.Add(TileGrid.Tiles[tile.X - 1, tile.Y + 1]);
             neighbors.Add(TileGrid.Tiles[tile.X + 1, tile.Y - 1]);
             neighbors.Add(TileGrid.Tiles[tile.X - 1, tile.Y - 1]);
+            neighbors.Add(TileGrid.Tiles[tile.X - 1, tile.Y]);
+            neighbors.Add(TileGrid.Tiles[tile.X, tile.Y - 1]);
+            neighbors.Add(TileGrid.Tiles[tile.X, tile.Y + 1]);
+            neighbors.Add(TileGrid.Tiles[tile.X + 1, tile.Y]);
             return neighbors;
+        }
+
+        private static void clearTileInformation()
+        {
+            foreach(Tile t in TileGrid.Tiles)
+            {
+                t.FScore = 0;
+                t.GScore = 0;
+                t.HScore = 0;
+                t.Parent = null;
+            }
         }
         #endregion
     }

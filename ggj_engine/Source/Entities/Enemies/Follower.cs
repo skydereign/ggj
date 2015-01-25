@@ -33,14 +33,29 @@ namespace ggj_engine.Source.Entities.Enemies
             playerInSightRange = new BinaryDecision();
             playerInCombatRange = new BinaryDecision();
             CurrentPath = new Stack<Tile>();
+            wayPoints = new List<Vector2>();
+            LoadWayPoints();
             SetDecisionTree();
+        }
+
+        private void LoadWayPoints()
+        {
+            Vector2 wayPoint1 = new Vector2(100, 100);
+            Vector2 wayPoint2 = new Vector2(40, 40);
+            Vector2 wayPoint3 = new Vector2(40, 100);
+            Vector2 wayPoint4 = new Vector2(100, 40);
+            wayPoints.Add(wayPoint1);
+            wayPoints.Add(wayPoint2);
+            wayPoints.Add(wayPoint3);
+            wayPoints.Add(wayPoint4);
         }
 
         protected override void SetDecisionTree()
         {
+            Vector2 playerTarget = new Vector2(400, 400);
             Vector2 target = new Vector2(100, 100);
-            playerInSightRange.SetCondition(new IsPlayerInRange(this, target, sightRange));
-            playerInSightRange.SetFalseBranch(new PatrolAction(this, target));
+            playerInSightRange.SetCondition(new IsPlayerInRange(this, playerTarget, sightRange));
+            playerInSightRange.SetFalseBranch(new PatrolAction(this, wayPoints));
             playerInSightRange.SetTrueBranch(playerInCombatRange);
 
             playerInCombatRange.SetCondition(new IsPlayerInRange(this, target, combatRange));

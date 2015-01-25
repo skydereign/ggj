@@ -13,12 +13,16 @@ namespace ggj_engine.Source.AI.Actions
     class PatrolAction : IAction, IBinaryNode
     {
         private Enemy enemy;
-        private Vector2 destination;
+        private List<Vector2> destination;
+        private Vector2 nextSpot;
+        private int iterator;
 
-        public PatrolAction(Enemy enemy, Vector2 destination)
+        public PatrolAction(Enemy enemy, List<Vector2> destination)
         {
             this.enemy = enemy;
             this.destination = destination;
+            iterator = 0;
+            nextSpot = destination[iterator];
         }
 
         public IAction MakeDecision()
@@ -32,9 +36,17 @@ namespace ggj_engine.Source.AI.Actions
         {
             if(enemy.CurrentPath.Count <= 0)
             {
-                enemy.CurrentPath = Pathing.Pathing.FindPath(enemy, destination);
+                Console.WriteLine("destination: " + new Vector2(nextSpot.X / 16, nextSpot.Y / 16));
+                enemy.CurrentPath = Pathing.Pathing.FindPath(enemy, nextSpot);
+                Pathing.Pathing.PrintPath(enemy);
                 enemy.CurrentTile = enemy.CurrentPath.Pop();
                 enemy.PopOffTop = false;
+            }
+            iterator++;
+            nextSpot = destination[iterator];
+            if(iterator >= 3)
+            {
+                iterator = -1;
             }
         }
     }
