@@ -16,7 +16,14 @@ namespace ggj_engine.Source.Network
 
         private SocketInfo sInfo;
 
-        private byte[] buf = new byte[256];
+        private string _buffer;
+
+        public int CurrentPacketNumber;
+
+        public string RecvBuffer
+        {
+            get { return _buffer; }
+        }
 
         public ClientTCP()
         {
@@ -39,6 +46,22 @@ namespace ggj_engine.Source.Network
 
             sInfo.ip = sInfo.sock.LocalEndPoint as IPEndPoint;
             sInfo.host = sInfo.sock.RemoteEndPoint as IPEndPoint;
+        }
+
+        public bool IsConnectedToHost()
+        {
+            return SocketConnected(sInfo.sock);
+        }
+
+        //http://stackoverflow.com/questions/2661764/how-to-check-if-a-socket-is-connected-disconnected-in-c
+        bool SocketConnected(Socket s)
+        {
+            bool part1 = s.Poll(1000, SelectMode.SelectRead);
+            bool part2 = (s.Available == 0);
+            if (part1 && part2)
+                return false;
+            else
+                return true;
         }
 
         public void ReadOnThread()
@@ -67,12 +90,34 @@ namespace ggj_engine.Source.Network
 
             if (bytesRead > 0)
             {
-                string msg = Encoding.ASCII.GetString(buf);
+                lock (NetworkManager.Instance.mutexObj)
+                {
+                    string msg = Encoding.ASCII.GetString(buf);
 
-                Console.WriteLine("Received from host: " + msg);
+                    //Console.WriteLine("Received from host: " + msg);
+                    string[] nonNullStrings = msg.Split(new char[] { '\0' });
+                    for (int i = 0; i < nonNullStrings.Length; ++i)
+                    {
+                        if (nonNullStrings[i].Length > 0)
+                            _buffer += nonNullStrings[i];
+                    }
+                }
             }
 
             return bytesRead;
+        }
+
+        public void FlushBuffer()
+        {
+            _buffer = "";
+        }
+
+        public string FlushBufferToIndex(int start, int end)
+        {
+            string packet = _buffer.Substring(start, end - start);
+            _buffer = _buffer.Substring(end + 1);
+
+            return packet;
         }
 
         public void Write(byte[] data)
