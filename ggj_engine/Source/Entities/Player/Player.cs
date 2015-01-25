@@ -47,7 +47,7 @@ namespace ggj_engine.Source.Entities.Player
             Shield.Update();
 
             //Make camera follow player
-            MyScreen.Camera.Position = Position;
+            MyScreen.Camera.Position += ((Position + (MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position) * 0.025f) - MyScreen.Camera.Position) * 0.4f;
 
             base.Update(gameTime);
         }
