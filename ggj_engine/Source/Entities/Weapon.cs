@@ -52,15 +52,19 @@ namespace ggj_engine.Source.Entities
                 {
                     case ProjectileType.Bullet:
                         MyScreen.AddEntity(new Bullet(Position, targetPos));
+                        Game1.SoundController.PlaySFX("bullet", false);
                         break;
                     case ProjectileType.Arrow:
                         MyScreen.AddEntity(new Arrow(Position, targetPos));
+                        Game1.SoundController.PlaySFX("bow", false);
                         break;
                     case ProjectileType.Cannonball:
                         MyScreen.AddEntity(new Cannonball(Position, targetPos));
+                        Game1.SoundController.PlaySFX("cannon", false);
                         break;
                     case ProjectileType.Rocket:
                         MyScreen.AddEntity(new Rocket(Position, targetPos));
+                        Game1.SoundController.PlaySFX("rocket", false);
                         break;
                 }
                 currentFireDelay = 0;
