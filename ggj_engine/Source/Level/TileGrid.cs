@@ -1,11 +1,14 @@
 ﻿using ggj_engine.Source.Collisions;
 using ggj_engine.Source.Entities;
+using ggj_engine.Source.Entities.Player;
 using ggj_engine.Source.Media;
+using ggj_engine.Source.Screens;
 using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -32,7 +35,7 @@ namespace ggj_engine.Source.Level
             tileTexture = ContentLibrary.Tilesheet;
             TileSize = 16;
 
-            CreateRoom();
+            //CreateRoom();
         }
 
         public static void CreateRoom()
@@ -51,6 +54,54 @@ namespace ggj_engine.Source.Level
                     }
                 }
             }
+        }
+
+        public static void LoadRoom(string filename, Screen screen)
+        {
+            StreamReader reader = new StreamReader("./" + filename);
+            try
+            {
+                string temp = reader.ReadLine();
+                Width = Int32.Parse(temp.Split(',').ElementAt(0));
+                Height = Int32.Parse(temp.Split(',').ElementAt(1));
+                Tiles = new Tile[Width, Height];
+
+                for(int j=0; j<Height; j++)
+                {
+                    string[] types = reader.ReadLine().Split(',');
+                    int i = 0;
+                    Console.WriteLine("types.count = " + types.Count());
+                    foreach(string t in types)
+                    {
+                        int type = Int32.Parse(t);
+                        Tiles[i, j] = new Tile(type, type<1, i, j);
+                        i++;
+
+                        if(i>=Width)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                temp = reader.ReadLine();
+                int numSpawners = Int32.Parse(temp);
+                // load in spawners
+                for (int i = 0; i < numSpawners; i++)
+                {
+                    string[] positions = reader.ReadLine().Split(',');
+                    screen.AddEntity(new Spawn(Int32.Parse(positions[0])*Globals.TileSize, Int32.Parse(positions[1])*Globals.TileSize));
+                }
+            }
+            catch
+            {
+                Console.WriteLine("ERROR loading");
+            }
+            finally
+            {
+                reader.Close();
+            }
+
         }
 
         public enum Direction {Right, Up, Left, Down, Count}

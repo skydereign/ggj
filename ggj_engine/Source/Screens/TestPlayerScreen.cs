@@ -20,10 +20,10 @@ namespace ggj_engine.Source.Screens
             // AddEntity(new TestEntity(new Vector2(100, 100)));
             AddEntity(new TestEntity(new Vector2(130, 110)));
             AddEntity(new Player(new Vector2(100, 100)));
-            AddEntity(new Spawn(100, 100));
-            AddEntity(new Spawn(300, 700));
-            AddEntity(new Spawn(500, 400));
-            AddEntity(new Spawn(800, 600));
+            //AddEntity(new Spawn(100, 100));
+            //AddEntity(new Spawn(300, 700));
+            //AddEntity(new Spawn(500, 400));
+            //AddEntity(new Spawn(800, 600));
             AddEntity(new Follower(new Vector2(100, 200)));
             AddEntity(new Follower(new Vector2(50, 50)));
             AddEntity(new Follower(new Vector2(300, 200)));
@@ -34,6 +34,7 @@ namespace ggj_engine.Source.Screens
             GameManager = new GameManagement.GameManager(this);
 
             TileGrid.Init(50, 50, new Vector2(0, 0));
+            TileGrid.LoadRoom("Content/Map/map", this);
         }
 
         public override void Update(GameTime gameTime)
