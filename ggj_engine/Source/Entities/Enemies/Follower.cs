@@ -33,7 +33,7 @@ namespace ggj_engine.Source.Entities.Enemies
             sprite = ContentLibrary.Sprites["test_animation"];
             sprite.Tint = Color.Red;
             sightRange = 12 * 16; // number of tiles * tileSize
-            combatRange = 8 * 16;
+            combatRange = 6 * 16;
             playerInSightRange = new BinaryDecision();
             playerInCombatRange = new BinaryDecision();
             CurrentPath = new Stack<Tile>();
@@ -98,7 +98,6 @@ namespace ggj_engine.Source.Entities.Enemies
         public void ShootAtPlayer(GameTime gameTime)
         {
             fireCounter += gameTime.ElapsedGameTime.Milliseconds;
-            Console.WriteLine(fireCounter);
             if(fireCounter >= FireDelay)
             {
                 Projectiles.Projectile projectile;
