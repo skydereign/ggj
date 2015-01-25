@@ -1,4 +1,5 @@
 ﻿using ggj_engine.Source.Collisions;
+using ggj_engine.Source.Entities;
 using ggj_engine.Source.Media;
 using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
@@ -68,8 +69,10 @@ namespace ggj_engine.Source.Level
             return (Within(tileX, tileY) && Tiles[tileX, tileY].Walkable == false);
         }
 
-        public static Vector2 AdjustedForCollisions (Vector2 oldPosition, Vector2 newPosition, CircleRegion region)
+        public static Vector2 AdjustedForCollisions (Entity entity, Vector2 oldPosition, Vector2 newPosition, CircleRegion region)
         {
+            bool collided = false;
+
             int tileX = (int)newPosition.X / Globals.TileSize;
             int tileY = (int)newPosition.Y / Globals.TileSize;
             Vector2 pos1 = new Vector2();
@@ -83,6 +86,7 @@ namespace ggj_engine.Source.Level
             pos3.Y = oldPosition.Y + region.Radius / 2;
             if (CheckCollision(pos1, region, Direction.Right) || CheckCollision(pos2, region, Direction.Right) || CheckCollision(pos3, region, Direction.Right))
             {
+                collided = true;
                 newPosition.X = oldPosition.X;
             }
             
@@ -93,6 +97,7 @@ namespace ggj_engine.Source.Level
             pos3.Y = oldPosition.Y + region.Radius / 2;
             if (CheckCollision(pos1, region, Direction.Left) || CheckCollision(pos2, region, Direction.Left) || CheckCollision(pos3, region, Direction.Left))
             {
+                collided = true;
                 newPosition.X = oldPosition.X;
             }
 
@@ -104,6 +109,7 @@ namespace ggj_engine.Source.Level
             pos3.X = oldPosition.X + region.Radius / 2;
             if (CheckCollision(pos1, region, Direction.Down) || CheckCollision(pos2, region, Direction.Down) || CheckCollision(pos3, region, Direction.Down))
             {
+                collided = true;
                 newPosition.Y = oldPosition.Y;
             }
 
@@ -114,7 +120,13 @@ namespace ggj_engine.Source.Level
             pos3.X = oldPosition.X + region.Radius / 2;
             if (CheckCollision(pos1, region, Direction.Up) || CheckCollision(pos2, region, Direction.Up) || CheckCollision(pos3, region, Direction.Up))
             {
+                collided = true;
                 newPosition.Y = oldPosition.Y;
+            }
+
+            if (collided)
+            {
+                entity.OnTileCollision();
             }
 
             return newPosition;
