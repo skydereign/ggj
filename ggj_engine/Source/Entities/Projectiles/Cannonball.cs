@@ -14,10 +14,11 @@ namespace ggj_engine.Source.Entities.Projectiles
     {
         private const float SPEED = 15f;
 
-        public Cannonball(Vector2 position, Vector2 direction)
+        public Cannonball(Vector2 position, Vector2 direction, Entity owner)
         {
             Position = position;
             Velocity = Vector2.Normalize(direction) * SPEED;
+            Owner = owner;
             sprite = ContentLibrary.Sprites["white_pixel"];
             sprite.Tint = new Color(160, 160, 160);
             sprite.ScaleX = 10f;

@@ -62,7 +62,12 @@ namespace ggj_engine.Source.Entities.Enemies
         {
             if (other is Projectile)
             {
-                DecreaseHealth(5);
+                Projectile temp = (Projectile)other;
+                if(temp.Owner is Player.Player)
+                {
+                    DecreaseHealth(5);
+                    MyScreen.DeleteEntity(temp);
+                }
             }
             base.OnCollision(other);
         }

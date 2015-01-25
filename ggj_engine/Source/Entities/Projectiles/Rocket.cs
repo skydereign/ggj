@@ -15,10 +15,11 @@ namespace ggj_engine.Source.Entities.Projectiles
         private const float SPEED = 25f;
         private Particles.PSystemRocketSmoke pSystemSmoke;
 
-        public Rocket(Vector2 position, Vector2 direction)
+        public Rocket(Vector2 position, Vector2 direction, Entity owner)
         {
             Position = position;
             Velocity = Vector2.Normalize(direction) * SPEED;
+            Owner = owner;
             sprite = ContentLibrary.Sprites["white_pixel"];
             sprite.Tint = new Color(150, 255, 150);
             sprite.ScaleX = 17f;
