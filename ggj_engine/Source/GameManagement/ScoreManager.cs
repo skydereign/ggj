@@ -35,14 +35,14 @@ namespace ggj_engine.Source.GameManagement
        public void ChangeGameGoals()
        {
            //Pick a new goal
-           GameGoal = (GameGoals)(RandomUtil.Next(Enum.GetNames(typeof(GameGoals)).Length + 1));
+           GameGoal = (GameGoals)(RandomUtil.Next(Enum.GetNames(typeof(GameGoals)).Length));
            switch(GameGoal)
            {
                case GameGoals.Kill:
-                   KillGoal = (KillGoals)(RandomUtil.Next(Enum.GetNames(typeof(KillGoals)).Length + 1));
+                   KillGoal = (KillGoals)(RandomUtil.Next(Enum.GetNames(typeof(KillGoals)).Length));
                    break;
                case GameGoals.Touch:
-                   TouchGoal = (TouchGoals)(RandomUtil.Next(Enum.GetNames(typeof(TouchGoals)).Length + 1));
+                   TouchGoal = (TouchGoals)(RandomUtil.Next(Enum.GetNames(typeof(TouchGoals)).Length));
                    break;
                default:
                    throw new IndexOutOfRangeException("GameGoals invalid");
