@@ -22,9 +22,9 @@ namespace ggj_engine
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private List<Screen> screens;
-        private List<Screen> createdScreens;
-        private List<Screen> deletedScreens;
+        private static List<Screen> screens;
+        private static List<Screen> createdScreens;
+        private static List<Screen> deletedScreens;
 
         public static FMOD.System SoundSystem;
         public static SoundControl SoundController;
@@ -87,9 +87,10 @@ namespace ggj_engine
 
             //screens.Add(new TestScreen());
             //screens.Add(new MultiplayerTestScreen());
+            screens.Add(new MenuScreen());
 
             //screens.Add(new TestScreen());
-            screens.Add(new TestPlayerScreen());
+            //screens.Add(new TestPlayerScreen());
             //screens.Add(new TestEnemyScreen());
             //screens.Add(new NetworkTestScreen());
         }
@@ -115,11 +116,8 @@ namespace ggj_engine
 
             // need to add InputControl
 
-            // may need to update this to call update on all screens
-            if (screens.Count > 0)
-            {
-                screens[screens.Count - 1].Update(gameTime);
-            }
+            // only update top screen
+            screens[screens.Count - 1].Update(gameTime);
 
             foreach(Screen screen in createdScreens)
             {
@@ -150,10 +148,8 @@ namespace ggj_engine
         {
             GraphicsDevice.Clear(Color.Black);
 
-            foreach(Screen screen in screens)
-            {
-                screen.Draw(spriteBatch);
-            }
+            // only draw top screen
+            screens[screens.Count - 1].Draw(spriteBatch);
 
             //Calculate draw framerate
             fpsDFrameCount++;
@@ -193,7 +189,7 @@ namespace ggj_engine
         /// Add a new screen to the top
         /// </summary>
         /// <param name="screen"></param>
-        public void PushScreen(Screen screen)
+        public static void PushScreen(Screen screen)
         {
             createdScreens.Add(screen);
         }

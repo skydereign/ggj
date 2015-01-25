@@ -32,9 +32,11 @@ namespace ggj_engine.Source.Entities
 
         private int currentFireDelay = 0;
         private List<EquipInput> inputs;
+        private Player.Player player;
 
-        public Weapon()
+        public Weapon(Player.Player player)
         {
+            this.player = player;
             inputs = new List<EquipInput>();
             // standard weapon input
             GenerateDefaultInput();
@@ -182,24 +184,27 @@ namespace ggj_engine.Source.Entities
 
         private void Fire(Vector2 targetPos)
         {
-            Network.NetworkManager.Instance.BroadcastEvent(",W," + 0 + ',' + (int)CurrentProjectile + ',' + Position.X + ',' + Position.Y + ',' + targetPos.X + ',' + targetPos.Y + ',');
-
-            switch (CurrentProjectile)
+            if (!player.Dead)
             {
-                case ProjectileType.Bullet:
-                    MyScreen.AddEntity(new Bullet(Position, targetPos));
-                    break;
-                case ProjectileType.Arrow:
-                    MyScreen.AddEntity(new Arrow(Position, targetPos));
-                    break;
-                case ProjectileType.Cannonball:
-                    MyScreen.AddEntity(new Cannonball(Position, targetPos));
-                    break;
-                case ProjectileType.Rocket:
-                    MyScreen.AddEntity(new Rocket(Position, targetPos));
-                    break;
+                Network.NetworkManager.Instance.BroadcastEvent(",W," + 0 + ',' + (int)CurrentProjectile + ',' + Position.X + ',' + Position.Y + ',' + targetPos.X + ',' + targetPos.Y + ',');
+
+                switch (CurrentProjectile)
+                {
+                    case ProjectileType.Bullet:
+                        MyScreen.AddEntity(new Bullet(Position, targetPos));
+                        break;
+                    case ProjectileType.Arrow:
+                        MyScreen.AddEntity(new Arrow(Position, targetPos));
+                        break;
+                    case ProjectileType.Cannonball:
+                        MyScreen.AddEntity(new Cannonball(Position, targetPos));
+                        break;
+                    case ProjectileType.Rocket:
+                        MyScreen.AddEntity(new Rocket(Position, targetPos));
+                        break;
+                }
+                currentFireDelay = 0;
             }
-            currentFireDelay = 0;
         }
 
         public override void Update(GameTime gameTime)

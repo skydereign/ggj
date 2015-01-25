@@ -88,7 +88,6 @@ namespace ggj_engine.Source.Screens
             HandleCollisions();
 
             CleanupEntities();
-            GameManager.Update(gameTime);
         }
         public void SpriteBatchCameraBegin(SpriteBatch spriteBatch)
         {

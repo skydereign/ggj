@@ -47,7 +47,7 @@ namespace ggj_engine.Source.Entities.Player
         {
             if (Weapon == null)
             {
-                Weapon = new Weapon();
+                Weapon = new Weapon(this);
                 MyScreen.AddEntity(Weapon);
             }
 
