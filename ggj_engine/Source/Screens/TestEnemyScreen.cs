@@ -23,7 +23,7 @@ namespace ggj_engine.Source.Screens
 
             Camera = new Camera(Vector2.Zero, new Vector2(1280, 720));
 
-            TileGrid.Init(10, 10, new Vector2(0, 0));
+            TileGrid.Init(50, 50, new Vector2(0, 0));
         }
 
         public override void Update(GameTime gameTime)

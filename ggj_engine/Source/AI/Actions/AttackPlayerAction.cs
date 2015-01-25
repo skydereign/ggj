@@ -19,6 +19,7 @@ namespace ggj_engine.Source.AI.Actions
         public IAction MakeDecision()
         {
             enemy.PerformingAction = true;
+            enemy.Attacking = true;
             return this;
         }
 

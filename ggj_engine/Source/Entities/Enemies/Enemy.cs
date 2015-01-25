@@ -14,7 +14,8 @@ namespace ggj_engine.Source.Entities.Enemies
         public float Points, Speed;
         public Stack<Tile> CurrentPath;
         public Tile CurrentTile;
-        public bool Patrolling, PopOffTop, PerformingAction;
+        public bool Patrolling, Following, Attacking;
+        public bool PopOffTop, PerformingAction;
         protected int health;
         protected int damage;
         protected List<Vector2> wayPoints;

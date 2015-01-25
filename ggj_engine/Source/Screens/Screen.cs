@@ -28,6 +28,19 @@ namespace ggj_engine.Source.Screens
             entity.Init();
         }
 
+        public List<Entity> GetEntity(String str)
+        {
+            List<Entity> tempEntities = new List<Entity>();
+            foreach(Entity e in entities)
+            {
+                if(e.GetType().Name.Equals(str))
+                {
+                    tempEntities.Add(e);
+                }
+            }
+            return tempEntities;
+        }
+
         public void DeleteEntity(Entity entity)
         {
             deletedEntities.Add(entity);

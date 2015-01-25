@@ -23,19 +23,24 @@ namespace ggj_engine.Source.Entities.Enemies
 
         public Follower(Vector2 position)
         {
-            PerformingAction = false;
             Position = position;
+        }
+
+        public override void Init()
+        {
+            PerformingAction = false;
             Speed = 1.0f;
             sprite = ContentLibrary.Sprites["test_animation"];
             sprite.Tint = Color.Red;
-            sightRange = 2 * 16; // number of tiles * tileSize
-            combatRange = 1 * 16;
+            sightRange = 4 * 16; // number of tiles * tileSize
+            combatRange = 2 * 16;
             playerInSightRange = new BinaryDecision();
             playerInCombatRange = new BinaryDecision();
             CurrentPath = new Stack<Tile>();
             wayPoints = new List<Vector2>();
             LoadWayPoints();
             SetDecisionTree();
+            base.Init();
         }
 
         private void LoadWayPoints()
@@ -52,13 +57,11 @@ namespace ggj_engine.Source.Entities.Enemies
 
         protected override void SetDecisionTree()
         {
-            Vector2 playerTarget = new Vector2(400, 400);
-            Vector2 target = new Vector2(100, 100);
-            playerInSightRange.SetCondition(new IsPlayerInRange(this, playerTarget, sightRange));
+            playerInSightRange.SetCondition(new IsPlayerInRange(this, MyScreen.GetEntity("Player").ElementAt(0), sightRange));
             playerInSightRange.SetFalseBranch(new PatrolAction(this, wayPoints));
             playerInSightRange.SetTrueBranch(playerInCombatRange);
 
-            playerInCombatRange.SetCondition(new IsPlayerInRange(this, target, combatRange));
+            playerInCombatRange.SetCondition(new IsPlayerInRange(this, MyScreen.GetEntity("Player").ElementAt(0), combatRange));
             playerInCombatRange.SetFalseBranch(new FollowPlayerAction(this));
             playerInCombatRange.SetTrueBranch(new AttackPlayerAction(this));
             
@@ -71,9 +74,13 @@ namespace ggj_engine.Source.Entities.Enemies
             {
                 playerInSightRange.MakeDecision().DoAction();
             }
-            if(Patrolling)
+            if(Patrolling || Following)
             {
                 Position += EnemyMovement.MoveTowardsTile(this, CurrentTile);
+            }
+            if(Attacking)
+            {
+
             }
             base.Update(gameTime);
         }
