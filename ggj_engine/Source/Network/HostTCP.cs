@@ -108,8 +108,11 @@ namespace ggj_engine.Source.Network
                 if (handler.Receive(buf) > 0)
                 {
                     Console.WriteLine("Data received from client: " + Encoding.ASCII.GetString(buf));
-                    _clientInfo[NumConnectedPlayers - 1].sock.Send(Encoding.ASCII.GetBytes("Hello, Client! Love you too! - Host"));
-                    _clientInfo[NumConnectedPlayers - 1].sock.Send(Encoding.ASCII.GetBytes("Hello, Client! Love you too!2222 - Host"));
+
+                    lock (NetworkManager.Instance.mutexObj)
+                    {
+                        _clientInfo[NumConnectedPlayers - 1].sock.Send(Encoding.ASCII.GetBytes(NetworkManager.Instance.newGameData));
+                    }
                 }
             }
 

@@ -19,7 +19,7 @@ namespace ggj_engine.Source.Network
 
     public class NetworkManager
     {
-        private string newGameData = "";
+        public string newGameData = "";
         public Screens.Screen MyScreen;
         List<string> packetsReceived;
         List<string> eventsToProcess;
@@ -86,7 +86,10 @@ namespace ggj_engine.Source.Network
 
         public void SetNewGameData(string data)
         {
-
+            lock (mutexObj)
+            {
+                newGameData = data;
+            }
         }
 
         public void DetermineHost()
@@ -128,9 +131,16 @@ namespace ggj_engine.Source.Network
 
             _client = new ClientTCP();
             _client.Connect(_localHostIP, _port);
-            
+
             _client.Write("Hello, Host! Love, Client");
             _client.Write(",C,P,200,200");
+
+            while (_client.Read() <= 0) ;
+
+            string levelData = _client.RecvBuffer;
+            _client.FlushBuffer();
+
+            DecipherPacket(MyScreen.entities, levelData);
 
             _client.ReadOnThread();
         }
@@ -213,7 +223,7 @@ namespace ggj_engine.Source.Network
             Host.buffer = "";
         }
 
-        private void AddDataToPacket(string data)
+        public void AddDataToPacket(string data)
         {
             Host.buffer += (data);
         }
@@ -283,61 +293,7 @@ namespace ggj_engine.Source.Network
                 for (int p = 0; p < packetsReceived.Count; ++p)
                 {
                     string packet = packetsReceived[p];
-                    string[] words = packet.Split(new char[] { ':', ' ', ',', '\0' });
-
-                    for (int i = 0; i < words.Length; ++i)
-                    {
-                        if (!(i + 4 < words.Length))
-                            break;
-                        if (words[i] == "E")
-                        {
-                            int id = int.Parse(words[i + 1]);
-                            float x = float.Parse(words[i + 2]);
-                            float y = float.Parse(words[i + 3]);
-
-                            entities[id].Position = new Vector2(x, y);
-                        }
-                        else if (words[i] == "P")
-                        {
-                            int id = int.Parse(words[i + 1]);
-                            int playerID = int.Parse(words[i + 2]);
-                            float x = float.Parse(words[i + 3]);
-                            float y = float.Parse(words[i + 4]);
-
-                            entities[id].Position = new Vector2(x, y);
-                        }
-                        else if(words[i] == "W")
-                        {
-                            int playerID = int.Parse(words[i + 1]);
-                            int type = int.Parse(words[i + 2]);
-                            float x = int.Parse(words[i + 3]);
-                            float y = int.Parse(words[i + 4]);
-                            float tarx = int.Parse(words[i + 5]);
-                            float tary = int.Parse(words[i + 6]);
-
-
-                            Vector2 pos = new Vector2(x, y);
-                            Vector2 tarPos = new Vector2(tarx, tary);
-
-                            Weapon.ProjectileType CurrentProjectile = (Weapon.ProjectileType)type;
-
-                            switch (CurrentProjectile)
-                            {
-                                case Weapon.ProjectileType.Bullet:
-                                    MyScreen.AddEntity(new Bullet(pos, tarPos));
-                                    break;
-                                case Weapon.ProjectileType.Arrow:
-                                    MyScreen.AddEntity(new Arrow(pos, tarPos));
-                                    break;
-                                case Weapon.ProjectileType.Cannonball:
-                                    MyScreen.AddEntity(new Cannonball(pos, tarPos));
-                                    break;
-                                case Weapon.ProjectileType.Rocket:
-                                    MyScreen.AddEntity(new Rocket(pos, tarPos));
-                                    break;
-                            }
-                        }
-                    }
+                    DecipherPacket(entities, packet);
 
                     //done with packet now clear it/toss it
                     packetsReceived.RemoveAt(p);
@@ -345,6 +301,101 @@ namespace ggj_engine.Source.Network
                 }
 
                 packetsReceived.Clear();
+            }
+        }
+
+        private void DecipherPacket(List<Entities.Entity> entities, string packet)
+        {
+            string[] words = packet.Split(new char[] { ':', ' ', ',', '\0' });
+
+            for (int i = 0; i < words.Length; ++i)
+            {
+                if (!(i + 4 < words.Length))
+                    break;
+
+                if (words[i] == "E")
+                {
+                    int id = int.Parse(words[i + 1]);
+                    float x = float.Parse(words[i + 2]);
+                    float y = float.Parse(words[i + 3]);
+
+                    entities[id].Position = new Vector2(x, y);
+                }
+                else if (words[i] == "P")
+                {
+                    int id = int.Parse(words[i + 1]);
+                    int playerID = int.Parse(words[i + 2]);
+                    float x = float.Parse(words[i + 3]);
+                    float y = float.Parse(words[i + 4]);
+
+                    entities[id].Position = new Vector2(x, y);
+                }
+                else if (words[i] == "W")
+                {
+                    int playerID = int.Parse(words[i + 1]);
+                    int type = int.Parse(words[i + 2]);
+                    float x = int.Parse(words[i + 3]);
+                    float y = int.Parse(words[i + 4]);
+                    float tarx = int.Parse(words[i + 5]);
+                    float tary = int.Parse(words[i + 6]);
+
+
+                    Vector2 pos = new Vector2(x, y);
+                    Vector2 tarPos = new Vector2(tarx, tary);
+
+                    Weapon.ProjectileType CurrentProjectile = (Weapon.ProjectileType)type;
+
+                    switch (CurrentProjectile)
+                    {
+                        case Weapon.ProjectileType.Bullet:
+                            MyScreen.AddEntity(new Bullet(pos, tarPos));
+                            break;
+                        case Weapon.ProjectileType.Arrow:
+                            MyScreen.AddEntity(new Arrow(pos, tarPos));
+                            break;
+                        case Weapon.ProjectileType.Cannonball:
+                            MyScreen.AddEntity(new Cannonball(pos, tarPos));
+                            break;
+                        case Weapon.ProjectileType.Rocket:
+                            MyScreen.AddEntity(new Rocket(pos, tarPos));
+                            break;
+                    }
+                }
+                else if (words[i] == "CP")
+                {
+                    Vector2 pos = new Vector2();
+
+                    int playerId = int.Parse(words[i+1]);
+
+                    pos.X = float.Parse(words[i + 2]);
+                    pos.Y = float.Parse(words[i + 3]);
+
+                    Player player = new Player(pos);
+                    player.MyScreen = MyScreen;
+
+                    MyScreen.AddEntity(player);
+                }
+                //create entity
+                else if (words[i] == "CE")
+                {
+                    Vector2 pos = new Vector2();
+                    //",C,E," + pos.X + "," + pos.Y + ",";
+                    pos.X = float.Parse(words[i + 1]);
+
+                    pos.Y = float.Parse(words[i + 2]);
+
+                    TestEntity e = new TestEntity(pos);
+
+                    e.MyScreen = MyScreen;
+
+                    MyScreen.AddEntity(e);
+                }
+                //create weapon
+                else if (words[i] == "CW")
+                {
+
+
+                }
             }
         }
 

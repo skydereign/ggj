@@ -23,30 +23,71 @@ namespace ggj_engine.Source.Screens
 
             TileGrid.Init(50, 50, new Vector2(0, 0));
 
-            string newGameData = "";
+            
 
-            NetworkManager.Instance.SetNewGameData(newGameData);
+            //string newGameData = "";
+
+            //newGameData += NetworkManager.IPSOFBlock;
+
+            //for(int i = 0; i < entities.Count; ++i)
+            //{
+            //    Vector2 pos = entities[i].Position;
+            //    newGameData += ",C,E," + pos.X + "," + pos.Y + ",";
+            //}
+
+            //newGameData += NetworkManager.IPEOFBlock;
+
+            //NetworkManager.Instance.SetNewGameData(newGameData);
+
             NetworkManager.Instance.DetermineHost();
 
             if (NetworkManager.Instance.IsHost)
             {
                 Player hostPlayer = new Player(new Vector2(100, 100));
                 hostPlayer.NetPlayer = false;
+
                 entities.Add(hostPlayer);
                 entities[entities.Count - 1].MyScreen = this;
 
+                
+
+                for (int i = 0; i < 50; ++i)
+                {
+                    Vector2 pos = new Vector2((float)RandomUtil.Next() * 200, (float)RandomUtil.Next() * 200);
+                    Entities.TestEntity e = new Entities.TestEntity(pos);
+
+                    e.MyScreen = this;
+
+                    entities.Add(e);
+                }
+
+                string newGameData = "";
+
+                newGameData += NetworkManager.IPSOFBlock;
+
+                newGameData += ",CP," + hostPlayer.PlayerID + "," + hostPlayer.Position.X + "," + hostPlayer.Position.Y + ",";
+
+                for (int i = 1; i < entities.Count; ++i)
+                {
+                    Vector2 pos = entities[i].Position;
+                    newGameData += ",CE," + pos.X + "," + pos.Y + ",";
+                }
+
+                newGameData += NetworkManager.IPEOFBlock;
+
+                NetworkManager.Instance.SetNewGameData(newGameData);
             }
             else
             {
-                //create net player
-                Player clientPlayer = new Player(new Vector2(200, 200));
-                clientPlayer.NetPlayer = true;
+                ////create net player
+                //Player clientPlayer = new Player(new Vector2(200, 200));
+                //clientPlayer.NetPlayer = true;
 
-                //get entity data from host
+                ////get entity data from host
 
 
-                //add net player to game through host
-                entities.Add(clientPlayer);
+                ////add net player to game through host
+                //entities.Add(clientPlayer);
             }
         }
 
