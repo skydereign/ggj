@@ -10,7 +10,7 @@ namespace ggj_engine.Source.Particles
 {
     public abstract class PSystem : Entities.Entity
     {
-        private List<Emitter> emitters = new List<Emitter>();
+        protected List<Emitter> emitters = new List<Emitter>();
 
         /// <summary>
         /// Update loop

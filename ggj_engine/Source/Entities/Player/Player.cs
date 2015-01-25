@@ -12,6 +12,8 @@ namespace ggj_engine.Source.Entities.Player
 {
     class Player : Entity
     {
+        public Weapon Weapon;
+
         private MovementManager movementManager;
 
         public Player(Vector2 position)
@@ -20,12 +22,22 @@ namespace ggj_engine.Source.Entities.Player
             sprite = ContentLibrary.Sprites["test_animation"];
             CollisionRegion = new CircleRegion(14, position);
             movementManager = new MovementManager();
+
+
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (Weapon == null)
+            {
+                Weapon = new Weapon();
+                MyScreen.AddEntity(Weapon);
+            }
+
+
             Position = movementManager.Update(gameTime, Position);
-            
+            Weapon.Position = Position;
+
             //Make camera follow player
             MyScreen.Camera.Position = Position;
 
