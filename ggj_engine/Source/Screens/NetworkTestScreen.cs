@@ -18,7 +18,7 @@ namespace ggj_engine.Source.Screens
         {
             Camera = new Camera(Vector2.Zero, new Vector2(1280, 720));
             vels = new List<Vector2>();
-            for (int i = 0; i < 100; ++i)
+            for (int i = 0; i < 10; ++i)
             {
                 vels.Add(new Vector2((float)RandomUtil.Next() * 2 + .5f, (float)RandomUtil.Next() * 2 + .5f));
                 entities.Add(new TestEntity(new Vector2((float)RandomUtil.Next(-Camera.ScreenDimensions.X / 2, Camera.ScreenDimensions.X / 2), (float)RandomUtil.Next(-Camera.ScreenDimensions.Y / 2, Camera.ScreenDimensions.Y / 2))));
@@ -38,60 +38,11 @@ namespace ggj_engine.Source.Screens
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            NetworkManager.Instance.Solve();
+            //update game world
+            //update logic
 
-            if (NetworkManager.Instance.IsHost)
-            {
-                for (int i = 0; i < entities.Count; ++i)
-                {
-                    entities[i].Position += vels[i];
-
-                    if (entities[i].Position.X > Camera.Position.X + Camera.ScreenDimensions.X / 2 / Camera.Zoom)
-                    {
-                        vels[i] = new Vector2(-vels[i].X, vels[i].Y);
-                    }
-                    if (entities[i].Position.X < Camera.Position.X - Camera.ScreenDimensions.X / 2 / Camera.Zoom)
-                    {
-                        vels[i] = new Vector2(-vels[i].X, vels[i].Y);
-                    }
-                    if (entities[i].Position.Y > Camera.Position.Y + Camera.ScreenDimensions.Y / 2 / Camera.Zoom)
-                    {
-                        vels[i] = new Vector2(vels[i].X, -vels[i].Y);
-                    }
-                    if (entities[i].Position.Y < Camera.Position.Y - Camera.ScreenDimensions.Y / 2 / Camera.Zoom)
-                    {
-                        vels[i] = new Vector2(vels[i].X, -vels[i].Y);
-                    }
-
-                    NetworkManager.Instance.WriteTCPToClients(",Position," + i + "," + entities[i].Position.X + "," + entities[i].Position.Y + ",");
-                }
-            }
-            else
-            {
-                lock (NetworkManager.Instance.mutexObj)
-                {
-                    string buffer = NetworkManager.Instance.Client.Buffer;
-                    NetworkManager.Instance.Client.FlushBuffer();
-
-                    //Console.WriteLine("Flushing buffer: " + buffer);
-
-                    if (buffer.Length > 0)
-                    {
-                        string[] words = buffer.Split(new char[] { ':', ' ', ',', '\0'});
-                        for (int i = 0; i < words.Length; ++i)
-                        {
-                            if (words[i] == "Position" && i + 4 < words.Length)
-                            {
-                                int id = int.Parse(words[i + 1]);
-                                float x = float.Parse(words[i + 2]);
-                                float y = float.Parse(words[i + 3]);
-
-                                entities[id].Position = new Vector2(x, y);
-                            }
-                        }
-                    }
-                }
-            }
+            //update net man
+            NetworkManager.Instance.Solve(gameTime, entities);
 
             base.Update(gameTime);
         }
@@ -102,7 +53,7 @@ namespace ggj_engine.Source.Screens
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp,
                     DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, Camera.GetViewMatrix());
 
-            for (int i = 0; i < entities.Count; ++i)
+            for (int i = 0; i < entities.Count; ++i) 
                 entities[i].Draw(spriteBatch);
             
             spriteBatch.End();

@@ -18,7 +18,9 @@ namespace ggj_engine.Source.Network
 
         private string _buffer;
 
-        public string Buffer
+        public int CurrentPacketNumber;
+
+        public string RecvBuffer
         {
             get { return _buffer; }
         }
@@ -44,6 +46,13 @@ namespace ggj_engine.Source.Network
 
             sInfo.ip = sInfo.sock.LocalEndPoint as IPEndPoint;
             sInfo.host = sInfo.sock.RemoteEndPoint as IPEndPoint;
+        }
+
+        public bool IsConnectedToHost()
+        {
+            if (!sInfo.sock.Connected)
+                return false;
+            return true;
         }
 
         public void ReadOnThread()
@@ -77,8 +86,12 @@ namespace ggj_engine.Source.Network
                     string msg = Encoding.ASCII.GetString(buf);
 
                     //Console.WriteLine("Received from host: " + msg);
-
-                    _buffer += msg;
+                    string[] nonNullStrings = msg.Split(new char[] { '\0' });
+                    for (int i = 0; i < nonNullStrings.Length; ++i)
+                    {
+                        if (nonNullStrings[i].Length > 0)
+                            _buffer += nonNullStrings[i];
+                    }
                 }
             }
 
@@ -88,6 +101,14 @@ namespace ggj_engine.Source.Network
         public void FlushBuffer()
         {
             _buffer = "";
+        }
+
+        public string FlushBufferToIndex(int start, int end, string buffer)
+        {
+            string packet = buffer.Substring(start, end - start);
+            buffer = buffer.Substring(end + 1);
+
+            return packet;
         }
 
         public void Write(byte[] data)

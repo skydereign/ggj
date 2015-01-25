@@ -13,11 +13,15 @@ namespace ggj_engine.Source.Network
         private string _ip;
         private int _port;
 
-        private List<SocketInfo> _clientInfo;
+        public string[] Buffer;
+
+        public List<SocketInfo> _clientInfo;
 
         private SocketInfo hostInfo;
 
         private Thread listeningThread;
+
+        public int CurrentPacketNumber;
 
         public int NumConnectedPlayers
         {
@@ -110,6 +114,50 @@ namespace ggj_engine.Source.Network
             WriteAll("All clients loaded! Awesome!");
         }
 
+        public void ReadOnThread()
+        {
+            ThreadStart ts = new ThreadStart(
+                () =>
+                {
+                    //if there is an exception thrown, catch it and continue looking for connections
+                    while (true)
+                    {
+                        //Read();
+                        for(int i = 0; i < NumConnectedPlayers; ++i)
+                        {
+                            Buffer[i] += ReadFromClient(i);
+                        }
+                    }
+                });
+
+            Thread t = new Thread(ts);
+            t.Start();
+        }
+
+        public void CheckConnectedClients()
+        {
+            for(int i = 0; i < _clientInfo.Count; ++i)
+            {
+                if(!_clientInfo[i].sock.Connected)
+                {
+                    NetworkManager.Instance.Log("Client disconnected from host");
+                    _clientInfo[i].sock.Close();
+
+                    _clientInfo.RemoveAt(i);
+                    --i;
+                }
+            }
+        }
+
+        public string ReadFromClient(int i)
+        {
+            string msg = "";
+
+
+
+            return msg;
+        }
+
         public int Read()
         {
             int bytesRead = 0;
@@ -133,7 +181,8 @@ namespace ggj_engine.Source.Network
 
             for(int i = 0; i < _clientInfo.Count; ++i)
             {
-                Write(bytes, _clientInfo[i]);
+                if (_clientInfo[i].sock.Connected)
+                    Write(bytes, _clientInfo[i]);
             }
         }
 
