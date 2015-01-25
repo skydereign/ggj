@@ -101,6 +101,8 @@
     <Compile Include="Source\Entities\ScoreVisual.cs" />
     <Compile Include="Source\Entities\StarBackground.cs" />
     <Compile Include="Source\Entities\TestEntity.cs" />
+    <Compile Include="Source\Entities\UIElements\Button.cs" />
+    <Compile Include="Source\Entities\UIElements\Label.cs" />
     <Compile Include="Source\Entities\Weapon.cs" />
     <Compile Include="Source\GameManagement\GameManager.cs" />
     <Compile Include="Source\GameManagement\ScoreManager.cs" />
@@ -123,6 +125,7 @@
     <Compile Include="Source\Network\NetworkManager.cs" />
     <Compile Include="Source\Particles\CircleEmitter.cs" />
     <Compile Include="Source\Particles\Systems\PSystemRocketSmoke.cs" />
+    <Compile Include="Source\Screens\MenuScreen.cs" />
     <Compile Include="Source\Screens\MultiplayerTestScreen.cs" />
     <Compile Include="Source\Screens\NetworkTestScreen.cs" />
     <Compile Include="Source\Particles\Emitter.cs" />

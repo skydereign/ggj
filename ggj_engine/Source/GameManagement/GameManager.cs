@@ -19,7 +19,7 @@ namespace ggj_engine.Source.GameManagement
             public string Name = "null";
         }
 
-        public const float GAME_LENGTH = 313000; //5 minutes
+        public const float GAME_LENGTH = 300000; //5 minutes
 
         public Screens.Screen MyScreen;
         public ScoreManager ScoreManager;

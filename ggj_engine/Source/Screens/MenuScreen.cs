@@ -1,7 +1,5 @@
 ﻿using ggj_engine.Source.Entities;
-using ggj_engine.Source.Entities.Enemies;
-using ggj_engine.Source.Entities.Player;
-using ggj_engine.Source.Level;
+using ggj_engine.Source.Entities.UIElements;
 using ggj_engine.Source.Media;
 using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
@@ -13,43 +11,21 @@ using System.Text;
 
 namespace ggj_engine.Source.Screens
 {
-    class TestPlayerScreen : Screen
+    class MenuScreen : Screen
     {
-        public TestPlayerScreen()
+
+        public MenuScreen()
         {
-            // AddEntity(new TestEntity(new Vector2(100, 100)));
-            AddEntity(new TestEntity(new Vector2(130, 110)));
-            AddEntity(new Player(new Vector2(100, 100)));
-            //AddEntity(new Spawn(100, 100));
-            //AddEntity(new Spawn(300, 700));
-            //AddEntity(new Spawn(500, 400));
-            //AddEntity(new Spawn(800, 600));
-            AddEntity(new Follower(new Vector2(100, 200)));
-            AddEntity(new Follower(new Vector2(50, 50)));
-            AddEntity(new Follower(new Vector2(300, 200)));
-
             AddEntity(new StarBackground());
+            AddEntity(new Label("Kill Switch: Engage", new Vector2(200, 50), Color.White, 1.0f));
+            AddEntity(new Button("Play Game", new Vector2(500, 300), Color.White, 0.5f, new Vector2(180, 50)));
 
-            Camera = new Camera(Vector2.Zero, new Vector2(1280,720));
-            GameManager = new GameManagement.GameManager(this);
-
-            TileGrid.Init(50, 50, new Vector2(0, 0));
-            TileGrid.LoadRoom("Content/Map/map", this);
+            Camera = new Camera(Vector2.Zero, new Vector2(1280, 720));
         }
 
         public override void Update(GameTime gameTime)
         {
-            //Camera Zoom
-            if (InputControl.GetMouseWheelUp())
-            {
-                Camera.Zoom -= 0.05f;
-            }
-            if (InputControl.GetMouseWheelDown())
-            {
-                Camera.Zoom += 0.05f;
-            }
-
-            GameManager.Update(gameTime);
+            Camera.Position.X += Globals.BackgroundAnimation;
 
 
             base.Update(gameTime);
@@ -58,16 +34,14 @@ namespace ggj_engine.Source.Screens
         public override void Draw(SpriteBatch spriteBatch)
         {
             SpriteBatchCameraBegin(spriteBatch);
-            TileGrid.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(spriteBatch);
 
-            //Draw HUD after everything else has been drawn
+
+            ////Draw HUD after everything else has been drawn
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
                         DepthStencilState.Default, RasterizerState.CullCounterClockwise, null);
-
-            GameManager.Draw(spriteBatch);
 
             if (InputControl.GetMouseOnLeftHeld())
             {
