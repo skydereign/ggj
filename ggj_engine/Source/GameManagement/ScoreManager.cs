@@ -1,5 +1,6 @@
 ﻿using ggj_engine.Source.Screens;
 using ggj_engine.Source.Utility;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +13,22 @@ namespace ggj_engine.Source.GameManagement
        public Screen MyScreen;
 
        public enum GameGoals { Kill, Touch };
-       public enum KillGoals { EnemyFollower, Player, Self };
-       public enum TouchGoals { EnemyFollower, Player };
+       public enum KillGoals { EnemyFollower, EnemyYourMom, Player, Self };
+       public enum TouchGoals { EnemyFollower, EnemyYourMom, Player };
 
        public GameGoals GameGoal;
        public KillGoals KillGoal;
        public TouchGoals TouchGoal;
 
        private int scoreKillEnemyFollower;
+       private int scoreKillEnemyYourMom;
        private int scoreKillPlayer;
        private int scoreKillSelf;
        private int scoreDiebyEnemyFollower;
+       private int scoreDiebyEnemyYourMom;
        private int scoreDiebyPlayer;
        private int scoreTouchEnemyFollower;
+       private int scoreTouchEnemyYourMom;
        private int scoreTouchPlayer;
 
        public ScoreManager()
@@ -51,11 +55,14 @@ namespace ggj_engine.Source.GameManagement
 
            //Set score values for each goal state
            scoreKillEnemyFollower = 0;
+           scoreKillEnemyYourMom = 0;
            scoreKillPlayer = 0;
            scoreKillSelf = 0;
            scoreDiebyEnemyFollower = 0;
+           scoreDiebyEnemyYourMom = 0;
            scoreDiebyPlayer = 0;
            scoreTouchEnemyFollower = 0;
+           scoreTouchEnemyYourMom = 0;
            scoreTouchPlayer = 0;
            switch (GameGoal)
            {
@@ -64,23 +71,24 @@ namespace ggj_engine.Source.GameManagement
                    {
                        case KillGoals.EnemyFollower:
                            scoreKillEnemyFollower = 50;
+                           scoreKillEnemyYourMom = -75;
                            scoreKillPlayer = -200;
-                           scoreKillSelf = 0;
-                           scoreDiebyEnemyFollower = 0;
+                           scoreDiebyPlayer = -100;
+                           break;
+                       case KillGoals.EnemyYourMom:
+                           scoreKillEnemyFollower = -50;
+                           scoreKillEnemyYourMom = 75;
+                           scoreKillPlayer = -200;
                            scoreDiebyPlayer = -100;
                            break;
                        case KillGoals.Player:
-                           scoreKillEnemyFollower = 0;
                            scoreKillPlayer = 300;
-                           scoreKillSelf = 0;
-                           scoreDiebyEnemyFollower = 0;
                            scoreDiebyPlayer = -100;
                            break;
                        case KillGoals.Self:
-                           scoreKillEnemyFollower = 0;
-                           scoreKillPlayer = 0;
                            scoreKillSelf = 600;
                            scoreDiebyEnemyFollower = 100;
+                           scoreDiebyEnemyYourMom = 100;
                            scoreDiebyPlayer = 200;
                            break;
                        default:
@@ -92,22 +100,17 @@ namespace ggj_engine.Source.GameManagement
                    switch (TouchGoal)
                    {
                        case TouchGoals.EnemyFollower:
-                           scoreKillEnemyFollower = 0;
-                           scoreKillPlayer = 0;
-                           scoreKillSelf = 0;
-                           scoreDiebyEnemyFollower = 0;
-                           scoreDiebyPlayer = 0;
-                           scoreTouchEnemyFollower = 0;
-                           scoreTouchPlayer = 1000;
+                           scoreTouchEnemyFollower = 100;
+                           scoreTouchEnemyYourMom = -25;
+                           break;
+                       case TouchGoals.EnemyYourMom:
+                           scoreTouchEnemyFollower = -25;
+                           scoreTouchEnemyYourMom = 200;
                            break;
                        case TouchGoals.Player:
-                           scoreKillEnemyFollower = 0;
-                           scoreKillPlayer = 0;
-                           scoreKillSelf = 0;
-                           scoreDiebyEnemyFollower = 0;
-                           scoreDiebyPlayer = 0;
-                           scoreTouchEnemyFollower = 100;
-                           scoreTouchPlayer = 0;
+                           scoreTouchEnemyFollower = -25;
+                           scoreTouchEnemyYourMom = -25;
+                           scoreTouchPlayer = 1000;
                            break;
                        default:
                            throw new IndexOutOfRangeException("TouchGoals invalid");
@@ -115,36 +118,40 @@ namespace ggj_engine.Source.GameManagement
                    }
                    break;
            }
-           
+           Console.WriteLine("Main: " + GameGoal.ToString() + " | Kill: " + KillGoal.ToString() + " | Touch: " + TouchGoal.ToString());
        }
 
-       public void GrantEnemyFollowerKill()
+       public void GrantEnemyFollowerKill(Vector2 sourcePos)
        {
-           MyScreen.GameManager.AddToScore(scoreKillEnemyFollower);
+           MyScreen.GameManager.AddToScore(sourcePos, scoreKillEnemyFollower);
        }
-       public void GrantPlayerKill()
+       public void GrantEnemyYourMomrKill(Vector2 sourcePos)
        {
-           MyScreen.GameManager.AddToScore(scoreKillPlayer);
+           MyScreen.GameManager.AddToScore(sourcePos, scoreKillEnemyYourMom);
        }
-       public void GrantSelfKill()
+       public void GrantPlayerKill(Vector2 sourcePos)
        {
-           MyScreen.GameManager.AddToScore(scoreKillSelf);
+           MyScreen.GameManager.AddToScore(sourcePos, scoreKillPlayer);
        }
-       public void GrantPlayerTouch()
+       public void GrantSelfKill(Vector2 sourcePos)
        {
-           MyScreen.GameManager.AddToScore(scoreTouchPlayer);
+           MyScreen.GameManager.AddToScore(sourcePos, scoreKillSelf);
        }
-       public void GrantEnemyFollowerTouch()
+       public void GrantPlayerTouch(Vector2 sourcePos)
        {
-           MyScreen.GameManager.AddToScore(scoreTouchEnemyFollower);
+           MyScreen.GameManager.AddToScore(sourcePos, scoreTouchPlayer);
        }
-       public void GrantPlayerDieby()
+       public void GrantEnemyFollowerTouch(Vector2 sourcePos)
        {
-           MyScreen.GameManager.AddToScore(scoreDiebyPlayer);
+           MyScreen.GameManager.AddToScore(sourcePos, scoreTouchEnemyFollower);
        }
-       public void GrantEnemyFollowerDieby()
+       public void GrantPlayerDieby(Vector2 sourcePos)
        {
-           MyScreen.GameManager.AddToScore(scoreDiebyEnemyFollower);
+           MyScreen.GameManager.AddToScore(sourcePos, scoreDiebyPlayer);
+       }
+       public void GrantEnemyFollowerDieby(Vector2 sourcePos)
+       {
+           MyScreen.GameManager.AddToScore(sourcePos, scoreDiebyEnemyFollower);
        }
     }
 }

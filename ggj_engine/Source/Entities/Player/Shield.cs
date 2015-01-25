@@ -15,12 +15,13 @@ namespace ggj_engine.Source.Entities.Player
         public const float STRAND_SPACING = 1;
         public const float SHIELD_RADIUS = 16f;
 
+        public Player MyPlayer;
         public float Health;
         public Vector2 Position;
         private List<ShieldNode> shieldNodes;
         private int flashDamage;
 
-        public Shield()
+        public Shield(Player myPlayer)
         {
             Health = 100;
             shieldNodes = new List<ShieldNode>();
@@ -33,23 +34,28 @@ namespace ggj_engine.Source.Entities.Player
                 sn.RelPosition = sn.NeutralPosition;
                 shieldNodes.Add(sn);
             }
+            MyPlayer = myPlayer;
         }
 
-        public void Damage(float amount)
+        public void Damage(Entity source, float amount)
         {
-            Health -= amount;
-            flashDamage = 3;
+            if (!MyPlayer.Dead)
+            {
+                Health -= amount;
+                flashDamage = 3;
+                if (Health <= 0)
+                {
+                    //Self kill
+                    MyPlayer.MyScreen.GameManager.ScoreManager.GrantSelfKill(Position);
+                }
+            }
         }
 
         public void Update()
         {
-            if (InputControl.GetKeyboardKeyPressed(Microsoft.Xna.Framework.Input.Keys.L))
-            {
-                shieldNodes[(int)RandomUtil.Next(SEGMENTS)].RelPosition = new Vector2(15, -15);
-            }
             if (InputControl.GetKeyboardKeyPressed(Microsoft.Xna.Framework.Input.Keys.K))
             {
-                Damage(5);
+                Damage(MyPlayer, 25);
             }
 
             //Copy shieldnodes first to keep last frames state

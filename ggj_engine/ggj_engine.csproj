@@ -98,6 +98,7 @@
     <Compile Include="Source\Entities\Projectiles\Arrow.cs" />
     <Compile Include="Source\Entities\Projectiles\Bullet.cs" />
     <Compile Include="Source\Entities\Projectiles\Projectile.cs" />
+    <Compile Include="Source\Entities\ScoreVisual.cs" />
     <Compile Include="Source\Entities\StarBackground.cs" />
     <Compile Include="Source\Entities\TestEntity.cs" />
     <Compile Include="Source\Entities\Weapon.cs" />
