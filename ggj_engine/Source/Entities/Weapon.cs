@@ -44,19 +44,23 @@ namespace ggj_engine.Source.Entities
         {
             if (currentFireDelay >= FireDelay)
             {
+                Vector2 targetPos = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position;
+                
+                Network.NetworkManager.Instance.BroadcastEvent(",W," + 0 + ',' + (int)CurrentProjectile + ',' + Position.X + ',' + Position.Y + ',' + targetPos.X + ',' + targetPos.Y + ',');
+
                 switch (CurrentProjectile)
                 {
                     case ProjectileType.Bullet:
-                        MyScreen.AddEntity(new Bullet(Position, MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position));
+                        MyScreen.AddEntity(new Bullet(Position, targetPos));
                         break;
                     case ProjectileType.Arrow:
-                        MyScreen.AddEntity(new Arrow(Position, MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position));
+                        MyScreen.AddEntity(new Arrow(Position, targetPos));
                         break;
                     case ProjectileType.Cannonball:
-                        MyScreen.AddEntity(new Cannonball(Position, MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position));
+                        MyScreen.AddEntity(new Cannonball(Position, targetPos));
                         break;
                     case ProjectileType.Rocket:
-                        MyScreen.AddEntity(new Rocket(Position, MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position));
+                        MyScreen.AddEntity(new Rocket(Position, targetPos));
                         break;
                 }
                 currentFireDelay = 0;

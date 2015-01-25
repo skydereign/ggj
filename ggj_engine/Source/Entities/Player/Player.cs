@@ -13,6 +13,11 @@ namespace ggj_engine.Source.Entities.Player
 {
     class Player : Entity
     {
+        private static int playerCount = 0;
+        public int PlayerID;
+
+        public bool NetPlayer = false;
+
         public Weapon Weapon;
         public Shield Shield;
 
@@ -26,7 +31,7 @@ namespace ggj_engine.Source.Entities.Player
             CollisionRegion = new CircleRegion(14, position);
             movementManager = new MovementManager();
             Shield = new Shield();
-
+            PlayerID = playerCount++;
         }
 
         public override void Update(GameTime gameTime)

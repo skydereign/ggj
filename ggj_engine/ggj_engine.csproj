@@ -88,12 +88,12 @@
     <Compile Include="Source\Entities\Enemies\Follower.cs" />
     <Compile Include="Source\Entities\Entity.cs" />
     <Compile Include="Source\Entities\Player\Player.cs" />
+    <Compile Include="Source\Entities\Player\Shield.cs" />
     <Compile Include="Source\Entities\Projectiles\Rocket.cs" />
     <Compile Include="Source\Entities\Projectiles\Cannonball.cs" />
     <Compile Include="Source\Entities\Projectiles\Arrow.cs" />
     <Compile Include="Source\Entities\Projectiles\Bullet.cs" />
     <Compile Include="Source\Entities\Projectiles\Projectile.cs" />
-    <Compile Include="Source\Entities\Player\Shield.cs" />
     <Compile Include="Source\Entities\StarBackground.cs" />
     <Compile Include="Source\Entities\TestEntity.cs" />
     <Compile Include="Source\Entities\Weapon.cs" />
@@ -117,6 +117,7 @@
     <Compile Include="Source\Network\NetworkManager.cs" />
     <Compile Include="Source\Particles\CircleEmitter.cs" />
     <Compile Include="Source\Particles\Systems\PSystemRocketSmoke.cs" />
+    <Compile Include="Source\Screens\MultiplayerTestScreen.cs" />
     <Compile Include="Source\Screens\NetworkTestScreen.cs" />
     <Compile Include="Source\Particles\Emitter.cs" />
     <Compile Include="Source\Particles\Particle.cs" />
@@ -173,13 +174,15 @@
     <Content Include="Content\Textures\white_pixel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="fmodex.dll" />
-    <Content Include="Icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Content\Fonts\PixelFont.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="fmodex.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Content\Fonts\smallFont.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

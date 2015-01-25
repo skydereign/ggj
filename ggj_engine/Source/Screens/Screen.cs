@@ -17,7 +17,7 @@ namespace ggj_engine.Source.Screens
         protected static Game1 game;
         public static Game1 Game { set { game = value; } }
 
-        protected List<Entity> entities = new List<Entity>();
+        public List<Entity> entities = new List<Entity>();
         protected List<Entity> createdEntities = new List<Entity>();
         protected List<Entity> deletedEntities = new List<Entity>();
 
