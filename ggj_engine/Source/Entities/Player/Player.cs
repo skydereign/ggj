@@ -1,6 +1,7 @@
 ﻿using ggj_engine.Source.Collisions;
 using ggj_engine.Source.Media;
-using ggj_engine.Source.Weapons;
+using ggj_engine.Source.Movement;
+using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,23 +9,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ggj_engine.Source.Entities
+namespace ggj_engine.Source.Entities.Player
 {
-    class TestEntity : Entity
+    class Player : Entity
     {
-        Weapon weapon;
+        private MovementManager movementManager;
 
-        public TestEntity(Vector2 position)
+        public Player(Vector2 position)
         {
             Position = position;
             sprite = ContentLibrary.Sprites["test_animation"];
             CollisionRegion = new CircleRegion(14, position);
-            weapon = new Weapon();
+            movementManager = new MovementManager();
         }
 
         public override void Update(GameTime gameTime)
         {
-            weapon.Update(gameTime);
+            Vector2 mousePosition = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition());
+            Position = movementManager.Update(gameTime, Position, mousePosition);
+            
+            //Make camera follow player
+            MyScreen.Camera.Position = Position;
+
             base.Update(gameTime);
         }
         public override void Draw(SpriteBatch spriteBatch)
@@ -34,7 +40,7 @@ namespace ggj_engine.Source.Entities
 
         public override void OnCollision(Entity other)
         {
-            Position.X += 0.1f;
+            
             base.OnCollision(other);
         }
     }
