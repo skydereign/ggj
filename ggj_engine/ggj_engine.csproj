@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -88,11 +88,22 @@
     <Compile Include="Source\Entities\Enemies\Follower.cs" />
     <Compile Include="Source\Entities\Entity.cs" />
     <Compile Include="Source\Entities\Player\Player.cs" />
+    <Compile Include="Source\Entities\Projectiles\Rocket.cs" />
+    <Compile Include="Source\Entities\Projectiles\Cannonball.cs" />
+    <Compile Include="Source\Entities\Projectiles\Arrow.cs" />
+    <Compile Include="Source\Entities\Projectiles\Bullet.cs" />
+    <Compile Include="Source\Entities\Projectiles\Projectile.cs" />
     <Compile Include="Source\Entities\TestEntity.cs" />
+    <Compile Include="Source\Entities\Weapon.cs" />
     <Compile Include="Source\Level\Tile.cs" />
     <Compile Include="Source\Level\TileGrid.cs" />
     <Compile Include="Source\Media\ContentLibrary.cs" />
+    <Compile Include="Source\Media\fmod\fmod.cs" />
+    <Compile Include="Source\Media\fmod\fmod_dsp.cs" />
+    <Compile Include="Source\Media\fmod\fmod_errors.cs" />
+    <Compile Include="Source\Media\fmod\fmod_memoryinfo.cs" />
     <Compile Include="Source\Media\FrameAnimation.cs" />
+    <Compile Include="Source\Media\SoundControl.cs" />
     <Compile Include="Source\Media\Sprite.cs" />
     <Compile Include="Source\Movement\MovementDelegate.cs" />
     <Compile Include="Source\Movement\MovementKeyInput.cs" />
@@ -101,18 +112,21 @@
     <Compile Include="Source\Network\ClientTCP.cs" />
     <Compile Include="Source\Network\HostTCP.cs" />
     <Compile Include="Source\Network\NetworkManager.cs" />
+    <Compile Include="Source\Particles\CircleEmitter.cs" />
+    <Compile Include="Source\Particles\Systems\PSystemRocketSmoke.cs" />
     <Compile Include="Source\Screens\NetworkTestScreen.cs" />
     <Compile Include="Source\Particles\Emitter.cs" />
     <Compile Include="Source\Particles\Particle.cs" />
     <Compile Include="Source\Particles\PointEmitter.cs" />
     <Compile Include="Source\Particles\PSystem.cs" />
-    <Compile Include="Source\Particles\PSystemSparks.cs" />
+    <Compile Include="Source\Particles\Systems\PSystemSparks.cs" />
     <Compile Include="Source\Screens\Screen.cs" />
     <Compile Include="Source\Network\SocketInfo.cs" />
     <Compile Include="Source\Screens\TestEnemyScreen.cs" />
     <Compile Include="Source\Screens\TestPlayerScreen.cs" />
     <Compile Include="Source\Screens\TestScreen.cs" />
     <Compile Include="Source\Utility\Camera.cs" />
+    <Compile Include="Source\Utility\Debug.cs" />
     <Compile Include="Source\Utility\Globals.cs" />
     <Compile Include="Source\Utility\InputControl.cs" />
     <Compile Include="Source\Utility\Math.cs" />
@@ -120,7 +134,6 @@
     <Compile Include="Source\Weapons\Inputs\EquipInput.cs" />
     <Compile Include="Source\Weapons\Inputs\EquipKeyInput.cs" />
     <Compile Include="Source\Weapons\Inputs\EquipMouseInput.cs" />
-    <Compile Include="Source\Weapons\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -130,6 +143,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Audio\SoundEffects\fire-punch.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\SoundEffects\Laser_Shoot10.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Textures\circle_region.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -151,6 +170,7 @@
     <Content Include="Content\Textures\white_pixel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="fmodex.dll" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +180,9 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /y $(ProjectDir)fmodex.dll $(ProjectDir)$(OutDir)</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

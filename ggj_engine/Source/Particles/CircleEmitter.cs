@@ -8,8 +8,10 @@ using ggj_engine.Source.Utility;
 
 namespace ggj_engine.Source.Particles
 {
-    class PointEmitter : Emitter
+    class CircleEmitter : Emitter
     {
+        public float Radius;
+
         public override Particle SpawnParticle()
         {
             Particle p = new Particle();
@@ -21,7 +23,9 @@ namespace ggj_engine.Source.Particles
             p.PKillLife = (float)RandomUtil.Next(pMinLife, pMaxLife);
             p.PUpdateFreq = pUpdateFreq;
 
-            p.Position = MPSystem.Position + PositionOffset;
+            Vector2 v = Vector2.Normalize(RandomUtil.Next(new Vector2(-1,-1), new Vector2(1,1))) * (float)RandomUtil.Next(Radius);
+
+            p.Position = MPSystem.Position + PositionOffset + v;
 
             return p;
         }
