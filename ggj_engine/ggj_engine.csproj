@@ -81,7 +81,6 @@
     <Compile Include="Source\AI\DecisionTree\IBinaryNode.cs" />
     <Compile Include="Source\AI\Pathing\Pathing.cs" />
     <Compile Include="Source\Collisions\CircleRegion.cs" />
-    <Compile Include="Source\Collisions\Ray2D.cs" />
     <Compile Include="Source\Collisions\RectangleRegion.cs" />
     <Compile Include="Source\Collisions\Region.cs" />
     <Compile Include="Source\Entities\Enemies\Enemy.cs" />
