@@ -1,4 +1,5 @@
-﻿using ggj_engine.Source.Media;
+﻿using ggj_engine.Source.Entities;
+using ggj_engine.Source.Media;
 using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,16 +19,19 @@ namespace ggj_engine.Source.GameManagement
             public string Name = "null";
         }
 
-        public const float GAME_LENGTH = 313000; //5 minutes
+        public const float GAME_LENGTH = 300000; //5 minutes
 
+        public Screens.Screen MyScreen;
         public ScoreManager ScoreManager;
         public PlayerInfo MainPlayer;
         public List<PlayerInfo> AllPlayers;
         public float MillisecondsRemaining;
 
-        public GameManager()
+        public GameManager(Screens.Screen myScreen)
         {
+            MyScreen = myScreen;
             ScoreManager = new GameManagement.ScoreManager();
+            ScoreManager.MyScreen = MyScreen;
             MainPlayer = new PlayerInfo();
             MainPlayer.Name = "Me";
             AllPlayers = new List<PlayerInfo>();
@@ -38,11 +42,20 @@ namespace ggj_engine.Source.GameManagement
         public void Update(GameTime gameTime)
         {
             MillisecondsRemaining -= gameTime.ElapsedGameTime.Milliseconds;
+
+            if (InputControl.GetKeyboardKeyPressed(Microsoft.Xna.Framework.Input.Keys.O))
+            {
+                ScoreManager.ChangeGameGoals();
+            }
         }
 
-        public void AddToScore(int amount)
+        public void AddToScore(Vector2 sourcePos, int amount)
         {
-            MainPlayer.Score += amount;
+            if (amount != 0)
+            {
+                MyScreen.AddEntity(new ScoreVisual(sourcePos + RandomUtil.Next(new Vector2(-10,-10),new Vector2(10,10)), amount));
+                MainPlayer.Score += amount;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)

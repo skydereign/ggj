@@ -1,4 +1,5 @@
 ﻿using ggj_engine.Source.Entities;
+using ggj_engine.Source.Entities.Enemies;
 using ggj_engine.Source.Entities.Player;
 using ggj_engine.Source.Level;
 using ggj_engine.Source.Media;
@@ -23,11 +24,14 @@ namespace ggj_engine.Source.Screens
             AddEntity(new Spawn(300, 700));
             AddEntity(new Spawn(500, 400));
             AddEntity(new Spawn(800, 600));
+            AddEntity(new Follower(new Vector2(100, 200)));
+            AddEntity(new Follower(new Vector2(50, 50)));
+            AddEntity(new Follower(new Vector2(300, 200)));
 
             AddEntity(new StarBackground());
 
             Camera = new Camera(Vector2.Zero, new Vector2(1280,720));
-            GameManager = new GameManagement.GameManager();
+            GameManager = new GameManagement.GameManager(this);
 
             TileGrid.Init(50, 50, new Vector2(0, 0));
         }
@@ -43,6 +47,8 @@ namespace ggj_engine.Source.Screens
             {
                 Camera.Zoom += 0.05f;
             }
+
+            GameManager.Update(gameTime);
 
 
             base.Update(gameTime);
