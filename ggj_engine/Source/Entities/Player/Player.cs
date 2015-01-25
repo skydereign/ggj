@@ -22,6 +22,7 @@ namespace ggj_engine.Source.Entities.Player
         {
             Position = position;
             sprite = ContentLibrary.Sprites["test_animation"];
+            sprite.CenterOrigin();
             CollisionRegion = new CircleRegion(14, position);
             movementManager = new MovementManager();
             Shield = new Shield();
