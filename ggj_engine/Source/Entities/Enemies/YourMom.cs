@@ -30,6 +30,7 @@ namespace ggj_engine.Source.Entities.Enemies
         {
             PerformingAction = false;
             Speed = 1.5f;
+            health = 35;
             sprite = ContentLibrary.Sprites["test_animation"];
             sprite.Tint = Color.SaddleBrown;
             CollisionRegion = new CircleRegion(12, Position);
@@ -124,6 +125,7 @@ namespace ggj_engine.Source.Entities.Enemies
                 fireCounter = 0;
                 PerformingAction = false;
                 Attacking = false;
+                projectile.Owner = this;
                 MyScreen.AddEntity(projectile);
             }
         }

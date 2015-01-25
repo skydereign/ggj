@@ -125,7 +125,7 @@ namespace ggj_engine.Source.GameManagement
        {
            MyScreen.GameManager.AddToScore(sourcePos, scoreKillEnemyFollower);
        }
-       public void GrantEnemyYourMomrKill(Vector2 sourcePos)
+       public void GrantEnemyYourMomKill(Vector2 sourcePos)
        {
            MyScreen.GameManager.AddToScore(sourcePos, scoreKillEnemyYourMom);
        }

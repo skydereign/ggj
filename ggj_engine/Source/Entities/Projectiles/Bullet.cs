@@ -23,6 +23,7 @@ namespace ggj_engine.Source.Entities.Projectiles
             sprite.ScaleX = 2f;
             sprite.ScaleY = 2f;
             CollisionRegion = new CircleRegion(3, position);
+            Damage = 8;
         }
 
         public override void Update(GameTime gameTime)

@@ -93,6 +93,7 @@
     <Compile Include="Source\Entities\Player\Player.cs" />
     <Compile Include="Source\Entities\Player\Shield.cs" />
     <Compile Include="Source\Entities\Player\Spawn.cs" />
+    <Compile Include="Source\Entities\Projectiles\Explosion.cs" />
     <Compile Include="Source\Entities\Projectiles\Rocket.cs" />
     <Compile Include="Source\Entities\Projectiles\Cannonball.cs" />
     <Compile Include="Source\Entities\Projectiles\Arrow.cs" />

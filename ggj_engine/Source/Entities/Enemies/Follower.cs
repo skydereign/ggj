@@ -31,6 +31,7 @@ namespace ggj_engine.Source.Entities.Enemies
         {
             PerformingAction = false;
             Speed = 3.0f;
+            health = 45;
             sprite = ContentLibrary.Sprites["test_animation"];
             sprite.Tint = Color.Red;
             CollisionRegion = new CircleRegion(12, Position);

@@ -100,7 +100,10 @@ namespace ggj_engine.Source.Entities.Player
         {
             if (other is Projectile)
             {
-                //
+                if (((Projectile)other).Owner is Enemies.Enemy || (Projectile)other is Explosion)
+                {
+                    Shield.Damage(((Projectile)other).Owner, ((Projectile)other).Damage);
+                }
             }
             base.OnCollision(other);
         }
