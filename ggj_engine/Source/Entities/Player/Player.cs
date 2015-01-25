@@ -113,5 +113,11 @@ namespace ggj_engine.Source.Entities.Player
 
             movementManager.StopVelocity();
         }
+
+        public void ChangeMovementAndWeapon()
+        {
+            movementManager.GenerateNewMovement();
+            Weapon.GenerateWeaponInputs();
+        }
     }
 }

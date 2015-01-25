@@ -1,4 +1,5 @@
 ﻿using ggj_engine.Source.Entities;
+using ggj_engine.Source.Entities.Player;
 using ggj_engine.Source.Media;
 using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
@@ -43,10 +44,13 @@ namespace ggj_engine.Source.GameManagement
         {
             MillisecondsRemaining -= gameTime.ElapsedGameTime.Milliseconds;
 
-            if (InputControl.GetKeyboardKeyPressed(Microsoft.Xna.Framework.Input.Keys.O))
+            if (MillisecondsRemaining % 60000 == 0)
             {
                 ScoreManager.ChangeGameGoals();
+                ((Player)MyScreen.GetEntity("Player").ElementAt(0)).ChangeMovementAndWeapon();
             }
+
+
         }
 
         public void AddToScore(Vector2 sourcePos, int amount)
