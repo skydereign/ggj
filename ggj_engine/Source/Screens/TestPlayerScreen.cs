@@ -44,15 +44,16 @@ namespace ggj_engine.Source.Screens
             //{
             //    Camera.Position.X += 1f;
             //}
-            ////Camera Zoom
-            //if (InputControl.GetMouseWheelUp())
-            //{
-            //    Camera.Zoom -= 0.05f;
-            //}
-            //if (InputControl.GetMouseWheelDown())
-            //{
-            //    Camera.Zoom += 0.05f;
-            //}
+
+            //Camera Zoom
+            if (InputControl.GetMouseWheelUp())
+            {
+                Camera.Zoom -= 0.05f;
+            }
+            if (InputControl.GetMouseWheelDown())
+            {
+                Camera.Zoom += 0.05f;
+            }
 
             base.Update(gameTime);
         }

@@ -8,7 +8,11 @@ namespace ggj_engine.Source.Movement
 {
     abstract class MovementDelegate
     {
-        public abstract Vector2 Update(GameTime gameTime, Vector2 currPosition);
+        public delegate Vector2 Movement(Vector2 currPosition, Vector2 mousePosition);
+
+        protected Movement movement;
+
+        public abstract Vector2 Update(GameTime gameTime, Vector2 currPosition, Vector2 mousePosition);
 
     }
 }

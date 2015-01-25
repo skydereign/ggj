@@ -1,6 +1,7 @@
 ﻿using ggj_engine.Source.Collisions;
 using ggj_engine.Source.Media;
 using ggj_engine.Source.Movement;
+using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -35,9 +36,11 @@ namespace ggj_engine.Source.Entities.Player
             }
 
 
-            Position = movementManager.Update(gameTime, Position);
             Weapon.Position = Position;
 
+            Vector2 mousePosition = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition());
+            Position = movementManager.Update(gameTime, Position, mousePosition);
+            
             //Make camera follow player
             MyScreen.Camera.Position = Position;
 
