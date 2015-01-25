@@ -29,15 +29,13 @@ namespace ggj_engine.Source.Entities.Enemies
             combatRange = 1 * 16;
             playerInSightRange = new BinaryDecision();
             playerInCombatRange = new BinaryDecision();
-            CurrentPath = new List<Tile>();
+            CurrentPath = new Stack<Tile>();
             SetDecisionTree();
         }
 
         protected override void SetDecisionTree()
         {
             Vector2 target = new Vector2(100, 100);
-            Console.WriteLine("target: " + target);
-            Console.WriteLine("enemy position: " + Position);
             playerInSightRange.SetCondition(new IsPlayerInRange(this, target, sightRange));
             playerInSightRange.SetFalseBranch(new PatrolAction(this, target));
             playerInSightRange.SetTrueBranch(playerInCombatRange);
@@ -52,10 +50,6 @@ namespace ggj_engine.Source.Entities.Enemies
         public override void Update(GameTime gameTime)
         {
             playerInSightRange.MakeDecision().DoAction();
-            if(Patrolling)
-            {
-                TraversePath();
-            }
             base.Update(gameTime);
         }
 

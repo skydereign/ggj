@@ -12,8 +12,9 @@ namespace ggj_engine.Source.Entities.Enemies
     public abstract class Enemy : Entity
     {
         public float Points;
-        public List<Tile> CurrentPath;
-        public bool Patrolling;
+        public Stack<Tile> CurrentPath;
+        public Tile CurrentTile;
+        public bool Patrolling, PopOffTop;
         protected int health;
         protected int damage;
         protected float speed;
@@ -45,11 +46,6 @@ namespace ggj_engine.Source.Entities.Enemies
         protected void DecreaseHealth()
         {
             health--;
-        }
-
-        protected void TraversePath()
-        {
-            //
         }
     }
 }

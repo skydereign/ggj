@@ -30,6 +30,7 @@ namespace ggj_engine.Source.AI.Actions
             if(enemy.CurrentPath.Count <= 0)
             {
                 enemy.CurrentPath = Pathing.Pathing.FindPath(enemy, destination);
+                enemy.CurrentTile = enemy.CurrentPath.Pop();
             }
         }
     }

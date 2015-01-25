@@ -11,16 +11,25 @@ namespace ggj_engine.Source.AI.Pathing
 {
     public static class Pathing
     {
+        #region A* Algorithm
         private static List<Tile> openTileList;
         private static List<Tile> closedTileList;
-        private static List<Tile> path;
+        private static Stack<Tile> path;
         private static Tile start, destination, current;
 
-        public static List<Tile> FindPath(Enemy enemy, Vector2 target)
+        public static void PrintPath(Enemy enemy)
+        {
+            foreach(Tile t in enemy.CurrentPath)
+            {
+                Console.WriteLine("Tile t: " + new Vector2(t.X, t.Y));
+            }
+        }
+
+        public static Stack<Tile> FindPath(Enemy enemy, Vector2 target)
         {
             openTileList = new List<Tile>();
             closedTileList = new List<Tile>();
-            path = new List<Tile>();
+            path = new Stack<Tile>();
             start = TileGrid.Tiles[(int)enemy.Position.X / TileGrid.TileSize, (int)enemy.Position.Y / TileGrid.TileSize];
             destination = TileGrid.Tiles[(int)target.X / TileGrid.TileSize, (int)target.Y / TileGrid.TileSize];
             openTileList.Add(start);
@@ -80,11 +89,11 @@ namespace ggj_engine.Source.AI.Pathing
             return false;
         }
 
-        private static List<Tile> getPath(Tile current)
+        private static Stack<Tile> getPath(Tile current)
         {
             if(current.Parent != null)
             {
-                path.Add(current);
+                path.Push(current);
                 getPath(current.Parent);
             }
             return path;
@@ -115,5 +124,6 @@ namespace ggj_engine.Source.AI.Pathing
             neighbors.Add(TileGrid.Tiles[tile.X - 1, tile.Y - 1]);
             return neighbors;
         }
+        #endregion
     }
 }
