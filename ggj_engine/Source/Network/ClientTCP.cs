@@ -50,9 +50,17 @@ namespace ggj_engine.Source.Network
 
         public bool IsConnectedToHost()
         {
-            if (!sInfo.sock.Connected)
+            return SocketConnected(sInfo.sock);
+        }
+
+        bool SocketConnected(Socket s)
+        {
+            bool part1 = s.Poll(1000, SelectMode.SelectRead);
+            bool part2 = (s.Available == 0);
+            if (part1 && part2)
                 return false;
-            return true;
+            else
+                return true;
         }
 
         public void ReadOnThread()
@@ -103,10 +111,10 @@ namespace ggj_engine.Source.Network
             _buffer = "";
         }
 
-        public string FlushBufferToIndex(int start, int end, string buffer)
+        public string FlushBufferToIndex(int start, int end)
         {
-            string packet = buffer.Substring(start, end - start);
-            buffer = buffer.Substring(end + 1);
+            string packet = _buffer.Substring(start, end - start);
+            _buffer = _buffer.Substring(end + 1);
 
             return packet;
         }

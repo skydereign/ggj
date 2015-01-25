@@ -16,6 +16,7 @@ namespace ggj_engine.Source.Network
 
     public class NetworkManager
     {
+        List<string> packetsReceived;
         public const string IPSOFBlock = "<SOF>";
         public const string IPEOFBlock = "<EOF>";
 
@@ -73,7 +74,7 @@ namespace ggj_engine.Source.Network
         //private constructor so only one instance can be created
         private NetworkManager()
         {
-
+            packetsReceived = new List<string>();
         }
 
         public void CreateHost()
@@ -176,16 +177,25 @@ namespace ggj_engine.Source.Network
         {
             lock (mutexObj)
             {
-
+                //receive all packets
                 int packetStart = DetectPacketHeader(Client.RecvBuffer);
                 int packetEnd = DetectEOF(packetStart, Client.RecvBuffer);
 
-                if (Client.RecvBuffer.Length > 0 && packetStart != -1 && packetEnd != -1)
+                while (Client.RecvBuffer.Length > 0 && packetStart != -1 && packetEnd != -1)
                 {
-                    string packet = Client.FlushBufferToIndex(packetStart, packetEnd, Client.RecvBuffer);
+                    string packet = Client.FlushBufferToIndex(packetStart, packetEnd);
 
-                    Console.WriteLine("Packet received:\n" + packet);
+                    //Console.WriteLine("Packet received:\n" + packet);
 
+                    packetsReceived.Add(packet);
+
+                    packetStart = DetectPacketHeader(Client.RecvBuffer);
+                    packetEnd = DetectEOF(packetStart, Client.RecvBuffer);
+                }
+
+                for (int p = 0; p < packetsReceived.Count; ++p)
+                {
+                    string packet = packetsReceived[p];
                     string[] words = packet.Split(new char[] { ':', ' ', ',', '\0' });
 
                     for (int i = 0; i < words.Length; ++i)
@@ -207,7 +217,13 @@ namespace ggj_engine.Source.Network
                             entities[id].Position = new Vector2(x, y);
                         }
                     }
+
+                    //done with packet now clear it/toss it
+                    packetsReceived.RemoveAt(p);
+                    --p;
                 }
+
+                packetsReceived.Clear();
             }
         }
 

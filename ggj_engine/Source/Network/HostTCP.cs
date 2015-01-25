@@ -138,15 +138,26 @@ namespace ggj_engine.Source.Network
         {
             for(int i = 0; i < _clientInfo.Count; ++i)
             {
-                if(!_clientInfo[i].sock.Connected)
+                if(!SocketConnected(_clientInfo[i].sock))
                 {
-                    NetworkManager.Instance.Log("Client disconnected from host");
+                    NetworkManager.Instance.Log("Client " + i + " disconnected from host");
                     _clientInfo[i].sock.Close();
 
                     _clientInfo.RemoveAt(i);
                     --i;
                 }
             }
+        }
+
+        //http://stackoverflow.com/questions/2661764/how-to-check-if-a-socket-is-connected-disconnected-in-c
+        bool SocketConnected(Socket s)
+        {
+            bool part1 = s.Poll(1000, SelectMode.SelectRead);
+            bool part2 = (s.Available == 0);
+            if (part1 && part2)
+                return false;
+            else
+                return true;
         }
 
         public string ReadFromClient(int i)
