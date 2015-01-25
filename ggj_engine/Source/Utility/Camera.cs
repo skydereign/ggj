@@ -18,7 +18,7 @@ namespace ggj_engine.Source.Utility
         {
             Position = position;
             ScreenDimensions = dimensions;
-            Zoom = 1;
+            Zoom = 1.5f;
         }
 
         /// <summary>

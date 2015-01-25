@@ -20,6 +20,7 @@ namespace ggj_engine.Source.Entities.Player
         public bool NetPlayer = false;
 
         public Weapon Weapon;
+        public Shield Shield;
 
         private MovementManager movementManager;
 
@@ -27,10 +28,13 @@ namespace ggj_engine.Source.Entities.Player
         {
             Position = position;
             sprite = ContentLibrary.Sprites["test_animation"];
+            sprite.CenterOrigin();
             CollisionRegion = new CircleRegion(14, position);
             movementManager = new MovementManager();
 
             PlayerID = playerCount++;
+            movementManager = new MovementManager();
+            Shield = new Shield();
         }
 
         public override void Update(GameTime gameTime)
@@ -54,14 +58,18 @@ namespace ggj_engine.Source.Entities.Player
 
             Vector2 mousePosition = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition());
             Position = TileGrid.AdjustedForCollisions(Position, movementManager.Update(gameTime, Position, mousePosition), (CircleRegion)CollisionRegion);
-            
+
+            Shield.Position = Position;
+            Shield.Update();
             //Make camera follow player
-            MyScreen.Camera.Position = Position;
+            //Lots of smoothing, including inching toward the mouse position to make things seem more dynamic
+            MyScreen.Camera.Position += ((Position + (MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position) * 0.025f) - MyScreen.Camera.Position) * 0.4f;
 
             base.Update(gameTime);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
+            Shield.Draw(spriteBatch);
             base.Draw(spriteBatch);
         }
 
