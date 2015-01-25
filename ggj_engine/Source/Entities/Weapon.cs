@@ -7,6 +7,8 @@ using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ggj_engine.Source.Entities.Projectiles;
+using ggj_engine.Source.Weapons.Inputs;
+using Microsoft.Xna.Framework.Input;
 
 namespace ggj_engine.Source.Entities
 {
@@ -23,18 +25,47 @@ namespace ggj_engine.Source.Entities
         private const float maxArrowFire =30; 
         private const float minCannonballFire = 40;
         private const float maxCannonballFire = 80; 
-        private const float minRocketFire = 80;
-        private const float maxRocketFire = 120;
+        private const float minRocketFire = 20;
+        private const float maxRocketFire = 60;
 
         private int currentFireDelay = 0;
+        private List<EquipInput> inputs;
 
         public Weapon()
         {
+            inputs = new List<EquipInput>();
+            inputs.Add(new EquipMouseInput(EquipMouseInput.Types.Held, EquipMouseInput.Button.Left, Fire));
+            inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Pressed, Keys.Space, Fire));
+
             FireDelay = 3;
+        }
+
+        public void Fire()
+        {
+            if (currentFireDelay >= FireDelay)
+            {
+                switch (CurrentProjectile)
+                {
+                    case ProjectileType.Bullet:
+                        MyScreen.AddEntity(new Bullet(Position, MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position));
+                        break;
+                    case ProjectileType.Arrow:
+                        MyScreen.AddEntity(new Arrow(Position, MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position));
+                        break;
+                    case ProjectileType.Cannonball:
+                        MyScreen.AddEntity(new Cannonball(Position, MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position));
+                        break;
+                    case ProjectileType.Rocket:
+                        MyScreen.AddEntity(new Rocket(Position, MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position));
+                        break;
+                }
+                currentFireDelay = 0;
+            }
         }
 
         public override void Update(GameTime gameTime)
         {
+            //TEMP weapon switching
             if (InputControl.GetKeyboardKeyPressed(Microsoft.Xna.Framework.Input.Keys.D1))
             {
                 CurrentProjectile = ProjectileType.Bullet;
@@ -60,26 +91,15 @@ namespace ggj_engine.Source.Entities
                 FireDelay = (int)RandomUtil.Next(minRocketFire, maxRocketFire);
             }
 
+
             currentFireDelay++;
-            if (InputControl.GetMouseOnLeftHeld() && currentFireDelay >= FireDelay)
+
+            //Update inputs
+            foreach (EquipInput input in inputs)
             {
-                switch (CurrentProjectile)
-                {
-                    case ProjectileType.Bullet:
-                        MyScreen.AddEntity(new Bullet(Position, MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position));
-                        break;
-                    case ProjectileType.Arrow:
-                        MyScreen.AddEntity(new Arrow(Position, MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position));
-                        break;
-                    case ProjectileType.Cannonball:
-                        MyScreen.AddEntity(new Cannonball(Position, MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position));
-                        break;
-                    case ProjectileType.Rocket:
-                        MyScreen.AddEntity(new Rocket(Position, MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position));
-                        break;
-                }
-                currentFireDelay = 0;
+                input.Update(gameTime);
             }
+
             base.Update(gameTime);
         }
 
