@@ -20,6 +20,14 @@ namespace ggj_engine.Source.Entities
 
         protected Sprite sprite;
 
+        /// <summary>
+        /// Second initialization depending on different values
+        /// </summary>
+        public virtual void Init()
+        {
+            //
+        }
+
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             if(sprite != null)
