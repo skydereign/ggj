@@ -15,6 +15,9 @@ namespace ggj_engine.Source.Entities.Player
     {
         private static int playerCount = 0;
         public int PlayerID;
+
+        public bool NetPlayer = false;
+
         public Weapon Weapon;
 
         private MovementManager movementManager;

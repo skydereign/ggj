@@ -15,18 +15,39 @@ namespace ggj_engine.Source.Screens
     {
         public MultiplayerTestScreen()
         {
+            NetworkManager.Instance.MyScreen = this;
+
             Camera = new Camera(Vector2.Zero, new Vector2(1280, 720));
 
             entities = new List<Entities.Entity>();
 
-            entities.Add(new Player(new Vector2(100,100)));
-            entities[entities.Count - 1].MyScreen = this;
-
             TileGrid.Init(50, 50, new Vector2(0, 0));
 
+            string newGameData = "";
+
+            NetworkManager.Instance.SetNewGameData(newGameData);
             NetworkManager.Instance.DetermineHost();
 
-            
+            if (NetworkManager.Instance.IsHost)
+            {
+                Player hostPlayer = new Player(new Vector2(100, 100));
+                hostPlayer.NetPlayer = false;
+                entities.Add(hostPlayer);
+                entities[entities.Count - 1].MyScreen = this;
+
+            }
+            else
+            {
+                //create net player
+                Player clientPlayer = new Player(new Vector2(200, 200));
+                clientPlayer.NetPlayer = true;
+
+                //get entity data from host
+
+
+                //add net player to game through host
+                entities.Add(clientPlayer);
+            }
         }
 
         public override void Update(GameTime gameTime)

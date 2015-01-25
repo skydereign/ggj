@@ -7,6 +7,8 @@ using System.Net;
 using System.Net.Sockets;
 using Microsoft.Xna.Framework;
 using ggj_engine.Source.Entities.Player;
+using ggj_engine.Source.Entities.Projectiles;
+using ggj_engine.Source.Entities;
 
 namespace ggj_engine.Source.Network
 {
@@ -17,7 +19,10 @@ namespace ggj_engine.Source.Network
 
     public class NetworkManager
     {
+        private string newGameData = "";
+        public Screens.Screen MyScreen;
         List<string> packetsReceived;
+        List<string> eventsToProcess;
         public const string IPSOFBlock = "<SOF>";
         public const string IPEOFBlock = "<EOF>";
 
@@ -76,6 +81,12 @@ namespace ggj_engine.Source.Network
         private NetworkManager()
         {
             packetsReceived = new List<string>();
+            eventsToProcess = new List<string>();
+        }
+
+        public void SetNewGameData(string data)
+        {
+
         }
 
         public void DetermineHost()
@@ -119,6 +130,7 @@ namespace ggj_engine.Source.Network
             _client.Connect(_localHostIP, _port);
             
             _client.Write("Hello, Host! Love, Client");
+            _client.Write(",C,P,200,200");
 
             _client.ReadOnThread();
         }
@@ -145,12 +157,23 @@ namespace ggj_engine.Source.Network
 
             BeginPacket(gameTime);
 
+            ManageBroadcasts();
             AddEntityDataToPacket(entities);
 
             EndPacket();
 
             SubmitDataToClients();
             GetACKFromClients();
+        }
+
+        private void ManageBroadcasts()
+        {
+            for(int i = 0; i < eventsToProcess.Count; ++i)
+            {
+                Host.buffer += eventsToProcess[i];
+            }
+
+            eventsToProcess.Clear();
         }
 
         private void AddEntityDataToPacket(List<Entities.Entity> entities)
@@ -182,7 +205,7 @@ namespace ggj_engine.Source.Network
             }
         }
 
-        private void SubmitDataToClients()
+        public void SubmitDataToClients()
         {
             Host.WriteAll(Host.buffer);
 
@@ -206,8 +229,17 @@ namespace ggj_engine.Source.Network
             //increment host packet number
             Host.CurrentPacketNumber++;
 
-            //write the time the packet was sent
-            Host.buffer += ("Time " + MillisSinceHostCreation + '\n');
+            if (gameTime == null)
+            {
+                //write the time the packet was sent
+                Host.buffer += ("Time " + 0 + '\n');
+            }
+            else
+            {
+
+                //write the time the packet was sent
+                Host.buffer += ("Time " + MillisSinceHostCreation + '\n');
+            }
         }
 
         public void EndPacket()
@@ -221,6 +253,11 @@ namespace ggj_engine.Source.Network
             //get ACK from clients
 
             //compare latest packet number
+        }
+
+        public void SendGameWorldToClients(List<Entities.Entity> entities)
+        {
+
         }
 
         private void ManageClientGameState(Microsoft.Xna.Framework.GameTime gameTime, List<Entities.Entity> entities)
@@ -250,7 +287,9 @@ namespace ggj_engine.Source.Network
 
                     for (int i = 0; i < words.Length; ++i)
                     {
-                        if (words[i] == "E" && i + 4 < words.Length)
+                        if (!(i + 4 < words.Length))
+                            break;
+                        if (words[i] == "E")
                         {
                             int id = int.Parse(words[i + 1]);
                             float x = float.Parse(words[i + 2]);
@@ -258,7 +297,7 @@ namespace ggj_engine.Source.Network
 
                             entities[id].Position = new Vector2(x, y);
                         }
-                        else if (words[i] == "P" && i + 4 < words.Length)
+                        else if (words[i] == "P")
                         {
                             int id = int.Parse(words[i + 1]);
                             int playerID = int.Parse(words[i + 2]);
@@ -266,6 +305,37 @@ namespace ggj_engine.Source.Network
                             float y = float.Parse(words[i + 4]);
 
                             entities[id].Position = new Vector2(x, y);
+                        }
+                        else if(words[i] == "W")
+                        {
+                            int playerID = int.Parse(words[i + 1]);
+                            int type = int.Parse(words[i + 2]);
+                            float x = int.Parse(words[i + 3]);
+                            float y = int.Parse(words[i + 4]);
+                            float tarx = int.Parse(words[i + 5]);
+                            float tary = int.Parse(words[i + 6]);
+
+
+                            Vector2 pos = new Vector2(x, y);
+                            Vector2 tarPos = new Vector2(tarx, tary);
+
+                            Weapon.ProjectileType CurrentProjectile = (Weapon.ProjectileType)type;
+
+                            switch (CurrentProjectile)
+                            {
+                                case Weapon.ProjectileType.Bullet:
+                                    MyScreen.AddEntity(new Bullet(pos, tarPos));
+                                    break;
+                                case Weapon.ProjectileType.Arrow:
+                                    MyScreen.AddEntity(new Arrow(pos, tarPos));
+                                    break;
+                                case Weapon.ProjectileType.Cannonball:
+                                    MyScreen.AddEntity(new Cannonball(pos, tarPos));
+                                    break;
+                                case Weapon.ProjectileType.Rocket:
+                                    MyScreen.AddEntity(new Rocket(pos, tarPos));
+                                    break;
+                            }
                         }
                     }
 
@@ -338,6 +408,16 @@ namespace ggj_engine.Source.Network
             //close threads
 
             //close sockets
+        }
+
+        internal void BroadcastEvent(string p)
+        {
+            eventsToProcess.Add(p);
+        }
+
+        internal void PopulateGameWorldFromHost(string gameData)
+        {
+
         }
     }
 }
