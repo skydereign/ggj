@@ -54,7 +54,7 @@ namespace ggj_engine.Source.Entities.Enemies
         {
             if (other is Projectile)
             {
-                // hit
+                MyScreen.DeleteEntity(this);
             }
             base.OnCollision(other);
         }
