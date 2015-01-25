@@ -74,7 +74,9 @@
     <Compile Include="Source\AI\Actions\FollowPlayerAction.cs" />
     <Compile Include="Source\AI\Actions\IAction.cs" />
     <Compile Include="Source\AI\Actions\PatrolAction.cs" />
+    <Compile Include="Source\AI\Actions\RunFromPlayerAction.cs" />
     <Compile Include="Source\AI\Conditions\ICondition.cs" />
+    <Compile Include="Source\AI\Conditions\IsInCombatRange.cs" />
     <Compile Include="Source\AI\Conditions\IsPlayerInRange.cs" />
     <Compile Include="Source\AI\DecisionTree\BinaryDecision.cs" />
     <Compile Include="Source\AI\DecisionTree\IBinaryDecision.cs" />

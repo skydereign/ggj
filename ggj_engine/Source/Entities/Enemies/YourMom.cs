@@ -17,7 +17,8 @@ namespace ggj_engine.Source.Entities.Enemies
     {
         private BinaryDecision playerInSightRange;
         private BinaryDecision playerInCombatRange;
-        private float sightRange, combatRange;
+        private BinaryDecision playerTooClose;
+        private float sightRange, combatRange, evadeRange;
 
         public YourMom(Vector2 position)
         {
@@ -32,8 +33,10 @@ namespace ggj_engine.Source.Entities.Enemies
             sprite.Tint = Color.SaddleBrown;
             sightRange = 15 * 16;
             combatRange = 10 * 16;
+            evadeRange = 8 * 16;
             playerInSightRange = new BinaryDecision();
             playerInCombatRange = new BinaryDecision();
+            playerTooClose = new BinaryDecision();
             CurrentPath = new Stack<Tile>();
             wayPoints = new List<Vector2>();
             LoadWayPoints();
@@ -59,9 +62,13 @@ namespace ggj_engine.Source.Entities.Enemies
             playerInSightRange.SetFalseBranch(new PatrolAction(this, wayPoints));
             playerInSightRange.SetTrueBranch(playerInCombatRange);
 
-            playerInCombatRange.SetCondition(new IsPlayerInRange(this, MyScreen.GetEntity("Player").ElementAt(0), combatRange));
-            playerInCombatRange.SetFalseBranch(new FollowPlayerAction(this));
+            playerInCombatRange.SetCondition(new IsInCombatRange(this, MyScreen.GetEntity("Player").ElementAt(0), combatRange, evadeRange));
+            playerInCombatRange.SetFalseBranch(playerTooClose);
             playerInCombatRange.SetTrueBranch(new AttackPlayerAction(this));
+
+            playerTooClose.SetCondition(new IsPlayerInRange(this, MyScreen.GetEntity("Player").ElementAt(0), evadeRange));
+            playerTooClose.SetFalseBranch(new FollowPlayerAction(this));
+            playerTooClose.SetTrueBranch(new RunFromPlayerAction(this));
 
             base.SetDecisionTree();
         }
@@ -72,7 +79,7 @@ namespace ggj_engine.Source.Entities.Enemies
             {
                 playerInSightRange.MakeDecision().DoAction();
             }
-            else if(Patrolling || Following)
+            else if(Patrolling || Following || Evading)
             {
                 Position += EnemyMovement.MoveTowardsTile(this, CurrentTile);
             }
