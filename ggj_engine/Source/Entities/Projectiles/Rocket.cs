@@ -43,5 +43,10 @@ namespace ggj_engine.Source.Entities.Projectiles
             base.Update(gameTime);
         }
 
+        public override void Destroy()
+        {
+            pSystemSmoke.Kill(100);
+            base.Destroy();
+        }
     }
 }

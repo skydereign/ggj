@@ -69,8 +69,9 @@ namespace ggj_engine.Source.Screens
             createdEntities.Clear();
 
 
-            foreach (Entity e in deletedEntities)
+            for (int i = 0; i < deletedEntities.Count;i++ )
             {
+                Entity e = deletedEntities[i];
                 entities.Remove(e);
                 e.Destroy();
             }
