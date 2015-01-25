@@ -17,9 +17,11 @@ namespace ggj_engine.Source.Screens
         protected static Game1 game;
         public static Game1 Game { set { game = value; } }
 
+        public GameManagement.GameManager GameManager;
         public List<Entity> entities = new List<Entity>();
         protected List<Entity> createdEntities = new List<Entity>();
         protected List<Entity> deletedEntities = new List<Entity>();
+
 
         /// <summary>
         /// Finish creating and initializing entities
@@ -67,8 +69,9 @@ namespace ggj_engine.Source.Screens
             createdEntities.Clear();
 
 
-            foreach (Entity e in deletedEntities)
+            for (int i = 0; i < deletedEntities.Count;i++ )
             {
+                Entity e = deletedEntities[i];
                 entities.Remove(e);
                 e.Destroy();
             }
@@ -85,6 +88,7 @@ namespace ggj_engine.Source.Screens
             HandleCollisions();
 
             CleanupEntities();
+            GameManager.Update(gameTime);
         }
         public void SpriteBatchCameraBegin(SpriteBatch spriteBatch)
         {

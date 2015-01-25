@@ -37,7 +37,7 @@ namespace ggj_engine.Source.Particles
 
         public void Update()
         {
-            if (!Burst)
+            if (!Burst && !MPSystem.Dead)
             {
                 if (pMinSpawn < 1)
                 {
@@ -77,10 +77,13 @@ namespace ggj_engine.Source.Particles
         /// </summary>
         public void BurstParticles()
         {
-            int number = (int)RandomUtil.Next(pMinSpawn, pMaxSpawn);
-            for (int i = 0; i < number; i++)
+            if (!MPSystem.Dead)
             {
-                particles.Add(SpawnParticle());
+                int number = (int)RandomUtil.Next(pMinSpawn, pMaxSpawn);
+                for (int i = 0; i < number; i++)
+                {
+                    particles.Add(SpawnParticle());
+                }
             }
         }
 
