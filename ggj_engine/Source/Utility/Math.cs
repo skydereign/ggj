@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,11 @@ namespace ggj_engine.Source.Utility
             double mult = Math.Pow(10.0, digits);
             double result = Math.Truncate(mult * value) / mult;
             return (float)result;
+        }
+
+        public static float Direction(Vector2 PointA, Vector2 PointB)
+        {
+            return (float)Math.Atan2(PointA.Y - PointB.Y, PointB.X - PointA.X);
         }
     }
 }

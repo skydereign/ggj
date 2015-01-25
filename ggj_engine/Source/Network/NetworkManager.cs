@@ -6,6 +6,9 @@ using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using Microsoft.Xna.Framework;
+using ggj_engine.Source.Entities.Player;
+using ggj_engine.Source.Entities.Projectiles;
+using ggj_engine.Source.Entities;
 
 namespace ggj_engine.Source.Network
 {
@@ -16,7 +19,10 @@ namespace ggj_engine.Source.Network
 
     public class NetworkManager
     {
+        public string newGameData = "";
+        public Screens.Screen MyScreen;
         List<string> packetsReceived;
+        List<string> eventsToProcess;
         public const string IPSOFBlock = "<SOF>";
         public const string IPEOFBlock = "<EOF>";
 
@@ -75,6 +81,29 @@ namespace ggj_engine.Source.Network
         private NetworkManager()
         {
             packetsReceived = new List<string>();
+            eventsToProcess = new List<string>();
+        }
+
+        public void SetNewGameData(string data)
+        {
+            lock (mutexObj)
+            {
+                newGameData = data;
+            }
+        }
+
+        public void DetermineHost()
+        {
+            Console.WriteLine("Host? yes or no");
+
+            string response = Console.ReadLine();
+
+            if (response.CompareTo("yes") == 0)
+                NetworkManager.Instance.CreateHost();
+            else
+                NetworkManager.Instance.ConnectToHost();
+
+            Console.WriteLine();
         }
 
         public void CreateHost()
@@ -102,8 +131,16 @@ namespace ggj_engine.Source.Network
 
             _client = new ClientTCP();
             _client.Connect(_localHostIP, _port);
-            
+
             _client.Write("Hello, Host! Love, Client");
+            _client.Write(",C,P,200,200");
+
+            while (_client.Read() <= 0) ;
+
+            string levelData = _client.RecvBuffer;
+            _client.FlushBuffer();
+
+            DecipherPacket(MyScreen.entities, levelData);
 
             _client.ReadOnThread();
         }
@@ -114,7 +151,7 @@ namespace ggj_engine.Source.Network
 
             if (IsHost)
             {
-                ManageHostGameState(gameTime);
+                ManageHostGameState(gameTime, entities);
             }
             else
             {
@@ -122,13 +159,47 @@ namespace ggj_engine.Source.Network
             }
         }
 
-        private void ManageHostGameState(Microsoft.Xna.Framework.GameTime gameTime)
+        private void ManageHostGameState(Microsoft.Xna.Framework.GameTime gameTime, List<Entities.Entity> entities)
         {
             //get data from game state and send to clients
             CheckConnectedClients();
             GetDataFromClients(gameTime);
-            SendDataToClients(gameTime);
+
+            BeginPacket(gameTime);
+
+            ManageBroadcasts();
+            AddEntityDataToPacket(entities);
+
+            EndPacket();
+
+            SubmitDataToClients();
             GetACKFromClients();
+        }
+
+        private void ManageBroadcasts()
+        {
+            for(int i = 0; i < eventsToProcess.Count; ++i)
+            {
+                Host.buffer += eventsToProcess[i];
+            }
+
+            eventsToProcess.Clear();
+        }
+
+        private void AddEntityDataToPacket(List<Entities.Entity> entities)
+        {
+            for(int i = 0; i < entities.Count; ++i)
+            {
+                //send player data
+                if(entities[i] is Entities.Player.Player)
+                {
+                    AddDataToPacket(",P," + i + "," + (entities[i] as Player).PlayerID + "," + entities[i].Position.X + "," + entities[i].Position.Y + ",");
+                }
+                else if(entities[i] is Entities.Enemies.Enemy)
+                {
+                    AddDataToPacket(",E," + i + "," + entities[i].Position.X + "," + entities[i].Position.Y + ",");
+                }
+            }
         }
 
         private void CheckConnectedClients()
@@ -144,26 +215,47 @@ namespace ggj_engine.Source.Network
             }
         }
 
-        private void SendDataToClients(Microsoft.Xna.Framework.GameTime gameTime)
+        public void SubmitDataToClients()
         {
-            //if data to send > 0
+            Host.WriteAll(Host.buffer);
 
+            //clear buffer
+            Host.buffer = "";
+        }
+
+        public void AddDataToPacket(string data)
+        {
+            Host.buffer += (data);
+        }
+
+        public void BeginPacket(Microsoft.Xna.Framework.GameTime gameTime)
+        {
             //send start of packet block
-            Host.WriteAll(IPSOFBlock + '\n');
+            Host.buffer += (IPSOFBlock + '\n');
 
             //write packet order number
-            Host.WriteAll(Host.CurrentPacketNumber.ToString() + '\n');
+            Host.buffer += (Host.CurrentPacketNumber.ToString() + '\n');
 
             //increment host packet number
             Host.CurrentPacketNumber++;
 
-            //write the time the packet was sent
-            Host.WriteAll("Time " + gameTime.ElapsedGameTime.Milliseconds + '\n');
+            if (gameTime == null)
+            {
+                //write the time the packet was sent
+                Host.buffer += ("Time " + 0 + '\n');
+            }
+            else
+            {
 
-            Host.WriteAll("This should be one packet\n");
+                //write the time the packet was sent
+                Host.buffer += ("Time " + MillisSinceHostCreation + '\n');
+            }
+        }
 
+        public void EndPacket()
+        {
             //send end of packet block
-            Host.WriteAll(IPEOFBlock + '\n');
+            Host.buffer += (IPEOFBlock + '\n');
         }
 
         private void GetACKFromClients()
@@ -171,6 +263,11 @@ namespace ggj_engine.Source.Network
             //get ACK from clients
 
             //compare latest packet number
+        }
+
+        public void SendGameWorldToClients(List<Entities.Entity> entities)
+        {
+
         }
 
         private void ManageClientGameState(Microsoft.Xna.Framework.GameTime gameTime, List<Entities.Entity> entities)
@@ -196,27 +293,7 @@ namespace ggj_engine.Source.Network
                 for (int p = 0; p < packetsReceived.Count; ++p)
                 {
                     string packet = packetsReceived[p];
-                    string[] words = packet.Split(new char[] { ':', ' ', ',', '\0' });
-
-                    for (int i = 0; i < words.Length; ++i)
-                    {
-                        if (words[i] == "E" && i + 4 < words.Length)
-                        {
-                            int id = int.Parse(words[i + 1]);
-                            float x = float.Parse(words[i + 2]);
-                            float y = float.Parse(words[i + 3]);
-
-                            entities[id].Position = new Vector2(x, y);
-                        }
-                        else if (words[i] == "P" && i + 4 < words.Length)
-                        {
-                            int id = int.Parse(words[i + 1]);
-                            float x = float.Parse(words[i + 2]);
-                            float y = float.Parse(words[i + 3]);
-
-                            entities[id].Position = new Vector2(x, y);
-                        }
-                    }
+                    DecipherPacket(entities, packet);
 
                     //done with packet now clear it/toss it
                     packetsReceived.RemoveAt(p);
@@ -224,6 +301,101 @@ namespace ggj_engine.Source.Network
                 }
 
                 packetsReceived.Clear();
+            }
+        }
+
+        private void DecipherPacket(List<Entities.Entity> entities, string packet)
+        {
+            string[] words = packet.Split(new char[] { ':', ' ', ',', '\0' });
+
+            for (int i = 0; i < words.Length; ++i)
+            {
+                if (!(i + 4 < words.Length))
+                    break;
+
+                if (words[i] == "E")
+                {
+                    int id = int.Parse(words[i + 1]);
+                    float x = float.Parse(words[i + 2]);
+                    float y = float.Parse(words[i + 3]);
+
+                    entities[id].Position = new Vector2(x, y);
+                }
+                else if (words[i] == "P")
+                {
+                    int id = int.Parse(words[i + 1]);
+                    int playerID = int.Parse(words[i + 2]);
+                    float x = float.Parse(words[i + 3]);
+                    float y = float.Parse(words[i + 4]);
+
+                    entities[id].Position = new Vector2(x, y);
+                }
+                else if (words[i] == "W")
+                {
+                    int playerID = int.Parse(words[i + 1]);
+                    int type = int.Parse(words[i + 2]);
+                    float x = int.Parse(words[i + 3]);
+                    float y = int.Parse(words[i + 4]);
+                    float tarx = int.Parse(words[i + 5]);
+                    float tary = int.Parse(words[i + 6]);
+
+
+                    Vector2 pos = new Vector2(x, y);
+                    Vector2 tarPos = new Vector2(tarx, tary);
+
+                    Weapon.ProjectileType CurrentProjectile = (Weapon.ProjectileType)type;
+
+                    switch (CurrentProjectile)
+                    {
+                        case Weapon.ProjectileType.Bullet:
+                            MyScreen.AddEntity(new Bullet(pos, tarPos));
+                            break;
+                        case Weapon.ProjectileType.Arrow:
+                            MyScreen.AddEntity(new Arrow(pos, tarPos));
+                            break;
+                        case Weapon.ProjectileType.Cannonball:
+                            MyScreen.AddEntity(new Cannonball(pos, tarPos));
+                            break;
+                        case Weapon.ProjectileType.Rocket:
+                            MyScreen.AddEntity(new Rocket(pos, tarPos));
+                            break;
+                    }
+                }
+                else if (words[i] == "CP")
+                {
+                    Vector2 pos = new Vector2();
+
+                    int playerId = int.Parse(words[i+1]);
+
+                    pos.X = float.Parse(words[i + 2]);
+                    pos.Y = float.Parse(words[i + 3]);
+
+                    Player player = new Player(pos);
+                    player.MyScreen = MyScreen;
+
+                    MyScreen.AddEntity(player);
+                }
+                //create entity
+                else if (words[i] == "CE")
+                {
+                    Vector2 pos = new Vector2();
+                    //",C,E," + pos.X + "," + pos.Y + ",";
+                    pos.X = float.Parse(words[i + 1]);
+
+                    pos.Y = float.Parse(words[i + 2]);
+
+                    TestEntity e = new TestEntity(pos);
+
+                    e.MyScreen = MyScreen;
+
+                    MyScreen.AddEntity(e);
+                }
+                //create weapon
+                else if (words[i] == "CW")
+                {
+
+
+                }
             }
         }
 
@@ -287,6 +459,16 @@ namespace ggj_engine.Source.Network
             //close threads
 
             //close sockets
+        }
+
+        internal void BroadcastEvent(string p)
+        {
+            eventsToProcess.Add(p);
+        }
+
+        internal void PopulateGameWorldFromHost(string gameData)
+        {
+
         }
     }
 }
