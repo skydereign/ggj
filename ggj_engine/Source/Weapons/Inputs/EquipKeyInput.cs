@@ -15,11 +15,20 @@ namespace ggj_engine.Source.Weapons.Inputs
 
         private Types type;
 
-        public EquipKeyInput(Types type, Keys key, Trigger trigger)
+        private List<Trigger> triggers;
+
+        public EquipKeyInput(Types type, Keys key, params Trigger[] triggerList)
         {
             this.type = type;
             this.key = key;
-            this.trigger = trigger;
+            triggers = new List<Trigger>();
+            if (triggerList != null)
+            {
+                foreach (Trigger myTrigger in triggerList)
+                {
+                    triggers.Add(myTrigger);
+                }
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -29,28 +38,40 @@ namespace ggj_engine.Source.Weapons.Inputs
                 case Types.Pressed:
                     if (InputControl.GetKeyboardKeyPressed(key))
                     {
-                        trigger();
+                        foreach (Trigger myTrigger in triggers)
+                        {
+                            myTrigger();
+                        }
                     }
                     break;
 
                 case Types.Held:
                     if (InputControl.GetKeyboardKeyHeld(key))
                     {
-                        trigger();
+                        foreach (Trigger myTrigger in triggers)
+                        {
+                            myTrigger();
+                        }
                     }
                     break;
 
                 case Types.Released:
                     if (InputControl.GetKeyboardKeyReleased(key))
                     {
-                        trigger();
+                        foreach (Trigger myTrigger in triggers)
+                        {
+                            myTrigger();
+                        }
                     }
                     break;
 
                 case Types.Standby:
                     if (!InputControl.GetKeyboardKeyPressed(key) && !InputControl.GetKeyboardKeyReleased(key) && !InputControl.GetKeyboardKeyHeld(key))
                     {
-                        trigger();
+                        foreach (Trigger myTrigger in triggers)
+                        {
+                            myTrigger();
+                        }
                     }
                     break;
             }

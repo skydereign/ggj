@@ -15,7 +15,7 @@ namespace ggj_engine.Source.Movement
         public enum MovementTypes {Standard, Thrusters, Mouse, Count};
         public enum KeyInput { WASD, Arrows, Count };
         private enum KeyMovementMotions { Standard, TowardMouse, Diagonal, StandardIvert, TowardMouseInvert, DiagonalInvert, Count};
-        private enum MouseMovementMotions { ClickToMove, RunAway, FollowMouse, Teleport , Count};
+        private enum MouseMovementMotions { ClickToMove, RunAway, FollowMouse, Count};
 
         private List<MovementDelegate> movementInputs;
 
@@ -42,7 +42,6 @@ namespace ggj_engine.Source.Movement
 
         public void GenerateNewMovement()
         {
-            Console.WriteLine("GENERATED NEW MOVEMENTS");
             movementInputs.Clear();
             moveSpeed = defaultSpeed;
             velocityVector = Vector2.Zero;
@@ -146,8 +145,9 @@ namespace ggj_engine.Source.Movement
                             movementInputsArray[2].SetMovements(moveDown, moveRight);
                             movementInputsArray[3].SetMovements(moveRight, moveUp);
                             break;
+
                     }
-                    Console.WriteLine("Generated: " + movementType + " motions " + keyMotion + " input " + inputType + " keyInput " + keyInput);
+                    // Console.WriteLine("Generated: " + movementType + " motions " + keyMotion + " input " + inputType + " keyInput " + keyInput);
                     break;
                 case MovementTypes.Thrusters:
                     switch (keyMotion)
@@ -189,7 +189,7 @@ namespace ggj_engine.Source.Movement
                             movementInputsArray[3].SetMovements(thrusterRight, thrusterUp);
                             break;
                     }
-                    Console.WriteLine("Generated: " + movementType + " motions " + keyMotion + " input " + inputType + " keyInput " + keyInput);
+                    // Console.WriteLine("Generated: " + movementType + " motions " + keyMotion + " input " + inputType + " keyInput " + keyInput);
                     break;
                 case MovementTypes.Mouse:
                     switch (mouseMotion)
@@ -201,12 +201,10 @@ namespace ggj_engine.Source.Movement
                         case MouseMovementMotions.RunAway:
                             movementInputsArray[0].SetMovements(runAwayFromLocation);
                             break;
-                        case MouseMovementMotions.Teleport:
-                            movementInputsArray[0].SetMovements(teleport);
-                            break;
+                        
 
                     }
-                    Console.WriteLine("Generated: " + movementType + " motions " + mouseMotion + " input " + inputType + " buttonInput " + buttonInput);
+                    // Console.WriteLine("Generated: " + movementType + " motions " + mouseMotion + " input " + inputType + " buttonInput " + buttonInput);
                     break;
             }
 
@@ -334,15 +332,33 @@ namespace ggj_engine.Source.Movement
         private Vector2 thrustTowardsPosition(Vector2 currPosition, Vector2 mousePosition)
         {
             float angle = (float)Math.Atan2(mousePosition.Y - currPosition.Y, mousePosition.X - currPosition.X);
+
             if (inputType == MovementDelegate.Types.Pressed || inputType == MovementDelegate.Types.Released)
             {
-                velocityVector += new Vector2((float)(moveSpeed * Math.Cos(angle)), (float)(moveSpeed * Math.Sin(angle)));
+                velocityVector += new Vector2((float)(moveSpeed*2 * Math.Cos(angle)), (float)(moveSpeed*2 * Math.Sin(angle)));
             }
             else
             {
-                velocityVector += new Vector2((float)(moveSpeed / 2 * Math.Cos(angle)), (float)(moveSpeed / 2 * Math.Sin(angle)));
+                velocityVector += new Vector2((float)(moveSpeed/2 * Math.Cos(angle)), (float)(moveSpeed/2 * Math.Sin(angle)));
             }
-            
+
+            if (velocityVector.X > Globals.MaxVelocity)
+            {
+                velocityVector.X = Globals.MaxVelocity;
+            }
+            else if (velocityVector.X < -Globals.MaxVelocity)
+            {
+                velocityVector.X = -Globals.MaxVelocity;
+            }
+
+            if (velocityVector.Y > Globals.MaxVelocity)
+            {
+                velocityVector.Y = Globals.MaxVelocity;
+            }
+            else if (velocityVector.Y < -Globals.MaxVelocity)
+            {
+                velocityVector.Y = -Globals.MaxVelocity;
+            }
 
             return currPosition;
         }
@@ -353,11 +369,11 @@ namespace ggj_engine.Source.Movement
             {
                 if (inputType == MovementDelegate.Types.Pressed || inputType == MovementDelegate.Types.Released)
                 {
-                    velocityVector.Y -= moveSpeed;
+                    velocityVector.Y -= moveSpeed * 2;
                 }
                 else
                 {
-                    velocityVector.Y -= moveSpeed / 2;
+                    velocityVector.Y -= moveSpeed;
                 }
             }
             return currPosition;
@@ -369,11 +385,11 @@ namespace ggj_engine.Source.Movement
             {
                 if (inputType == MovementDelegate.Types.Pressed || inputType == MovementDelegate.Types.Released)
                 {
-                    velocityVector.X -= moveSpeed;
+                    velocityVector.X -= moveSpeed * 2;
                 }
                 else
                 {
-                    velocityVector.X -= moveSpeed / 2;
+                    velocityVector.X -= moveSpeed;
                 }
             }
             return currPosition;
@@ -385,11 +401,11 @@ namespace ggj_engine.Source.Movement
             {
                 if (inputType == MovementDelegate.Types.Pressed || inputType == MovementDelegate.Types.Released)
                 {
-                    velocityVector.Y += moveSpeed;
+                    velocityVector.Y += moveSpeed * 2;
                 }
                 else
                 {
-                    velocityVector.Y += moveSpeed / 2;
+                    velocityVector.Y += moveSpeed;
                 }
             }
             return currPosition;
@@ -401,11 +417,11 @@ namespace ggj_engine.Source.Movement
             {
                 if (inputType == MovementDelegate.Types.Pressed || inputType == MovementDelegate.Types.Released)
                 {
-                    velocityVector.X += moveSpeed;
+                    velocityVector.X += moveSpeed * 2;
                 }
                 else
                 {
-                    velocityVector.X += moveSpeed / 2;
+                    velocityVector.X += moveSpeed;
                 }
             }
             return currPosition;

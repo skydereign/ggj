@@ -14,27 +14,27 @@ namespace ggj_engine.Source.Movement
         private Types type;
         private Button button;
 
-        List<Movement> movementList;
+        List<Movement> movements;
 
         public MovementMouseInput(Button button)
         {
             this.type = Types.Held;
             this.button = button;
 
-            movementList = new List<Movement>();
+            movements = new List<Movement>();
         }
 
-        public MovementMouseInput(Types type, Button button, params Movement[] movements)
+        public MovementMouseInput(Types type, Button button, params Movement[] movementList)
         {
             this.type = type;
             this.button = button;
 
-            movementList = new List<Movement>();
-            if (movements != null)
+            movements = new List<Movement>();
+            if (movementList != null)
             {
-                foreach (Movement move in movements)
+                foreach (Movement move in movementList)
                 {
-                    movementList.Add(move);
+                    movements.Add(move);
                 }
             }
         }
@@ -44,14 +44,14 @@ namespace ggj_engine.Source.Movement
             this.type = type;
         }
 
-        public override void SetMovements(params Movement[] movements)
+        public override void SetMovements(params Movement[] movementList)
         {
 
-            if (movements != null)
+            if (movementList != null)
             {
-                foreach (Movement move in movements)
+                foreach (Movement move in movementList)
                 {
-                    movementList.Add(move);
+                    movements.Add(move);
                 }
             }
         }
@@ -91,7 +91,7 @@ namespace ggj_engine.Source.Movement
             {
                 Vector2 moveVector = Vector2.Zero;
 
-                foreach (Movement move in movementList)
+                foreach (Movement move in movements)
                 {
                     moveVector += move(currPosition, mousePosition);
                 }

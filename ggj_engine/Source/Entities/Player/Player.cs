@@ -49,6 +49,7 @@ namespace ggj_engine.Source.Entities.Player
             if (InputControl.GetKeyboardKeyPressed(Keys.P))
             {
                 movementManager.GenerateNewMovement();
+                Weapon.GenerateWeaponInputs();
             }
 
             Weapon.Position = Position;
