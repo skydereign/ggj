@@ -29,7 +29,7 @@ namespace ggj_engine.Source.Entities.Enemies
         public override void Init()
         {
             PerformingAction = false;
-            Speed = 1.0f;
+            Speed = 3.0f;
             sprite = ContentLibrary.Sprites["test_animation"];
             sprite.Tint = Color.Red;
             sightRange = 12 * 16; // number of tiles * tileSize
@@ -45,10 +45,10 @@ namespace ggj_engine.Source.Entities.Enemies
 
         private void LoadWayPoints()
         {
-            Vector2 wayPoint1 = new Vector2(100, 100);
-            Vector2 wayPoint2 = new Vector2(40, 40);
-            Vector2 wayPoint3 = new Vector2(40, 100);
-            Vector2 wayPoint4 = new Vector2(100, 40);
+            Vector2 wayPoint1 = new Vector2(40, TileGrid.Height * 16 - 40);
+            Vector2 wayPoint2 = new Vector2(TileGrid.Width * 16 - 40, TileGrid.Height * 16 - 40);
+            Vector2 wayPoint3 = new Vector2(TileGrid.Width * 16 - 40, 40);
+            Vector2 wayPoint4 = new Vector2(40, 40);
             wayPoints.Add(wayPoint1);
             wayPoints.Add(wayPoint2);
             wayPoints.Add(wayPoint3);

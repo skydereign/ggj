@@ -86,6 +86,7 @@
     <Compile Include="Source\Collisions\Region.cs" />
     <Compile Include="Source\Entities\Enemies\Enemy.cs" />
     <Compile Include="Source\Entities\Enemies\Follower.cs" />
+    <Compile Include="Source\Entities\Enemies\YourMom.cs" />
     <Compile Include="Source\Entities\Entity.cs" />
     <Compile Include="Source\Entities\Player\Player.cs" />
     <Compile Include="Source\Entities\Projectiles\Rocket.cs" />
