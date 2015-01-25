@@ -50,10 +50,6 @@ namespace ggj_engine.Source.Level
                     }
                 }
             }
-            Tiles[20, 20] = new Tile(1, false, 20, 20);
-            Tiles[20, 21] = new Tile(1, false, 20, 21);
-            Tiles[21, 20] = new Tile(1, false, 21, 20);
-            Tiles[21, 21] = new Tile(1, false, 21, 21);
         }
 
         public enum Direction {Right, Up, Left, Down, Count}

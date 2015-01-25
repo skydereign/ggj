@@ -15,10 +15,9 @@ namespace ggj_engine.Source.Utility
             return (float)result;
         }
 
-        public static float Direction(Vector2 from, Vector2 to)
+        public static float Direction(Vector2 PointA, Vector2 PointB)
         {
-            //return (float)Math.Atan2(to.Y - from.Y, from.X - to.X);
-            return (float)Math.Atan2(from.Y - to.Y, to.X - from.X);
+            return (float)Math.Atan2(PointA.Y - PointB.Y, PointB.X - PointA.X);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace ggj_engine.Source.Entities.Enemies
         public float Speed, FireDelay;
         public Stack<Tile> CurrentPath;
         public Tile CurrentTile;
-        public bool Patrolling, Following, Attacking;
+        public bool Patrolling, Following, Attacking, Evading;
         public bool PopOffTop, PerformingAction;
         protected int health;
         protected int damage;
