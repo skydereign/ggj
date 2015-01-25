@@ -16,8 +16,12 @@ namespace ggj_engine.Source.Entities.Player
 {
     class Player : Entity
     {
+        public static int DEAD_LENGTH = 180;
+
         private static int playerCount = 0;
         public int PlayerID;
+        public bool Dead;
+        private int deadTimer;
 
         public bool NetPlayer = false;
 
@@ -40,7 +44,7 @@ namespace ggj_engine.Source.Entities.Player
         }
 
         public override void Update(GameTime gameTime)
-       { 
+        {
             if (Weapon == null)
             {
                 Weapon = new Weapon();
@@ -55,10 +59,31 @@ namespace ggj_engine.Source.Entities.Player
             Weapon.Position = Position;
 
             Vector2 mousePosition = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition());
-            Position = TileGrid.AdjustedForCollisions(this, Position, movementManager.Update(gameTime, Position, mousePosition), (CircleRegion)CollisionRegion);
+            if (!Dead)
+            {
+                Position = TileGrid.AdjustedForCollisions(this, Position, movementManager.Update(gameTime, Position, mousePosition), (CircleRegion)CollisionRegion);
+            }
 
             Shield.Position = Position;
             Shield.Update();
+            if (Shield.Health <= 0 && deadTimer <= 0)
+            {
+                Dead = true;
+                deadTimer = DEAD_LENGTH;
+            }
+            if (Dead)
+            {
+                deadTimer--;
+            }
+            if (Dead && deadTimer <= 0)
+            {
+                Dead = false;
+                Shield.Health = 100;
+                List<Entity> spawnPoints = MyScreen.GetEntity("Spawn");
+                Position = spawnPoints[(int)RandomUtil.Next(spawnPoints.Count)].Position;
+            }
+
+
             //Make camera follow player
             //Lots of smoothing, including inching toward the mouse position to make things seem more dynamic
             MyScreen.Camera.Position += ((Position + (MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position) * 0.025f) - MyScreen.Camera.Position) * 0.4f;
