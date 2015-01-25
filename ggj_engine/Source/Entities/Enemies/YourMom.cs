@@ -80,6 +80,7 @@ namespace ggj_engine.Source.Entities.Enemies
             {
                 ShootAtPlayer(gameTime);
             }
+
             base.Update(gameTime);
         }
 

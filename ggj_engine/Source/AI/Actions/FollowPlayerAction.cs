@@ -34,19 +34,21 @@ namespace ggj_engine.Source.AI.Actions
                 Player player = (Player)enemy.MyScreen.GetEntity("Player").ElementAt(0);
                 if(enemy.GetType().Name.Equals("YourMom"))
                 {
-                    float angle = (float)Math.Atan2(player.Position.Y / 16 - enemy.Position.Y / 16, player.Position.X / 16 - enemy.Position.X / 16);
-                    Vector2 target = new Vector2((float)(player.Position.X / 16 - Math.Cos(angle) * 2.0f),
-                        (float)(player.Position.Y / 16 + Math.Sin(angle) * 2.0f));
+                    float angle = Utility.MathExt.Direction(enemy.Position, player.Position);
+                    Vector2 target = new Vector2((float)(player.Position.X - Math.Cos(angle) * 160.0f),
+                        (float)(player.Position.Y + Math.Sin(angle) * 160.0f));
 
                     enemy.CurrentPath = Pathing.Pathing.FindPath(enemy, target);
-
                 }
                 else
                 {
                     enemy.CurrentPath = Pathing.Pathing.FindPath(enemy, player.Position);
                 }
-                enemy.CurrentTile = enemy.CurrentPath.Pop();
-                enemy.PopOffTop = false;
+                if(enemy.CurrentPath.Count > 0)
+                {
+                    enemy.CurrentTile = enemy.CurrentPath.Pop();
+                    enemy.PopOffTop = false;
+                }
             }
         }
     }
