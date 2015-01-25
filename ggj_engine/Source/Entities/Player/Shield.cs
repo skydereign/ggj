@@ -104,10 +104,9 @@ namespace ggj_engine.Source.Entities.Player
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Color shieldColor = new Color(255,255,255,255);
-            shieldColor.R = (byte)(255f - (130f * Health / 100f));
-            shieldColor.G = (byte)(60f - (-180f * Health / 100f));
-            shieldColor.B = (byte)(60f - (-180f * Health / 100f));
+            Color shieldMaskColor = new Color(255,255,255);
+            Color shieldColor = new Color(120, 220, 220);
+
             //Damage flash
             if (flashDamage > 0)
             {
@@ -115,7 +114,7 @@ namespace ggj_engine.Source.Entities.Player
                 flashDamage--;
             }
 
-            float shieldThick = Math.Max(1f,Health / 30f);
+            float shieldThick = Math.Max(1f,Health / 20f);
 
             //Main shield
             if (Health > 0)
@@ -124,16 +123,12 @@ namespace ggj_engine.Source.Entities.Player
                 {
                     if (i != SEGMENTS - 1)
                     {
-                        Debug.DrawLine(spriteBatch, shieldNodes[i].RelPosition + Position,
-                            shieldNodes[i + 1].RelPosition + Position, shieldColor, shieldThick);
+                        Debug.DrawLine(spriteBatch, shieldNodes[i].RelPosition + Position, shieldNodes[i + 1].RelPosition + Position, shieldColor, shieldThick);
                     }
                     else
                     {
-                        Debug.DrawLine(spriteBatch, shieldNodes[i].RelPosition + Position,
-                            shieldNodes[0].RelPosition + Position, shieldColor, shieldThick);
+                        Debug.DrawLine(spriteBatch, shieldNodes[i].RelPosition + Position, shieldNodes[0].RelPosition + Position, shieldColor, shieldThick);
                     }
-                    /*Debug.DrawLine(spriteBatch, shieldNodes[i].RelPosition * 1.05f + Position,
-        shieldNodes[i].RelPosition * 0.95f + Position, shieldColor, shieldThick);*/
                 }
             }
         }
