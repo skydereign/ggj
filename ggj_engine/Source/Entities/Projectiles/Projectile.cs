@@ -14,6 +14,7 @@ namespace ggj_engine.Source.Entities.Projectiles
     abstract class Projectile : Entity
     {
         public Vector2 Velocity;
+        public Entity Owner;
 
 
         public override void Update(GameTime gameTime)

@@ -132,19 +132,19 @@ namespace ggj_engine.Source.Entities
                 switch (CurrentProjectile)
                 {
                     case ProjectileType.Bullet:
-                        MyScreen.AddEntity(new Bullet(Position, targetPos));
+                        MyScreen.AddEntity(new Bullet(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
                         Game1.SoundController.PlaySFX("bullet", false);
                         break;
                     case ProjectileType.Arrow:
-                        MyScreen.AddEntity(new Arrow(Position, targetPos));
+                        MyScreen.AddEntity(new Arrow(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
                         Game1.SoundController.PlaySFX("bow", false);
                         break;
                     case ProjectileType.Cannonball:
-                        MyScreen.AddEntity(new Cannonball(Position, targetPos));
+                        MyScreen.AddEntity(new Cannonball(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
                         Game1.SoundController.PlaySFX("cannon", false);
                         break;
                     case ProjectileType.Rocket:
-                        MyScreen.AddEntity(new Rocket(Position, targetPos));
+                        MyScreen.AddEntity(new Rocket(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
                         Game1.SoundController.PlaySFX("rocket", false);
                         break;
                 }
@@ -209,16 +209,16 @@ namespace ggj_engine.Source.Entities
             switch (CurrentProjectile)
             {
                 case ProjectileType.Bullet:
-                    MyScreen.AddEntity(new Bullet(Position, targetPos));
+                    MyScreen.AddEntity(new Bullet(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
                     break;
                 case ProjectileType.Arrow:
-                    MyScreen.AddEntity(new Arrow(Position, targetPos));
+                    MyScreen.AddEntity(new Arrow(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
                     break;
                 case ProjectileType.Cannonball:
-                    MyScreen.AddEntity(new Cannonball(Position, targetPos));
+                    MyScreen.AddEntity(new Cannonball(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
                     break;
                 case ProjectileType.Rocket:
-                    MyScreen.AddEntity(new Rocket(Position, targetPos));
+                    MyScreen.AddEntity(new Rocket(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
                     break;
             }
             currentFireDelay = 0;

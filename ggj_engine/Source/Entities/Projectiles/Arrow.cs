@@ -14,10 +14,11 @@ namespace ggj_engine.Source.Entities.Projectiles
     {
         private const float SPEED = 4f;
 
-        public Arrow(Vector2 position, Vector2 direction)
+        public Arrow(Vector2 position, Vector2 direction, Entity owner)
         {
             Position = position;
             Velocity = Vector2.Normalize(direction) * SPEED;
+            Owner = owner;
             sprite = ContentLibrary.Sprites["white_pixel"];
             sprite.Tint = new Color(160, 150, 25);
             sprite.ScaleX = 14f;
