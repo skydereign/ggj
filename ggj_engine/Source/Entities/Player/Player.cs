@@ -4,6 +4,7 @@ using ggj_engine.Source.Movement;
 using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,11 @@ namespace ggj_engine.Source.Entities.Player
             {
                 Weapon = new Weapon();
                 MyScreen.AddEntity(Weapon);
+            }
+
+            if (InputControl.GetKeyboardKeyPressed(Keys.P))
+            {
+                movementManager.GenerateNewMovement();
             }
 
             Weapon.Position = Position;
