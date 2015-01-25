@@ -72,6 +72,11 @@ namespace ggj_engine.Source.Entities
             return false;
         }
 
+        public virtual void OnTileCollision()
+        {
+            // 
+        }
+
         public virtual void OnCollision (Entity other)
         {
             //

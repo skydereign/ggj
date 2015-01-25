@@ -54,7 +54,7 @@ namespace ggj_engine.Source.Entities.Player
             Weapon.Position = Position;
 
             Vector2 mousePosition = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition());
-            Position = TileGrid.AdjustedForCollisions(Position, movementManager.Update(gameTime, Position, mousePosition), (CircleRegion)CollisionRegion);
+            Position = TileGrid.AdjustedForCollisions(this, Position, movementManager.Update(gameTime, Position, mousePosition), (CircleRegion)CollisionRegion);
 
             Shield.Position = Position;
             Shield.Update();
@@ -74,6 +74,13 @@ namespace ggj_engine.Source.Entities.Player
         {
             
             base.OnCollision(other);
+        }
+
+        public override void OnTileCollision()
+        {
+            base.OnTileCollision();
+
+            movementManager.StopVelocity();
         }
     }
 }
