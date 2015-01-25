@@ -30,7 +30,7 @@ namespace ggj_engine.Source.Entities.Enemies
         {
             PerformingAction = false;
             Speed = 1.5f;
-            sprite = ContentLibrary.Sprites["test_animation"];
+            sprite = ContentLibrary.Sprites["square_enemy"];
             sprite.Tint = Color.SaddleBrown;
             CollisionRegion = new CircleRegion(12, Position);
             sightRange = 15 * 16;

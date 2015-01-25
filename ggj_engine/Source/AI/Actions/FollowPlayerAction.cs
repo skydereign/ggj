@@ -29,7 +29,7 @@ namespace ggj_engine.Source.AI.Actions
 
         public void DoAction()
         {
-            if(enemy.CurrentPath.Count <= 0)
+            if(enemy.CurrentPath == null || enemy.CurrentPath.Count <= 0)
             {
                 Player player = (Player)enemy.MyScreen.GetEntity("Player").ElementAt(0);
                 if(enemy.GetType().Name.Equals("YourMom"))
@@ -43,6 +43,12 @@ namespace ggj_engine.Source.AI.Actions
                 else
                 {
                     enemy.CurrentPath = Pathing.Pathing.FindPath(enemy, player.Position);
+                }
+                if(enemy.CurrentPath == null)
+                {
+                    enemy.PerformingAction = false;
+                    enemy.Following = false;
+                    return;
                 }
                 if(enemy.CurrentPath.Count > 0)
                 {

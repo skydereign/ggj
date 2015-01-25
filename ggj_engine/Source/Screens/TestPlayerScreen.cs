@@ -17,7 +17,7 @@ namespace ggj_engine.Source.Screens
     {
         public TestPlayerScreen()
         {
-            AddEntity(new Player(new Vector2(100, 100)));
+            AddEntity(new Player(new Vector2(150, 100)));
             AddEntity(new Follower(new Vector2(100, 200)));
             AddEntity(new Follower(new Vector2(50, 50)));
             AddEntity(new Follower(new Vector2(300, 200)));

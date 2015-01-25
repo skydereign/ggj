@@ -34,9 +34,15 @@ namespace ggj_engine.Source.AI.Actions
 
         public void DoAction()
         {
-            if(enemy.CurrentPath.Count <= 0)
+            if(enemy.CurrentPath == null || enemy.CurrentPath.Count <= 0)
             {
                 enemy.CurrentPath = Pathing.Pathing.FindPath(enemy, nextSpot);
+                if(enemy.CurrentPath ==null)
+                {
+                    enemy.Patrolling = false;
+                    enemy.PerformingAction = false;
+                    return;
+                }
                 enemy.CurrentTile = enemy.CurrentPath.Pop();
                 enemy.PopOffTop = false;
             }

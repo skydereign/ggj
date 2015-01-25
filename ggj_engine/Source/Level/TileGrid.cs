@@ -70,11 +70,10 @@ namespace ggj_engine.Source.Level
                 {
                     string[] types = reader.ReadLine().Split(',');
                     int i = 0;
-                    Console.WriteLine("types.count = " + types.Count());
                     foreach(string t in types)
                     {
                         int type = Int32.Parse(t);
-                        Tiles[i, j] = new Tile(type, type<1, i, j);
+                        Tiles[i, j] = new Tile(type, type==0, i, j);
                         i++;
 
                         if(i>=Width)

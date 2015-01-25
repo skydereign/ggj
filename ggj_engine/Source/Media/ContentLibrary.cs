@@ -33,6 +33,7 @@ namespace ggj_engine.Source.Media
             sprites = new SpriteDictionary();
 
             // add sprites
+            Sprites.Add("player", new Sprite(content.Load<Texture2D>("Textures/player.png")));
             Sprites.Add("test_sprite", new Sprite(content.Load<Texture2D>("Textures/test_sprite.png")));
             Sprites.Add("cursor", new Sprite(content.Load<Texture2D>("Textures/cursor.png")));
             Sprites.Add("circle_region", new Sprite(content.Load<Texture2D>("Textures/circle_region.png")));
@@ -41,6 +42,15 @@ namespace ggj_engine.Source.Media
             Sprite animated_example = new Sprite(content.Load<Texture2D>("Textures/test_animation.png"));
             animated_example.AddAnimation("default", 0, 0, 20, 20, 4, 0.1f);
             Sprites.Add("test_animation", animated_example);
+
+            Sprite triangle = new Sprite(content.Load<Texture2D>("Textures/triangle_enemy.png"));
+            triangle.AddAnimation("default", 0, 0, 16, 16, 8, 0.1f);
+            Sprites.Add("triangle_enemy", triangle);
+
+            Sprite square = new Sprite(content.Load<Texture2D>("Textures/square_enemy.png"));
+            square.AddAnimation("default", 0, 0, 16, 16, 3, 0.1f);
+            Sprites.Add("square_enemy", square);
+
 
             Tilesheet = content.Load<Texture2D>("Textures/tiles.png");
         }

@@ -33,8 +33,7 @@ namespace ggj_engine.Source.Entities.Player
         public Player(Vector2 position)
         {
             Position = position;
-            sprite = ContentLibrary.Sprites["test_animation"];
-            sprite.CenterOrigin();
+            sprite = ContentLibrary.Sprites["square_enemy"];
             CollisionRegion = new CircleRegion(14, position);
             movementManager = new MovementManager();
 
