@@ -11,13 +11,12 @@ namespace ggj_engine.Source.Entities.Enemies
 {
     public abstract class Enemy : Entity
     {
-        public float Points;
+        public float Points, Speed;
         public Stack<Tile> CurrentPath;
         public Tile CurrentTile;
-        public bool Patrolling, PopOffTop;
+        public bool Patrolling, PopOffTop, PerformingAction;
         protected int health;
         protected int damage;
-        protected float speed;
         
         protected virtual void SetDecisionTree()
         {
@@ -46,6 +45,11 @@ namespace ggj_engine.Source.Entities.Enemies
         protected void DecreaseHealth()
         {
             health--;
+        }
+
+        protected void FinishedAction()
+        {
+            PerformingAction = false;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using ggj_engine.Source.AI.DecisionTree;
 using ggj_engine.Source.Entities.Enemies;
+using ggj_engine.Source.Level;
+using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -22,6 +24,7 @@ namespace ggj_engine.Source.AI.Actions
         public IAction MakeDecision()
         {
             enemy.Patrolling = true;
+            enemy.PerformingAction = true;
             return this;
         }
 
@@ -31,6 +34,7 @@ namespace ggj_engine.Source.AI.Actions
             {
                 enemy.CurrentPath = Pathing.Pathing.FindPath(enemy, destination);
                 enemy.CurrentTile = enemy.CurrentPath.Pop();
+                enemy.PopOffTop = false;
             }
         }
     }

@@ -32,6 +32,8 @@ namespace ggj_engine.Source.AI.Pathing
             path = new Stack<Tile>();
             start = TileGrid.Tiles[(int)enemy.Position.X / TileGrid.TileSize, (int)enemy.Position.Y / TileGrid.TileSize];
             destination = TileGrid.Tiles[(int)target.X / TileGrid.TileSize, (int)target.Y / TileGrid.TileSize];
+            Console.WriteLine("start: " + new Vector2(start.X, start.Y));
+            Console.WriteLine("destination: " + new Vector2(destination.X, destination.Y));
             openTileList.Add(start);
             while(openTileList.Count > 0)
             {

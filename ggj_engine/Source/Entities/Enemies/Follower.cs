@@ -1,6 +1,7 @@
 ﻿using ggj_engine.Source.AI.Actions;
 using ggj_engine.Source.AI.Conditions;
 using ggj_engine.Source.AI.DecisionTree;
+using ggj_engine.Source.AI.Pathing;
 using ggj_engine.Source.Level;
 using ggj_engine.Source.Media;
 using ggj_engine.Source.Screens;
@@ -22,7 +23,9 @@ namespace ggj_engine.Source.Entities.Enemies
 
         public Follower(Vector2 position)
         {
+            PerformingAction = false;
             Position = position;
+            Speed = 1.0f;
             sprite = ContentLibrary.Sprites["test_animation"];
             sprite.Tint = Color.Red;
             sightRange = 2 * 16; // number of tiles * tileSize
@@ -49,7 +52,14 @@ namespace ggj_engine.Source.Entities.Enemies
 
         public override void Update(GameTime gameTime)
         {
-            playerInSightRange.MakeDecision().DoAction();
+            if (!PerformingAction)
+            {
+                playerInSightRange.MakeDecision().DoAction();
+            }
+            if(Patrolling)
+            {
+                Position += EnemyMovement.MoveTowardsTile(this, CurrentTile);
+            }
             base.Update(gameTime);
         }
 
