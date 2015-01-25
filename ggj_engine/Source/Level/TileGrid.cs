@@ -77,7 +77,7 @@ namespace ggj_engine.Source.Level
             Vector2 pos3 = new Vector2();
 
             // right check
-            pos1.X = pos2.X = pos3.X = newPosition.X + region.Radius;
+            pos1.X = pos2.X = pos3.X = newPosition.X + region.Radius / 2;
             pos1.Y = oldPosition.Y;
             pos2.Y = oldPosition.Y - region.Radius / 2;
             pos3.Y = oldPosition.Y + region.Radius / 2;
@@ -87,7 +87,7 @@ namespace ggj_engine.Source.Level
             }
             
             // left check
-            pos1.X = pos2.X = pos3.X = newPosition.X - region.Radius / 2;
+            pos1.X = pos2.X = pos3.X = newPosition.X - region.Radius;
             pos1.Y = oldPosition.Y;
             pos2.Y = oldPosition.Y - region.Radius / 2;
             pos3.Y = oldPosition.Y + region.Radius / 2;
@@ -98,7 +98,7 @@ namespace ggj_engine.Source.Level
 
             
             // down check
-            pos1.Y = pos2.Y = pos3.Y = newPosition.Y + region.Radius * 1;
+            pos1.Y = pos2.Y = pos3.Y = newPosition.Y + region.Radius / 2;
             pos1.X = oldPosition.X;
             pos2.X = oldPosition.X - region.Radius / 2;
             pos3.X = oldPosition.X + region.Radius / 2;
@@ -108,7 +108,7 @@ namespace ggj_engine.Source.Level
             }
 
             // up check
-            pos1.Y = pos2.Y = pos3.Y = newPosition.Y - region.Radius / 2;
+            pos1.Y = pos2.Y = pos3.Y = newPosition.Y - region.Radius;
             pos1.X = oldPosition.X;
             pos2.X = oldPosition.X - region.Radius / 2;
             pos3.X = oldPosition.X + region.Radius / 2;

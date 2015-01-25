@@ -75,6 +75,7 @@ namespace ggj_engine.Source.Media
             clone.Tint = this.Tint;
             clone.iWidth = this.Width;
             clone.iHeight = this.Height;
+            clone.CenterOrigin();
 
             return clone;
         }
@@ -259,6 +260,7 @@ namespace ggj_engine.Source.Media
         public Sprite(Texture2D Texture)
         {
             t2dTexture = Texture;
+            CenterOrigin();
         }
 
         void UpdateRotation()
