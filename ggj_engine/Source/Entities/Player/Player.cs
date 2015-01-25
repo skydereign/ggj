@@ -14,6 +14,7 @@ namespace ggj_engine.Source.Entities.Player
     class Player : Entity
     {
         public Weapon Weapon;
+        public Shield Shield;
 
         private MovementManager movementManager;
 
@@ -23,7 +24,7 @@ namespace ggj_engine.Source.Entities.Player
             sprite = ContentLibrary.Sprites["test_animation"];
             CollisionRegion = new CircleRegion(14, position);
             movementManager = new MovementManager();
-
+            Shield = new Shield();
 
         }
 
@@ -40,7 +41,10 @@ namespace ggj_engine.Source.Entities.Player
 
             Vector2 mousePosition = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition());
             Position = movementManager.Update(gameTime, Position, mousePosition);
-            
+
+            Shield.Position = Position;
+            Shield.Update();
+
             //Make camera follow player
             MyScreen.Camera.Position = Position;
 
@@ -48,6 +52,7 @@ namespace ggj_engine.Source.Entities.Player
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
+            Shield.Draw(spriteBatch);
             base.Draw(spriteBatch);
         }
 
