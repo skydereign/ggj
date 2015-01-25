@@ -14,6 +14,8 @@ namespace ggj_engine.Source.Screens
 {
     class TestPlayerScreen : Screen
     {
+        public GameManagement.GameManager GameManager;
+
         public TestPlayerScreen()
         {
             // AddEntity(new TestEntity(new Vector2(100, 100)));
@@ -21,6 +23,7 @@ namespace ggj_engine.Source.Screens
             AddEntity(new Player(new Vector2(100, 100)));
 
             Camera = new Camera(Vector2.Zero, new Vector2(1280,720));
+            GameManager = new GameManagement.GameManager();
 
             TileGrid.Init(10, 10, new Vector2(0, 0));
         }
@@ -55,6 +58,8 @@ namespace ggj_engine.Source.Screens
                 Camera.Zoom += 0.05f;
             }
 
+            GameManager.Update(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -66,8 +71,12 @@ namespace ggj_engine.Source.Screens
 
             base.Draw(spriteBatch);
 
-            //Draw cursor after everything else has been drawn
-            spriteBatch.Begin();
+            //Draw HUD after everything else has been drawn
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
+                        DepthStencilState.Default, RasterizerState.CullCounterClockwise, null);
+
+            GameManager.Draw(spriteBatch);
+
             if (InputControl.GetMouseOnLeftHeld())
             {
                 spriteBatch.Draw(ContentLibrary.Sprites["cursor"].Texture, InputControl.GetMousePosition(), Color.Blue);
@@ -76,7 +85,7 @@ namespace ggj_engine.Source.Screens
             {
                 spriteBatch.Draw(ContentLibrary.Sprites["cursor"].Texture, InputControl.GetMousePosition(), Color.White);
             }
-            spriteBatch.DrawString(ContentLibrary.Fonts["smallFont"], "Camera pos: [" + Camera.Position.X.ToString() + " | " + Camera.Position.Y.ToString() + "]", new Vector2(5, 30), Color.White);
+            spriteBatch.DrawString(ContentLibrary.Fonts["smallFont"], "Camera pos: [" + Camera.Position.X.ToString() + " | " + Camera.Position.Y.ToString() + "]", new Vector2(5, 700), Color.White);
             spriteBatch.End();
         }
     }

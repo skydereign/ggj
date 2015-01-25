@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -94,6 +94,7 @@
     <Compile Include="Source\Entities\Projectiles\Projectile.cs" />
     <Compile Include="Source\Entities\TestEntity.cs" />
     <Compile Include="Source\Entities\Weapon.cs" />
+    <Compile Include="Source\GameManagement\GameManager.cs" />
     <Compile Include="Source\Level\Tile.cs" />
     <Compile Include="Source\Level\TileGrid.cs" />
     <Compile Include="Source\Media\ContentLibrary.cs" />
@@ -132,7 +133,6 @@
     <Compile Include="Source\Weapons\Inputs\EquipInput.cs" />
     <Compile Include="Source\Weapons\Inputs\EquipKeyInput.cs" />
     <Compile Include="Source\Weapons\Inputs\EquipMouseInput.cs" />
-    <Compile Include="Source\Weapons\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -172,6 +172,9 @@
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\Fonts\PixelFont.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Fonts\smallFont.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

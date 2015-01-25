@@ -163,7 +163,7 @@ namespace ggj_engine
             if (drawFps)
             {
                 spriteBatch.Begin();
-                spriteBatch.DrawString(ContentLibrary.Fonts["smallFont"], "Draw fps: " + MathExt.Truncate(fpsDFrameRate,2).ToString(), new Vector2(5, 10), Color.White);
+                spriteBatch.DrawString(ContentLibrary.Fonts["smallFont"], "Draw fps: " + MathExt.Truncate(fpsDFrameRate,2).ToString(), new Vector2(5, 680), Color.White);
                 spriteBatch.End();
             }
 
