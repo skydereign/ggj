@@ -36,9 +36,7 @@ namespace ggj_engine.Source.AI.Actions
         {
             if(enemy.CurrentPath.Count <= 0)
             {
-                Console.WriteLine("destination: " + new Vector2(nextSpot.X / 16, nextSpot.Y / 16));
                 enemy.CurrentPath = Pathing.Pathing.FindPath(enemy, nextSpot);
-                Pathing.Pathing.PrintPath(enemy);
                 enemy.CurrentTile = enemy.CurrentPath.Pop();
                 enemy.PopOffTop = false;
             }
