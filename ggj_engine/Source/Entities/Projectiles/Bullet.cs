@@ -6,6 +6,7 @@ using ggj_engine.Source.Media;
 using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ggj_engine.Source.Collisions;
 
 namespace ggj_engine.Source.Entities.Projectiles
 {
@@ -21,6 +22,7 @@ namespace ggj_engine.Source.Entities.Projectiles
             sprite.Tint = new Color(255, 255, 130);
             sprite.ScaleX = 2f;
             sprite.ScaleY = 2f;
+            CollisionRegion = new CircleRegion(3, position);
         }
 
         public override void Update(GameTime gameTime)

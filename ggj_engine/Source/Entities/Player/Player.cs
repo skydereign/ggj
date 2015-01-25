@@ -1,4 +1,5 @@
 using ggj_engine.Source.Collisions;
+using ggj_engine.Source.Entities.Projectiles;
 using ggj_engine.Source.Level;
 using ggj_engine.Source.Media;
 using ggj_engine.Source.Movement;
@@ -72,7 +73,10 @@ namespace ggj_engine.Source.Entities.Player
 
         public override void OnCollision(Entity other)
         {
-            
+            if (other is Projectile)
+            {
+                // hit
+            }
             base.OnCollision(other);
         }
     }
