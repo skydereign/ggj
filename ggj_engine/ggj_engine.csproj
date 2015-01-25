@@ -94,6 +94,7 @@
     <Compile Include="Source\Entities\Projectiles\Bullet.cs" />
     <Compile Include="Source\Entities\Projectiles\Projectile.cs" />
     <Compile Include="Source\Entities\Player\Shield.cs" />
+    <Compile Include="Source\Entities\StarBackground.cs" />
     <Compile Include="Source\Entities\TestEntity.cs" />
     <Compile Include="Source\Entities\Weapon.cs" />
     <Compile Include="Source\GameManagement\GameManager.cs" />

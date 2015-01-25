@@ -21,6 +21,7 @@ namespace ggj_engine.Source.Screens
             // AddEntity(new TestEntity(new Vector2(100, 100)));
             AddEntity(new TestEntity(new Vector2(130, 110)));
             AddEntity(new Player(new Vector2(100, 100)));
+            AddEntity(new StarBackground());
 
             Camera = new Camera(Vector2.Zero, new Vector2(1280,720));
             GameManager = new GameManagement.GameManager();
