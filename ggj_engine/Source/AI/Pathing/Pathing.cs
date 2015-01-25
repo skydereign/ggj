@@ -23,7 +23,6 @@ namespace ggj_engine.Source.AI.Pathing
             path = new List<Tile>();
             start = TileGrid.Tiles[(int)enemy.Position.X / TileGrid.TileSize, (int)enemy.Position.Y / TileGrid.TileSize];
             destination = TileGrid.Tiles[(int)target.X / TileGrid.TileSize, (int)target.Y / TileGrid.TileSize];
-
             openTileList.Add(start);
             while(openTileList.Count > 0)
             {
@@ -43,13 +42,13 @@ namespace ggj_engine.Source.AI.Pathing
                 foreach(Tile t in neighbors)
                 {
                     float gScore = t.GScore + 1;
-                    float hScore = (float)Math.Sqrt((destination.X - current.X) ^ 2 + (destination.Y - current.Y) ^ 2);
+                    float hScore = (float)distance(t.X, t.Y, destination.X, destination.Y);
                     float fScore = gScore + hScore;
                     if(isValueInList(t, closedTileList) && fScore >= t.FScore)
                     {
                         continue;
                     }
-                    if(!isValueInList(t, openTileList) || fScore < t.FScore)
+                    else if(!isValueInList(t, openTileList) || fScore < t.FScore)
                     {
                         t.Parent = current;
                         t.GScore = gScore;
@@ -63,6 +62,13 @@ namespace ggj_engine.Source.AI.Pathing
                 }
             }
             return null;
+        }
+
+        private static double distance(float startX, float startY, float destX, float destY)
+        {
+            double x = (double)destX - (double)startX;
+            double y = (double)destY - (double)startY;
+            return Math.Sqrt(x * x + y * y);
         }
 
         private static bool isValueInList(Tile t, List<Tile> list)

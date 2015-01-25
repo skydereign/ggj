@@ -11,18 +11,22 @@ namespace ggj_engine.Source.AI.Conditions
     class IsPlayerInRange : ICondition
     {
         private Enemy enemy;
+        private Vector2 target;
         private float range;
 
-        public IsPlayerInRange(Enemy enemy, float range)
+        public IsPlayerInRange(Enemy enemy, Vector2 target, float range)
         {
             this.enemy = enemy;
             this.range = range;
+            this.target = target;
         }
 
         public bool Test()
         {
-            // Check for distance between player position and enemy position.
-            // Need to wait for Marco.
+            if(Vector2.Distance(enemy.Position, target) < range)
+            {
+                return true;
+            }
             return false;
         }
     }
