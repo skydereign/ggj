@@ -65,7 +65,10 @@ namespace ggj_engine.Source.Media
             //add sounds
             SoundFX.Add("laser_shoot", "Content/Audio/SoundEffects/Laser_Shoot10.wav");
             SoundFX.Add("fire", "Content/Audio/SoundEffects/fire-punch.wav");
-
+            SoundFX.Add("bullet", "Content/Audio/SoundEffects/bullet.wav");
+            SoundFX.Add("bow", "Content/Audio/SoundEffects/bow.wav");
+            SoundFX.Add("cannon", "Content/Audio/SoundEffects/cannon.wav");
+            SoundFX.Add("rocket", "Content/Audio/SoundEffects/rocket.wav");
         }
 
 

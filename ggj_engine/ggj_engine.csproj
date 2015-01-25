@@ -73,10 +73,10 @@
     <Compile Include="Source\AI\Actions\AttackPlayerAction.cs" />
     <Compile Include="Source\AI\Actions\FollowPlayerAction.cs" />
     <Compile Include="Source\AI\Actions\IAction.cs" />
-    <Compile Include="Source\AI\Actions\RunFromPlayerAction.cs" />
-    <Compile Include="Source\AI\Conditions\IsInCombatRange.cs" />
     <Compile Include="Source\AI\Actions\PatrolAction.cs" />
+    <Compile Include="Source\AI\Actions\RunFromPlayerAction.cs" />
     <Compile Include="Source\AI\Conditions\ICondition.cs" />
+    <Compile Include="Source\AI\Conditions\IsInCombatRange.cs" />
     <Compile Include="Source\AI\Conditions\IsPlayerInRange.cs" />
     <Compile Include="Source\AI\DecisionTree\BinaryDecision.cs" />
     <Compile Include="Source\AI\DecisionTree\IBinaryDecision.cs" />
@@ -153,10 +153,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Audio\SoundEffects\bow.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\SoundEffects\bullet.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\SoundEffects\cannon.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Audio\SoundEffects\fire-punch.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Audio\SoundEffects\Laser_Shoot10.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\SoundEffects\rocket.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Textures\circle_region.png">

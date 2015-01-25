@@ -48,5 +48,9 @@ namespace ggj_engine.Source.Entities.Projectiles
             pSystemSmoke.Kill(100);
             base.Destroy();
         }
+        public override void OnTileCollision()
+        {
+            base.OnTileCollision();
+        }
     }
 }

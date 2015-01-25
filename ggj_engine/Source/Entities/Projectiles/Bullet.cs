@@ -32,6 +32,9 @@ namespace ggj_engine.Source.Entities.Projectiles
 
             base.Update(gameTime);
         }
-
+        public override void OnTileCollision()
+        {
+            base.OnTileCollision();
+        }
     }
 }
