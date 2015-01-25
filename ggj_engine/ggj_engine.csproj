@@ -94,7 +94,9 @@
     <Compile Include="Source\Media\FrameAnimation.cs" />
     <Compile Include="Source\Media\Sprite.cs" />
     <Compile Include="Source\Movement\MovementDelegate.cs" />
+    <Compile Include="Source\Movement\MovementKeyInput.cs" />
     <Compile Include="Source\Movement\MovementManager.cs" />
+    <Compile Include="Source\Movement\MovementMouseInput.cs" />
     <Compile Include="Source\Network\ClientTCP.cs" />
     <Compile Include="Source\Network\HostTCP.cs" />
     <Compile Include="Source\Network\NetworkManager.cs" />
