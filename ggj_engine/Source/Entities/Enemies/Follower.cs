@@ -74,7 +74,7 @@ namespace ggj_engine.Source.Entities.Enemies
         {
             if (!PerformingAction)
             {
-                //playerInSightRange.MakeDecision().DoAction();
+                playerInSightRange.MakeDecision().DoAction();
             }
             else if(Patrolling || Following)
             {
@@ -101,19 +101,19 @@ namespace ggj_engine.Source.Entities.Enemies
                 double randomWeaponNumber = RandomUtil.Next(0, 8);
                 if(randomWeaponNumber > 0 && randomWeaponNumber < 2)
                 {
-                    projectile = new Projectiles.Bullet(Position, MyScreen.GetEntity("Player").ElementAt(0).Position - Position);
+                    projectile = new Projectiles.Bullet(Position, MyScreen.GetEntity("Player").ElementAt(0).Position - Position, this);
                 }
                 else if(randomWeaponNumber > 2 && randomWeaponNumber < 4)
                 {
-                    projectile = new Projectiles.Arrow(Position, MyScreen.GetEntity("Player").ElementAt(0).Position - Position);
+                    projectile = new Projectiles.Arrow(Position, MyScreen.GetEntity("Player").ElementAt(0).Position - Position, this);
                 }
                 else if(randomWeaponNumber > 4 && randomWeaponNumber < 6)
                 {
-                    projectile = new Projectiles.Cannonball(Position, MyScreen.GetEntity("Player").ElementAt(0).Position - Position);
+                    projectile = new Projectiles.Cannonball(Position, MyScreen.GetEntity("Player").ElementAt(0).Position - Position, this);
                 }
                 else
                 {
-                    projectile = new Projectiles.Rocket(Position, MyScreen.GetEntity("Player").ElementAt(0).Position - Position);
+                    projectile = new Projectiles.Rocket(Position, MyScreen.GetEntity("Player").ElementAt(0).Position - Position, this);
                 }
                 fireCounter = 0;
                 PerformingAction = false;

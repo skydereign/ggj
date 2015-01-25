@@ -348,16 +348,16 @@ namespace ggj_engine.Source.Network
                     switch (CurrentProjectile)
                     {
                         case Weapon.ProjectileType.Bullet:
-                            MyScreen.AddEntity(new Bullet(pos, tarPos));
+                            MyScreen.AddEntity(new Bullet(pos, tarPos, MyScreen.GetEntity("Player").ElementAt(0)));
                             break;
                         case Weapon.ProjectileType.Arrow:
-                            MyScreen.AddEntity(new Arrow(pos, tarPos));
+                            MyScreen.AddEntity(new Arrow(pos, tarPos, MyScreen.GetEntity("Player").ElementAt(0)));
                             break;
                         case Weapon.ProjectileType.Cannonball:
-                            MyScreen.AddEntity(new Cannonball(pos, tarPos));
+                            MyScreen.AddEntity(new Cannonball(pos, tarPos, MyScreen.GetEntity("Player").ElementAt(0)));
                             break;
                         case Weapon.ProjectileType.Rocket:
-                            MyScreen.AddEntity(new Rocket(pos, tarPos));
+                            MyScreen.AddEntity(new Rocket(pos, tarPos, MyScreen.GetEntity("Player").ElementAt(0)));
                             break;
                     }
                 }

@@ -44,7 +44,6 @@ namespace ggj_engine.Source.Entities.UIElements
             labelPosition.X += Globals.BackgroundAnimation;
 
             Vector2 mousePosition = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition());
-            Console.WriteLine(mousePosition.ToString() + " " + labelPosition.ToString());
 
             if (mousePosition.X > labelPosition.X && mousePosition.X < (labelPosition.X + size.X)
                 && mousePosition.Y > labelPosition.Y && mousePosition.Y < (labelPosition.Y + size.Y))

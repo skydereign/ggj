@@ -70,14 +70,13 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScoreVisual.cs" />
     <Compile Include="Source\AI\Actions\AttackPlayerAction.cs" />
     <Compile Include="Source\AI\Actions\FollowPlayerAction.cs" />
     <Compile Include="Source\AI\Actions\IAction.cs" />
-    <Compile Include="Source\AI\Actions\RunFromPlayerAction.cs" />
-    <Compile Include="Source\AI\Conditions\IsInCombatRange.cs" />
     <Compile Include="Source\AI\Actions\PatrolAction.cs" />
+    <Compile Include="Source\AI\Actions\RunFromPlayerAction.cs" />
     <Compile Include="Source\AI\Conditions\ICondition.cs" />
+    <Compile Include="Source\AI\Conditions\IsInCombatRange.cs" />
     <Compile Include="Source\AI\Conditions\IsPlayerInRange.cs" />
     <Compile Include="Source\AI\DecisionTree\BinaryDecision.cs" />
     <Compile Include="Source\AI\DecisionTree\IBinaryDecision.cs" />
@@ -99,6 +98,7 @@
     <Compile Include="Source\Entities\Projectiles\Arrow.cs" />
     <Compile Include="Source\Entities\Projectiles\Bullet.cs" />
     <Compile Include="Source\Entities\Projectiles\Projectile.cs" />
+    <Compile Include="Source\Entities\ScoreVisual.cs" />
     <Compile Include="Source\Entities\StarBackground.cs" />
     <Compile Include="Source\Entities\TestEntity.cs" />
     <Compile Include="Source\Entities\UIElements\Button.cs" />
@@ -156,6 +156,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Audio\BGM\title_screen.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Audio\SoundEffects\bow.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
