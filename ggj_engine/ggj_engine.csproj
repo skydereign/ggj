@@ -98,6 +98,7 @@
     <Compile Include="Source\Entities\TestEntity.cs" />
     <Compile Include="Source\Entities\Weapon.cs" />
     <Compile Include="Source\GameManagement\GameManager.cs" />
+    <Compile Include="Source\GameManagement\ScoreManager.cs" />
     <Compile Include="Source\Level\Tile.cs" />
     <Compile Include="Source\Level\TileGrid.cs" />
     <Compile Include="Source\Media\ContentLibrary.cs" />

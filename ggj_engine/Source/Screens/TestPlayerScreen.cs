@@ -14,8 +14,6 @@ namespace ggj_engine.Source.Screens
 {
     class TestPlayerScreen : Screen
     {
-        public GameManagement.GameManager GameManager;
-
         public TestPlayerScreen()
         {
             // AddEntity(new TestEntity(new Vector2(100, 100)));
@@ -59,7 +57,6 @@ namespace ggj_engine.Source.Screens
                 Camera.Zoom += 0.05f;
             }
 
-            GameManager.Update(gameTime);
 
             base.Update(gameTime);
         }

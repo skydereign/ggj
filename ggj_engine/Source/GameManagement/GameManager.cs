@@ -20,12 +20,14 @@ namespace ggj_engine.Source.GameManagement
 
         public const float GAME_LENGTH = 313000; //5 minutes
 
+        public ScoreManager ScoreManager;
         public PlayerInfo MainPlayer;
         public List<PlayerInfo> AllPlayers;
         public float MillisecondsRemaining;
 
         public GameManager()
         {
+            ScoreManager = new GameManagement.ScoreManager();
             MainPlayer = new PlayerInfo();
             MainPlayer.Name = "Me";
             AllPlayers = new List<PlayerInfo>();
