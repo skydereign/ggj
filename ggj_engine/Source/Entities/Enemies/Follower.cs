@@ -74,7 +74,7 @@ namespace ggj_engine.Source.Entities.Enemies
         {
             if (!PerformingAction)
             {
-                //playerInSightRange.MakeDecision().DoAction();
+                playerInSightRange.MakeDecision().DoAction();
             }
             else if(Patrolling || Following)
             {
