@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ggj_engine.Source.Entities
 {
-    class Weapon : Entity
+    public class Weapon : Entity
     {
         public enum ProjectileType { Bullet, Arrow, Cannonball, Rocket };
 

@@ -36,7 +36,15 @@ namespace ggj_engine.Source.Entities.Enemies
         {
             if(health < 0)
             {
-                Destroy();
+                if (this is Follower)
+                {
+                    MyScreen.GameManager.ScoreManager.GrantEnemyFollowerKill(Position);
+                }
+                if (this is YourMom)
+                {
+                    MyScreen.GameManager.ScoreManager.GrantEnemyFollowerKill(Position);
+                }
+                MyScreen.DeleteEntity(this);
             }
             base.Update(gameTime);
         }
@@ -46,15 +54,15 @@ namespace ggj_engine.Source.Entities.Enemies
             base.Destroy();
         }
 
-        protected void DecreaseHealth()
+        protected void DecreaseHealth(int amount)
         {
-            health--;
+            health -= amount;
         }
         public override void OnCollision(Entity other)
         {
             if (other is Projectile)
             {
-                MyScreen.DeleteEntity(this);
+                DecreaseHealth(5);
             }
             base.OnCollision(other);
         }

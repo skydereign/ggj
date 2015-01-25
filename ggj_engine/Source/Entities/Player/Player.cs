@@ -14,7 +14,7 @@ using System.Text;
 
 namespace ggj_engine.Source.Entities.Player
 {
-    class Player : Entity
+    public class Player : Entity
     {
         public static int DEAD_LENGTH = 180;
 
@@ -40,7 +40,7 @@ namespace ggj_engine.Source.Entities.Player
 
             PlayerID = playerCount++;
             movementManager = new MovementManager();
-            Shield = new Shield();
+            Shield = new Shield(this);
         }
 
         public override void Update(GameTime gameTime)
