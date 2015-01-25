@@ -21,6 +21,7 @@ namespace ggj_engine.Source.Collisions
             sprite = ContentLibrary.Sprites["circle_region"];
             sprite.ScaleX = radius*2 / Globals.DebugCircleSize;
             sprite.ScaleY = radius*2 / Globals.DebugCircleSize;
+            sprite.CenterOrigin();
             Active = true;
         }
 

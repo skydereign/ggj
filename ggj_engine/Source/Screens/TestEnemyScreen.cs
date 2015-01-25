@@ -18,8 +18,9 @@ namespace ggj_engine.Source.Screens
         public TestEnemyScreen()
         {
             AddEntity(new TestEntity(new Vector2(130, 110)));
-            AddEntity(new Player(new Vector2(100, 100)));
+            AddEntity(new Player(new Vector2(200, 200)));
             AddEntity(new Follower(new Vector2(50, 50)));
+            AddEntity(new YourMom(new Vector2(400, 400)));
 
             Camera = new Camera(Vector2.Zero, new Vector2(1280, 720));
 

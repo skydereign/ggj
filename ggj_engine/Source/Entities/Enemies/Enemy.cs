@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using ggj_engine.Source.AI.Pathing;
 using ggj_engine.Source.Level;
+using ggj_engine.Source.Entities.Projectiles;
 
 namespace ggj_engine.Source.Entities.Enemies
 {
@@ -14,7 +15,7 @@ namespace ggj_engine.Source.Entities.Enemies
         public float Speed, FireDelay;
         public Stack<Tile> CurrentPath;
         public Tile CurrentTile;
-        public bool Patrolling, Following, Attacking;
+        public bool Patrolling, Following, Attacking, Evading;
         public bool PopOffTop, PerformingAction;
         protected int health;
         protected int damage;
@@ -48,6 +49,14 @@ namespace ggj_engine.Source.Entities.Enemies
         protected void DecreaseHealth()
         {
             health--;
+        }
+        public override void OnCollision(Entity other)
+        {
+            if (other is Projectile)
+            {
+                // hit
+            }
+            base.OnCollision(other);
         }
     }
 }

@@ -6,6 +6,7 @@ using ggj_engine.Source.Media;
 using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ggj_engine.Source.Collisions;
 
 namespace ggj_engine.Source.Entities.Projectiles
 {
@@ -22,6 +23,7 @@ namespace ggj_engine.Source.Entities.Projectiles
             sprite.Tint = new Color(150, 255, 150);
             sprite.ScaleX = 17f;
             sprite.ScaleY = 5f;
+            CollisionRegion = new CircleRegion(8, position);
 
         }
 

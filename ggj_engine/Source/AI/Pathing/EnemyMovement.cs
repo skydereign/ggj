@@ -23,6 +23,7 @@ namespace ggj_engine.Source.AI.Pathing
                     enemy.PerformingAction = false;
                     enemy.Patrolling = false;
                     enemy.Following = false;
+                    enemy.Evading = false;
                     return Vector2.Zero;
                 }
                 enemy.CurrentTile = enemy.CurrentPath.Pop();

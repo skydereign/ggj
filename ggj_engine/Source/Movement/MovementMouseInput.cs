@@ -9,13 +9,20 @@ namespace ggj_engine.Source.Movement
 {
     class MovementMouseInput : MovementDelegate
     {
-        public enum Types { Pressed, Held, Released, Standby };
-        public enum Button { Left, Right };
+        public enum Button { Left, Right, Count };
 
         private Types type;
         private Button button;
 
         List<Movement> movementList;
+
+        public MovementMouseInput(Button button)
+        {
+            this.type = Types.Held;
+            this.button = button;
+
+            movementList = new List<Movement>();
+        }
 
         public MovementMouseInput(Types type, Button button, params Movement[] movements)
         {
@@ -23,9 +30,29 @@ namespace ggj_engine.Source.Movement
             this.button = button;
 
             movementList = new List<Movement>();
-            foreach (Movement move in movements)
+            if (movements != null)
             {
-                movementList.Add(move);
+                foreach (Movement move in movements)
+                {
+                    movementList.Add(move);
+                }
+            }
+        }
+
+        public override void SetType(Types type)
+        {
+            this.type = type;
+        }
+
+        public override void SetMovements(params Movement[] movements)
+        {
+
+            if (movements != null)
+            {
+                foreach (Movement move in movements)
+                {
+                    movementList.Add(move);
+                }
             }
         }
 
@@ -54,14 +81,6 @@ namespace ggj_engine.Source.Movement
                 case Types.Released:
                     if ((button == Button.Left && InputControl.GetMouseOnLeftReleased()) ||
                         button == Button.Right && InputControl.GetMouseOnRightReleased())
-                    {
-                        wasInputCorrect = true;
-                    }
-                    break;
-
-                case Types.Standby:
-                    if ((button == Button.Left && !InputControl.GetMouseOnLeftReleased() && !InputControl.GetMouseOnLeftHeld() && !InputControl.GetMouseOnLeftReleased()) ||
-                        (button == Button.Right && !InputControl.GetMouseOnRightPressed() && !InputControl.GetMouseOnRightHeld() && !InputControl.GetMouseOnRightReleased()))
                     {
                         wasInputCorrect = true;
                     }

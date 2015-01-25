@@ -29,29 +29,11 @@ namespace ggj_engine.Source.Screens
             Camera = new Camera(Vector2.Zero, new Vector2(1280,720));
             GameManager = new GameManagement.GameManager();
 
-            TileGrid.Init(10, 10, new Vector2(0, 0));
+            TileGrid.Init(50, 50, new Vector2(0, 0));
         }
 
         public override void Update(GameTime gameTime)
         {
-            //Camera movement
-            //if (InputControl.GetKeyboardKeyHeld(Microsoft.Xna.Framework.Input.Keys.W))
-            //{
-            //    Camera.Position.Y -= 1f;
-            //}
-            //if (InputControl.GetKeyboardKeyHeld(Microsoft.Xna.Framework.Input.Keys.A))
-            //{
-            //    Camera.Position.X -= 1f;
-            //}
-            //if (InputControl.GetKeyboardKeyHeld(Microsoft.Xna.Framework.Input.Keys.S))
-            //{
-            //    Camera.Position.Y += 1f;
-            //}
-            //if (InputControl.GetKeyboardKeyHeld(Microsoft.Xna.Framework.Input.Keys.D))
-            //{
-            //    Camera.Position.X += 1f;
-            //}
-
             //Camera Zoom
             if (InputControl.GetMouseWheelUp())
             {

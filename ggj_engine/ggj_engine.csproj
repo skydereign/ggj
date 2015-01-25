@@ -73,6 +73,8 @@
     <Compile Include="Source\AI\Actions\AttackPlayerAction.cs" />
     <Compile Include="Source\AI\Actions\FollowPlayerAction.cs" />
     <Compile Include="Source\AI\Actions\IAction.cs" />
+    <Compile Include="Source\AI\Actions\RunFromPlayerAction.cs" />
+    <Compile Include="Source\AI\Conditions\IsInCombatRange.cs" />
     <Compile Include="Source\AI\Actions\PatrolAction.cs" />
     <Compile Include="Source\AI\Conditions\ICondition.cs" />
     <Compile Include="Source\AI\Conditions\IsPlayerInRange.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Source\Collisions\Region.cs" />
     <Compile Include="Source\Entities\Enemies\Enemy.cs" />
     <Compile Include="Source\Entities\Enemies\Follower.cs" />
+    <Compile Include="Source\Entities\Enemies\YourMom.cs" />
     <Compile Include="Source\Entities\Entity.cs" />
     <Compile Include="Source\Entities\Player\Player.cs" />
     <Compile Include="Source\Entities\Player\Shield.cs" />

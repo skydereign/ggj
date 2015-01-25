@@ -1,9 +1,12 @@
-﻿using ggj_engine.Source.Collisions;
+using ggj_engine.Source.Collisions;
+using ggj_engine.Source.Entities.Projectiles;
+using ggj_engine.Source.Level;
 using ggj_engine.Source.Media;
 using ggj_engine.Source.Movement;
 using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,27 +33,32 @@ namespace ggj_engine.Source.Entities.Player
             sprite.CenterOrigin();
             CollisionRegion = new CircleRegion(14, position);
             movementManager = new MovementManager();
-            Shield = new Shield();
+
             PlayerID = playerCount++;
+            movementManager = new MovementManager();
+            Shield = new Shield();
         }
 
         public override void Update(GameTime gameTime)
-        {
+       { 
             if (Weapon == null)
             {
                 Weapon = new Weapon();
                 MyScreen.AddEntity(Weapon);
             }
 
+            if (InputControl.GetKeyboardKeyPressed(Keys.P))
+            {
+                movementManager.GenerateNewMovement();
+            }
 
             Weapon.Position = Position;
 
             Vector2 mousePosition = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition());
-            Position = movementManager.Update(gameTime, Position, mousePosition);
+            Position = TileGrid.AdjustedForCollisions(this, Position, movementManager.Update(gameTime, Position, mousePosition), (CircleRegion)CollisionRegion);
 
             Shield.Position = Position;
             Shield.Update();
-
             //Make camera follow player
             //Lots of smoothing, including inching toward the mouse position to make things seem more dynamic
             MyScreen.Camera.Position += ((Position + (MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position) * 0.025f) - MyScreen.Camera.Position) * 0.4f;
@@ -65,8 +73,18 @@ namespace ggj_engine.Source.Entities.Player
 
         public override void OnCollision(Entity other)
         {
-            
+            if (other is Projectile)
+            {
+                // hit
+            }
             base.OnCollision(other);
+        }
+
+        public override void OnTileCollision()
+        {
+            base.OnTileCollision();
+
+            movementManager.StopVelocity();
         }
     }
 }

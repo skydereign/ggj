@@ -10,13 +10,19 @@ namespace ggj_engine.Source.Movement
 {
     class MovementKeyInput : MovementDelegate
     {
-        public enum Types { Pressed, Held, Released, Standby };
-
         public Keys key;
 
         private Types type;
 
         List<Movement> movementList;
+
+        public MovementKeyInput(Keys key)
+        {
+            this.type = Types.Held;
+            this.key = key;
+
+            movementList = new List<Movement>();
+        }
 
         public MovementKeyInput(Types type, Keys key, params Movement[] movements)
         {
@@ -24,9 +30,29 @@ namespace ggj_engine.Source.Movement
             this.key = key;
 
             movementList = new List<Movement>();
-            foreach (Movement move in movements)
+            if (movements != null)
             {
-                movementList.Add(move);
+                foreach (Movement move in movements)
+                {
+                    movementList.Add(move);
+                }
+            }
+        }
+
+        public override void SetType(Types type)
+        {
+            this.type = type;
+        }
+
+        public override void SetMovements(params Movement[] movements)
+        {
+            
+            if (movements != null)
+            {
+                foreach (Movement move in movements)
+                {
+                    movementList.Add(move);
+                }
             }
         }
 
@@ -56,13 +82,6 @@ namespace ggj_engine.Source.Movement
                         wasInputCorrect = true;
                     }
                     break;
-
-                case Types.Standby:
-                    if (!InputControl.GetKeyboardKeyPressed(key) && !InputControl.GetKeyboardKeyReleased(key) && !InputControl.GetKeyboardKeyHeld(key))
-                    {
-                        wasInputCorrect = true;
-                    }
-                    break;
             }
 
             if (wasInputCorrect)
@@ -80,4 +99,6 @@ namespace ggj_engine.Source.Movement
             return Vector2.Zero;
         }
     }
+
+    
 }

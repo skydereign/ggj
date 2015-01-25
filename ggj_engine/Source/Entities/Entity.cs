@@ -55,10 +55,6 @@ namespace ggj_engine.Source.Entities
             if(CollisionRegion != null)
             {
                 CollisionRegion.Position = Position;
-                if(sprite != null)
-                {
-                    CollisionRegion.Position += new Vector2(sprite.Width / 2, sprite.Height / 2);
-                }
             }
         }
 
@@ -74,6 +70,11 @@ namespace ggj_engine.Source.Entities
                 return CollisionRegion.Colliding((CircleRegion)other.CollisionRegion);
             }
             return false;
+        }
+
+        public virtual void OnTileCollision()
+        {
+            // 
         }
 
         public virtual void OnCollision (Entity other)

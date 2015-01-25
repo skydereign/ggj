@@ -1,4 +1,5 @@
 ﻿using ggj_engine.Source.Collisions;
+using ggj_engine.Source.Entities.Projectiles;
 using ggj_engine.Source.Media;
 using ggj_engine.Source.Weapons;
 using Microsoft.Xna.Framework;
@@ -34,8 +35,12 @@ namespace ggj_engine.Source.Entities
         }
 
         public override void OnCollision(Entity other)
-        {
-            Position.X += 0.1f;
+        {            
+            if(other is Projectile)
+            {
+                MyScreen.DeleteEntity(this);
+                MyScreen.DeleteEntity(other);
+            }
             base.OnCollision(other);
         }
     }
