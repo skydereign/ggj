@@ -100,7 +100,7 @@ namespace ggj_engine.Source.Entities.Player
         {
             if (other is Projectile)
             {
-                // hit
+                //
             }
             base.OnCollision(other);
         }

@@ -122,6 +122,7 @@
     <Compile Include="Source\Network\HostTCP.cs" />
     <Compile Include="Source\Network\NetworkManager.cs" />
     <Compile Include="Source\Particles\CircleEmitter.cs" />
+    <Compile Include="Source\Particles\Systems\PSystemRocketExpl.cs" />
     <Compile Include="Source\Particles\Systems\PSystemRocketSmoke.cs" />
     <Compile Include="Source\Screens\MultiplayerTestScreen.cs" />
     <Compile Include="Source\Screens\NetworkTestScreen.cs" />

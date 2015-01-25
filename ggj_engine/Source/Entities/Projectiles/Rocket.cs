@@ -46,6 +46,9 @@ namespace ggj_engine.Source.Entities.Projectiles
         public override void Destroy()
         {
             pSystemSmoke.Kill(100);
+            Particles.PSystemRocketExpl p = new Particles.PSystemRocketExpl();
+            p.Position = Position;
+            MyScreen.AddEntity(p);
             base.Destroy();
         }
     }
