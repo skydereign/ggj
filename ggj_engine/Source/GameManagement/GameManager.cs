@@ -61,9 +61,9 @@ namespace ggj_engine.Source.GameManagement
                 MovementAndWeaponTimer = 0;
             }
 
-            if (EnemySpawnTimer > 5000f)
+            if (EnemySpawnTimer > 10000f)
             {
-                while (enemyCount < maxEnemyCount + 5)
+                while (enemyCount < maxEnemyCount + 2)
                 {
                     
                     int randX = (int)RandomUtil.Next(TileGrid.Width);
