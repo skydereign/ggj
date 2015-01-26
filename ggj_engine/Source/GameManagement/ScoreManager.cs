@@ -12,13 +12,13 @@ namespace ggj_engine.Source.GameManagement
     {
        public Screen MyScreen;
 
-       public enum GameGoals { Kill, Touch };
+       public enum GameGoals { Kill };
        public enum KillGoals { EnemyFollower, EnemyYourMom, Player, Self };
-       public enum TouchGoals { EnemyFollower, EnemyYourMom, Player };
+       //public enum TouchGoals { EnemyFollower, EnemyYourMom, Player };
 
        public GameGoals GameGoal;
        public KillGoals KillGoal;
-       public TouchGoals TouchGoal;
+       //public TouchGoals TouchGoal;
 
        private int scoreKillEnemyFollower;
        private int scoreKillEnemyYourMom;
@@ -45,9 +45,9 @@ namespace ggj_engine.Source.GameManagement
                case GameGoals.Kill:
                    KillGoal = (KillGoals)(RandomUtil.Next(Enum.GetNames(typeof(KillGoals)).Length));
                    break;
-               case GameGoals.Touch:
+               /*case GameGoals.Touch:
                    TouchGoal = (TouchGoals)(RandomUtil.Next(Enum.GetNames(typeof(TouchGoals)).Length));
-                   break;
+                   break;*/
                default:
                    throw new IndexOutOfRangeException("GameGoals invalid");
                    break;
@@ -96,7 +96,7 @@ namespace ggj_engine.Source.GameManagement
                            break;
                    }
                    break;
-               case GameGoals.Touch:
+               /*case GameGoals.Touch:
                    switch (TouchGoal)
                    {
                        case TouchGoals.EnemyFollower:
@@ -111,14 +111,14 @@ namespace ggj_engine.Source.GameManagement
                            scoreTouchEnemyFollower = -25;
                            scoreTouchEnemyYourMom = -25;
                            scoreTouchPlayer = 1000;
-                           break;
+                           break;*/
                        default:
                            throw new IndexOutOfRangeException("TouchGoals invalid");
                            break;
-                   }
-                   break;
+                  /*}
+                   break;*/
            }
-           Console.WriteLine("Main: " + GameGoal.ToString() + " | Kill: " + KillGoal.ToString() + " | Touch: " + TouchGoal.ToString());
+           Console.WriteLine("Main: " + GameGoal.ToString() + " | Kill: " + KillGoal.ToString()/* + " | Touch: " + TouchGoal.ToString()*/);
        }
 
        public void GrantEnemyFollowerKill(Vector2 sourcePos)
