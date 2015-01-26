@@ -15,7 +15,7 @@ namespace ggj_engine.Source.Entities.Projectiles
     {
         public Vector2 Velocity;
         public Entity Owner;
-
+        public float Damage;
 
         public override void Update(GameTime gameTime)
         {

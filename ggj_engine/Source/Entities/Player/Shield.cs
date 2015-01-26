@@ -46,7 +46,18 @@ namespace ggj_engine.Source.Entities.Player
                 if (Health <= 0)
                 {
                     //Self kill
-                    MyPlayer.MyScreen.GameManager.ScoreManager.GrantSelfKill(Position);
+                    if (source == null)
+                    {
+                        MyPlayer.MyScreen.GameManager.ScoreManager.GrantSelfKill(Position);
+                    }
+                    if (source is Enemies.Follower)
+                    {
+                        MyPlayer.MyScreen.GameManager.ScoreManager.GrantEnemyFollowerKill(Position);
+                    }
+                    if (source is Enemies.YourMom)
+                    {
+                        MyPlayer.MyScreen.GameManager.ScoreManager.GrantEnemyYourMomKill(Position);
+                    }
                 }
             }
         }

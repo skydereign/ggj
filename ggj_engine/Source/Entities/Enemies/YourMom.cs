@@ -31,6 +31,7 @@ namespace ggj_engine.Source.Entities.Enemies
             PerformingAction = false;
             Speed = 1.5f;
             sprite = ContentLibrary.Sprites["square_enemy"];
+            health = 35;
             sprite.Tint = Color.SaddleBrown;
             CollisionRegion = new CircleRegion(12, Position);
             sightRange = 15 * 16;
@@ -129,6 +130,7 @@ namespace ggj_engine.Source.Entities.Enemies
                 fireCounter = 0;
                 PerformingAction = false;
                 Attacking = false;
+                projectile.Owner = this;
                 MyScreen.AddEntity(projectile);
             }
         }

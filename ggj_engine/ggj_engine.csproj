@@ -93,6 +93,7 @@
     <Compile Include="Source\Entities\Player\Player.cs" />
     <Compile Include="Source\Entities\Player\Shield.cs" />
     <Compile Include="Source\Entities\Player\Spawn.cs" />
+    <Compile Include="Source\Entities\Projectiles\Explosion.cs" />
     <Compile Include="Source\Entities\Projectiles\Rocket.cs" />
     <Compile Include="Source\Entities\Projectiles\Cannonball.cs" />
     <Compile Include="Source\Entities\Projectiles\Arrow.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Source\Network\HostTCP.cs" />
     <Compile Include="Source\Network\NetworkManager.cs" />
     <Compile Include="Source\Particles\CircleEmitter.cs" />
+    <Compile Include="Source\Particles\Systems\PSystemRocketExpl.cs" />
     <Compile Include="Source\Particles\Systems\PSystemRocketSmoke.cs" />
     <Compile Include="Source\Screens\MenuScreen.cs" />
     <Compile Include="Source\Screens\MultiplayerTestScreen.cs" />
