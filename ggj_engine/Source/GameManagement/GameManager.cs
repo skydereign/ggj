@@ -19,7 +19,7 @@ namespace ggj_engine.Source.GameManagement
         public class PlayerInfo
         {
             public int Score = 0;
-            public int Kills = 37;
+            public int Kills = 0;
             public string Name = "null";
         }
 

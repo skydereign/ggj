@@ -123,18 +123,22 @@ namespace ggj_engine.Source.GameManagement
 
        public void GrantEnemyFollowerKill(Vector2 sourcePos)
        {
+           MyScreen.GameManager.MainPlayer.Kills++;
            MyScreen.GameManager.AddToScore(sourcePos, scoreKillEnemyFollower);
        }
        public void GrantEnemyYourMomKill(Vector2 sourcePos)
        {
+           MyScreen.GameManager.MainPlayer.Kills++;
            MyScreen.GameManager.AddToScore(sourcePos, scoreKillEnemyYourMom);
        }
        public void GrantPlayerKill(Vector2 sourcePos)
        {
+           MyScreen.GameManager.MainPlayer.Kills++;
            MyScreen.GameManager.AddToScore(sourcePos, scoreKillPlayer);
        }
        public void GrantSelfKill(Vector2 sourcePos)
        {
+           MyScreen.GameManager.MainPlayer.Kills++;
            MyScreen.GameManager.AddToScore(sourcePos, scoreKillSelf);
        }
        public void GrantPlayerTouch(Vector2 sourcePos)
