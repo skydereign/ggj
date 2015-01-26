@@ -6,6 +6,7 @@ using ggj_engine.Source.Media;
 using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace ggj_engine.Source.GameManagement
         public float MovementAndWeaponTimer;
         public float EnemySpawnTimer;
         private int enemyCount, maxEnemyCount;
+        public int RuleChangeTextDisplay;
 
         public GameManager(Screens.Screen myScreen)
         {
@@ -49,6 +51,11 @@ namespace ggj_engine.Source.GameManagement
 
         public void Update(GameTime gameTime)
         {
+            if (InputControl.GetKeyboardKeyPressed(Keys.O))
+            {
+                ScoreManager.ChangeGameGoals();
+                RuleChangeTextDisplay = 45;
+            }
             MillisecondsRemaining -= gameTime.ElapsedGameTime.Milliseconds;
             EnemySpawnTimer += gameTime.ElapsedGameTime.Milliseconds;
             MovementAndWeaponTimer += gameTime.ElapsedGameTime.Milliseconds;
@@ -56,6 +63,7 @@ namespace ggj_engine.Source.GameManagement
             if (MovementAndWeaponTimer > 30000f)
             {
                 ScoreManager.ChangeGameGoals();
+                RuleChangeTextDisplay = 45;
                 ((Player)MyScreen.GetEntity("Player").ElementAt(0)).ChangeMovementAndWeapon();
 
                 MovementAndWeaponTimer = 0;
@@ -86,7 +94,7 @@ namespace ggj_engine.Source.GameManagement
                 maxEnemyCount = enemyCount;
                 EnemySpawnTimer = 0.0f;
             }
-
+            RuleChangeTextDisplay--;
 
         }
 
@@ -101,6 +109,25 @@ namespace ggj_engine.Source.GameManagement
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            float scale = 1;
+            //Draw rule change
+            if (RuleChangeTextDisplay > 0)
+            {
+                if (RuleChangeTextDisplay > 0)
+                {
+                    scale = 1f;
+                }
+                if (RuleChangeTextDisplay > 39)
+                {
+                    scale = 0.75f;
+                }
+                if (RuleChangeTextDisplay > 42)
+                {
+                    scale = 1.5f;
+                }
+                spriteBatch.DrawString(ContentLibrary.Fonts["pixelFont"], "RULE CHANGE", new Vector2(640, 150), Color.White, 0, new Vector2(ContentLibrary.Fonts["pixelFont"].MeasureString("RULE CHANGE").X / 2, 15), scale, SpriteEffects.None, 0);
+            }
+
             //Draw Score
             spriteBatch.DrawString(ContentLibrary.Fonts["pixelFont"], "SCORE", new Vector2(10, 10), Color.White, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
             spriteBatch.DrawString(ContentLibrary.Fonts["pixelFont"], MainPlayer.Score.ToString(), new Vector2(15, 40), Color.White, 0, Vector2.Zero, 0.75f, SpriteEffects.None, 0);

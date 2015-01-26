@@ -31,7 +31,7 @@ namespace ggj_engine.Source.Entities.Enemies
             PerformingAction = false;
             Speed = 1.5f;
             sprite = ContentLibrary.Sprites["square_enemy"];
-            health = 35;
+            health = 20;
             sprite.Tint = Color.SaddleBrown;
             CollisionRegion = new CircleRegion(12, Position);
             sightRange = 15 * 16;

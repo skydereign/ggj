@@ -147,7 +147,7 @@ namespace ggj_engine.Source.Movement
                             break;
 
                     }
-                    // Console.WriteLine("Generated: " + movementType + " motions " + keyMotion + " input " + inputType + " keyInput " + keyInput);
+                     Console.WriteLine("Generated: " + movementType + " motions " + keyMotion + " input " + inputType + " keyInput " + keyInput);
                     break;
                 case MovementTypes.Thrusters:
                     switch (keyMotion)
@@ -189,7 +189,7 @@ namespace ggj_engine.Source.Movement
                             movementInputsArray[3].SetMovements(thrusterRight, thrusterUp);
                             break;
                     }
-                    // Console.WriteLine("Generated: " + movementType + " motions " + keyMotion + " input " + inputType + " keyInput " + keyInput);
+                     Console.WriteLine("Generated: " + movementType + " motions " + keyMotion + " input " + inputType + " keyInput " + keyInput);
                     break;
                 case MovementTypes.Mouse:
                     switch (mouseMotion)
@@ -204,7 +204,7 @@ namespace ggj_engine.Source.Movement
                         
 
                     }
-                    // Console.WriteLine("Generated: " + movementType + " motions " + mouseMotion + " input " + inputType + " buttonInput " + buttonInput);
+                     Console.WriteLine("Generated: " + movementType + " motions " + mouseMotion + " input " + inputType + " buttonInput " + buttonInput);
                     break;
             }
 
