@@ -29,6 +29,7 @@ namespace ggj_engine.Source.GameManagement
         public PlayerInfo MainPlayer;
         public List<PlayerInfo> AllPlayers;
         public float MillisecondsRemaining;
+        public float MovementAndWeaponTimer;
         public float EnemySpawnTimer;
         private int enemyCount, maxEnemyCount;
 
@@ -50,11 +51,14 @@ namespace ggj_engine.Source.GameManagement
         {
             MillisecondsRemaining -= gameTime.ElapsedGameTime.Milliseconds;
             EnemySpawnTimer += gameTime.ElapsedGameTime.Milliseconds;
+            MovementAndWeaponTimer += gameTime.ElapsedGameTime.Milliseconds;
 
-            if (MillisecondsRemaining % 60000 == 0 && MillisecondsRemaining > 0)
+            if (MovementAndWeaponTimer > 30000f)
             {
                 ScoreManager.ChangeGameGoals();
                 ((Player)MyScreen.GetEntity("Player").ElementAt(0)).ChangeMovementAndWeapon();
+
+                MovementAndWeaponTimer = 0;
             }
 
             if (EnemySpawnTimer > 5000f)

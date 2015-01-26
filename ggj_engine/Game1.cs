@@ -81,6 +81,7 @@ namespace ggj_engine
             Debug.LoadContent();
 
             SoundController.LoadAllSounds(ContentLibrary.SoundFX.Keys, ContentLibrary.SoundFX.Values);
+            SoundController.LoadAllSounds(ContentLibrary.BGM.Keys, ContentLibrary.BGM.Values);
 
             screens = new List<Screen>();
             createdScreens = new List<Screen>();
