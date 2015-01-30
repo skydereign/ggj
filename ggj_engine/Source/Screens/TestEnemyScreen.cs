@@ -22,8 +22,6 @@ namespace ggj_engine.Source.Screens
             AddEntity(new Follower(new Vector2(50, 50)));
             AddEntity(new YourMom(new Vector2(400, 400)));
 
-            Camera = new Camera(Vector2.Zero, new Vector2(1280, 720));
-
             TileGrid.Init(50, 50, new Vector2(0, 0));
         }
 

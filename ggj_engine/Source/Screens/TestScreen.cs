@@ -20,8 +20,6 @@ namespace ggj_engine.Source.Screens
             AddEntity(new TestEntity(new Vector2(100, 100)));
             AddEntity(new TestEntity(new Vector2(110, 110)));
 
-            Camera = new Camera(Vector2.Zero, new Vector2(1280,720));
-
             TileGrid.Init(10, 10, new Vector2(0, 0));
         }
 

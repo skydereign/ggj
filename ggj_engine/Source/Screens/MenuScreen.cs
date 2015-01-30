@@ -20,8 +20,6 @@ namespace ggj_engine.Source.Screens
             AddEntity(new Label("Kill Switch: Engage", new Vector2(200, 50), Color.White, 1.0f));
             AddEntity(new Button("Play Game", new Vector2(500, 300), Color.White, 0.5f, new Vector2(180, 50)));
 
-            Camera = new Camera(Vector2.Zero, new Vector2(1280, 720));
-
             // play bgm music
             Game1.SoundController.PlayMusic("title_screen", true);
         }

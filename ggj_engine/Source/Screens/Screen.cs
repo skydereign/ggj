@@ -28,6 +28,7 @@ namespace ggj_engine.Source.Screens
         /// </summary>
         public Screen()
         {
+            Camera = new Camera(Vector2.Zero, new Vector2(Globals.ScreenWidth, Globals.ScreenHeight));
             CleanupEntities();
         }
 

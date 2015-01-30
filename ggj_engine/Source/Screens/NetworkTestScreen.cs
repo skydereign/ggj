@@ -16,7 +16,6 @@ namespace ggj_engine.Source.Screens
         List<Vector2> vels;
         public NetworkTestScreen()
         {
-            Camera = new Camera(Vector2.Zero, new Vector2(1280, 720));
             vels = new List<Vector2>();
             for (int i = 0; i < 10; ++i)
             {

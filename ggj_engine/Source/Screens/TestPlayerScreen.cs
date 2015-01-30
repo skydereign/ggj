@@ -24,7 +24,6 @@ namespace ggj_engine.Source.Screens
 
             AddEntity(new StarBackground());
 
-            Camera = new Camera(Vector2.Zero, new Vector2(1280,720));
             GameManager = new GameManagement.GameManager(this);
 
             TileGrid.Init(50, 50, new Vector2(0, 0));

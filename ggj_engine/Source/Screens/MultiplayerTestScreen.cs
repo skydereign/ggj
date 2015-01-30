@@ -17,8 +17,6 @@ namespace ggj_engine.Source.Screens
         {
             NetworkManager.Instance.MyScreen = this;
 
-            Camera = new Camera(Vector2.Zero, new Vector2(1280, 720));
-
             entities = new List<Entities.Entity>();
 
             TileGrid.Init(50, 50, new Vector2(0, 0));

@@ -39,8 +39,8 @@ namespace ggj_engine
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferHeight = 720;
-            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferWidth = Globals.ScreenWidth;
+            graphics.PreferredBackBufferHeight = Globals.ScreenHeight;
 
             SoundSystem = new FMOD.System();
             FMOD.Factory.System_Create(ref SoundSystem);
