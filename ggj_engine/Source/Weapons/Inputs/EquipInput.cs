@@ -11,7 +11,12 @@ namespace ggj_engine.Source.Weapons.Inputs
         // delegate for callback
         public delegate void Trigger();
 
+
         protected Trigger trigger;
+        public EquipInput(Trigger trigger)
+        {
+            this.trigger = trigger;
+        }
 
         // update
         public abstract void Update(GameTime gameTime);

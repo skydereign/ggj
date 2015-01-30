@@ -8,19 +8,19 @@ using System.Text;
 
 namespace ggj_engine.Source.Weapons.Inputs
 {
-    class EquipKeyInput : EquipInput
+    class EquipPadInput : EquipInput
     {
-        public enum Types { Pressed, Held, Released, Standby};
+        public enum Types { Pressed, Held, Released, Standby };
 
-        private Keys key;
+        private Buttons button;
         private Types type;
-
-        private List<Trigger> triggers;
-
-        public EquipKeyInput(Types type, Keys key, Trigger trigger) : base(trigger)
+        private int controller;
+        
+        public EquipPadInput(Types type, Buttons button, int controller, Trigger trigger) : base(trigger)
         {
             this.type = type;
-            this.key = key;
+            this.button = button;
+            this.controller = controller;
         }
 
         public override void Update(GameTime gameTime)
@@ -28,28 +28,28 @@ namespace ggj_engine.Source.Weapons.Inputs
             switch (type)
             {
                 case Types.Pressed:
-                    if (InputControl.GetKeyboardKeyPressed(key))
+                    if (InputControl.GetGamePadButtonPressed(controller, button))
                     {
                         trigger();
                     }
                     break;
 
                 case Types.Held:
-                    if (InputControl.GetKeyboardKeyHeld(key))
+                    if (InputControl.GetGamePadButtonHeld(controller, button))
                     {
                         trigger();
                     }
                     break;
 
                 case Types.Released:
-                    if (InputControl.GetKeyboardKeyReleased(key))
+                    if (InputControl.GetGamePadButtonReleased(controller, button))
                     {
                         trigger();
                     }
                     break;
 
                 case Types.Standby:
-                    if (!InputControl.GetKeyboardKeyPressed(key) && !InputControl.GetKeyboardKeyReleased(key) && !InputControl.GetKeyboardKeyHeld(key))
+                    if (!InputControl.GetGamePadButtonPressed(controller, button) && !InputControl.GetGamePadButtonReleased(controller, button) && !InputControl.GetGamePadButtonHeld(controller, button))
                     {
                         trigger();
                     }

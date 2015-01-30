@@ -15,20 +15,10 @@ namespace ggj_engine.Source.Weapons.Inputs
         private Types type;
         private Button button;
 
-        private List<Trigger> triggers;
-
-        public EquipMouseInput(Types type, Button button, params Trigger[] triggerList)
+        public EquipMouseInput(Types type, Button button, Trigger trigger) : base(trigger)
         {
             this.type = type;
             this.button = button;
-            triggers = new List<Trigger>();
-            if (triggerList != null)
-            {
-                foreach (Trigger myTrigger in triggerList)
-                {
-                    triggers.Add(myTrigger);
-                }
-            }
         }
 
         public override void Update(GameTime gameTime)
@@ -39,10 +29,7 @@ namespace ggj_engine.Source.Weapons.Inputs
                     if((button == Button.Left && InputControl.GetMouseOnLeftPressed()) ||
                         button == Button.Right && InputControl.GetMouseOnRightPressed())
                     {
-                        foreach (Trigger myTrigger in triggers)
-                        {
-                            myTrigger();
-                        }
+                        trigger();
                     }
                     break;
 
@@ -50,10 +37,7 @@ namespace ggj_engine.Source.Weapons.Inputs
                     if ((button == Button.Left && InputControl.GetMouseOnLeftHeld()) ||
                         button == Button.Right && InputControl.GetMouseOnRightHeld())
                     {
-                        foreach (Trigger myTrigger in triggers)
-                        {
-                            myTrigger();
-                        }
+                        trigger();
                     }
                     break;
 
@@ -61,10 +45,7 @@ namespace ggj_engine.Source.Weapons.Inputs
                     if ((button == Button.Left && InputControl.GetMouseOnLeftReleased()) ||
                         button == Button.Right && InputControl.GetMouseOnRightReleased())
                     {
-                        foreach (Trigger myTrigger in triggers)
-                        {
-                            myTrigger();
-                        }
+                        trigger();
                     }
                     break;
 
@@ -72,10 +53,7 @@ namespace ggj_engine.Source.Weapons.Inputs
                     if((button == Button.Left && !InputControl.GetMouseOnLeftReleased() && !InputControl.GetMouseOnLeftHeld() && !InputControl.GetMouseOnLeftReleased()) ||
                         (button == Button.Right && !InputControl.GetMouseOnRightPressed() && !InputControl.GetMouseOnRightHeld() && !InputControl.GetMouseOnRightReleased()))
                     {
-                        foreach (Trigger myTrigger in triggers)
-                        {
-                            myTrigger();
-                        }
+                        trigger();
                     }
                     break;
             }

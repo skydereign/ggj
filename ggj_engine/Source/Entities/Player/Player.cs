@@ -35,7 +35,6 @@ namespace ggj_engine.Source.Entities.Player
             Position = position;
             sprite = ContentLibrary.Sprites["square_enemy"];
             CollisionRegion = new CircleRegion(14, position);
-            movementManager = new MovementManager();
 
             PlayerID = playerCount++;
             movementManager = new MovementManager();
