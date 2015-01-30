@@ -13,5 +13,6 @@ namespace ggj_engine.Source.Utility
         public static float WallPushback = 3f;
         public static float MaxVelocity = 200f;
         public static float BackgroundAnimation = 0.25f;
+        public static int MaxControllers = 4;
     }
 }
