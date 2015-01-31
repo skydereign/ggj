@@ -1,5 +1,4 @@
 ﻿using ggj_engine.Source.Utility;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -8,53 +7,55 @@ using System.Text;
 
 namespace ggj_engine.Source.Weapons.Inputs
 {
-    class EquipPadInput : EquipInput
+    class PadEvent : InputEvent
     {
         public enum Types { Pressed, Held, Released, Standby };
 
         private Buttons button;
         private Types type;
         private int controller;
-        
-        public EquipPadInput(Types type, Buttons button, int controller, Trigger trigger) : base(trigger)
+
+        public PadEvent(Buttons button, Types type, int controller)
         {
-            this.type = type;
             this.button = button;
+            this.type = type;
             this.controller = controller;
         }
 
-        public override void Update(GameTime gameTime)
+        public override bool Check()
         {
             switch (type)
             {
                 case Types.Pressed:
                     if (InputControl.GetGamePadButtonPressed(controller, button))
                     {
-                        trigger();
+                        return true;
                     }
                     break;
 
                 case Types.Held:
                     if (InputControl.GetGamePadButtonHeld(controller, button))
                     {
-                        trigger();
+                        return true;
                     }
                     break;
 
                 case Types.Released:
                     if (InputControl.GetGamePadButtonReleased(controller, button))
                     {
-                        trigger();
+                        return true;
                     }
                     break;
 
                 case Types.Standby:
                     if (!InputControl.GetGamePadButtonPressed(controller, button) && !InputControl.GetGamePadButtonReleased(controller, button) && !InputControl.GetGamePadButtonHeld(controller, button))
                     {
-                        trigger();
+                        return true;
                     }
                     break;
             }
+
+            return false;
         }
     }
 }

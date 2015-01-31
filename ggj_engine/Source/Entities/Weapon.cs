@@ -31,13 +31,13 @@ namespace ggj_engine.Source.Entities
         private const float maxRocketFire = 60;
 
         private int currentFireDelay = 0;
-        private List<EquipInput> inputs;
+        private List<EventTrigger> inputs;
         private Player.Player player;
 
         public Weapon(Player.Player player)
         {
             this.player = player;
-            inputs = new List<EquipInput>();
+            inputs = new List<EventTrigger>();
             // standard weapon input
             GenerateDefaultInput();
             
@@ -47,8 +47,10 @@ namespace ggj_engine.Source.Entities
 
         public void GenerateDefaultInput()
         {
+            EventTrigger.Trigger FireMouse = () => { Fire(MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position); };
+
             inputs.Clear();
-            inputs.Add(new EquipMouseInput(EquipMouseInput.Types.Held, EquipMouseInput.Button.Left, FireMouse));
+            inputs.Add(new EventTrigger(FireMouse, EventTrigger.Type.All, new MouseEvent(MouseEvent.Button.Left, MouseEvent.Types.Held)));
 
             CurrentProjectile = ProjectileType.Bullet;
             CurrentInputType = InputType.Mouse;
@@ -60,43 +62,51 @@ namespace ggj_engine.Source.Entities
 
             // choose random input
             CurrentInputType = (InputType)RandomUtil.Next((double)InputType.Count);
+            EventTrigger.Trigger FireRight = () => { Fire(Globals.Right); };
+            EventTrigger.Trigger FireUp =    () => { Fire(Globals.Up);    };
+            EventTrigger.Trigger FireLeft =  () => { Fire(Globals.Left);  };
+            EventTrigger.Trigger FireDown =  () => { Fire(Globals.Down);  };
+
+            EventTrigger.Trigger FireMouse =       () => { Fire(MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position); };
+            EventTrigger.Trigger FireMouseInvert = () => { Fire(Position - MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition())); };
+
             switch (CurrentInputType)
             {
                 case InputType.WASD:
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.W, FireUp));
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.A, FireLeft));
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.S, FireDown));
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.D, FireRight));
+                    inputs.Add(new EventTrigger(FireRight, EventTrigger.Type.All, new KeyEvent(Keys.D, KeyEvent.Types.Held)));
+                    inputs.Add(new EventTrigger(FireUp, EventTrigger.Type.All, new KeyEvent(Keys.W, KeyEvent.Types.Held)));
+                    inputs.Add(new EventTrigger(FireLeft, EventTrigger.Type.All, new KeyEvent(Keys.A, KeyEvent.Types.Held)));
+                    inputs.Add(new EventTrigger(FireDown, EventTrigger.Type.All, new KeyEvent(Keys.S, KeyEvent.Types.Held)));
                     break;
                 case InputType.Arrows:
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.Up, FireUp));
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.Left, FireLeft));
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.Down, FireDown));
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.Right, FireRight));
+                    inputs.Add(new EventTrigger(FireRight, EventTrigger.Type.All, new KeyEvent(Keys.Right, KeyEvent.Types.Held)));
+                    inputs.Add(new EventTrigger(FireUp, EventTrigger.Type.All, new KeyEvent(Keys.Up, KeyEvent.Types.Held)));
+                    inputs.Add(new EventTrigger(FireLeft, EventTrigger.Type.All, new KeyEvent(Keys.Left, KeyEvent.Types.Held)));
+                    inputs.Add(new EventTrigger(FireDown, EventTrigger.Type.All, new KeyEvent(Keys.Down, KeyEvent.Types.Held)));
                     break;
                 case InputType.Space:
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.Space, FireMouse));
+                    inputs.Add(new EventTrigger(FireMouse, EventTrigger.Type.All, new KeyEvent(Keys.Space, KeyEvent.Types.Held)));
                     break;
                 case InputType.SpaceInvert:
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.Space, FireMouseInvert));
+                    inputs.Add(new EventTrigger(FireMouseInvert, EventTrigger.Type.All, new KeyEvent(Keys.Space, KeyEvent.Types.Held)));
                     break;
                 case InputType.WASDInvert:
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.W, FireDown));
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.A, FireRight));
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.S, FireUp));
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.D, FireLeft));
+                    inputs.Add(new EventTrigger(FireLeft, EventTrigger.Type.All, new KeyEvent(Keys.D, KeyEvent.Types.Held)));
+                    inputs.Add(new EventTrigger(FireDown, EventTrigger.Type.All, new KeyEvent(Keys.W, KeyEvent.Types.Held)));
+                    inputs.Add(new EventTrigger(FireRight, EventTrigger.Type.All, new KeyEvent(Keys.A, KeyEvent.Types.Held)));
+                    inputs.Add(new EventTrigger(FireUp, EventTrigger.Type.All, new KeyEvent(Keys.S, KeyEvent.Types.Held)));
                     break;
                 case InputType.ArrowsInvert:
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.Up, FireDown));
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.Left, FireRight));
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.Down, FireUp));
-                    inputs.Add(new EquipKeyInput(EquipKeyInput.Types.Held, Keys.Right, FireLeft));
+                    inputs.Add(new EventTrigger(FireLeft, EventTrigger.Type.All, new KeyEvent(Keys.Right, KeyEvent.Types.Held)));
+                    inputs.Add(new EventTrigger(FireDown, EventTrigger.Type.All, new KeyEvent(Keys.Up, KeyEvent.Types.Held)));
+                    inputs.Add(new EventTrigger(FireRight, EventTrigger.Type.All, new KeyEvent(Keys.Left, KeyEvent.Types.Held)));
+                    inputs.Add(new EventTrigger(FireUp, EventTrigger.Type.All, new KeyEvent(Keys.Down, KeyEvent.Types.Held)));
                     break;
                 case InputType.Mouse:
-                    inputs.Add(new EquipMouseInput(EquipMouseInput.Types.Held, EquipMouseInput.Button.Left, FireMouse));
+                    inputs.Add(new EventTrigger(FireMouse, EventTrigger.Type.All, new MouseEvent(MouseEvent.Button.Left, MouseEvent.Types.Held)));
                     break;
                 case InputType.MouseInvert:
-                    inputs.Add(new EquipMouseInput(EquipMouseInput.Types.Held, EquipMouseInput.Button.Left, FireMouseInvert));
+                    inputs.Add(new EventTrigger(FireMouseInvert, EventTrigger.Type.All, new MouseEvent(MouseEvent.Button.Left, MouseEvent.Types.Held)));
                     break;
             }
 
@@ -122,92 +132,35 @@ namespace ggj_engine.Source.Entities
             }
         }
 
-        public void FireMouse()
-        {
-            if (currentFireDelay >= FireDelay)
-            {
-                Vector2 targetPos = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position;
-
-                Fire(targetPos);
-            }
-        }
-
-        public void FireMouseInvert()
-        {
-            if (currentFireDelay >= FireDelay)
-            {
-                Vector2 targetPos = Position - MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition());
-
-                Fire(targetPos);
-            }
-        }
-
-        public void FireUp()
-        {
-            if (currentFireDelay >= FireDelay)
-            {
-                Vector2 targetPos = new Vector2(0f, -20f);
-
-                Fire(targetPos);
-            }
-        }
-
-        public void FireLeft()
-        {
-            if (currentFireDelay >= FireDelay)
-            {
-                Vector2 targetPos = new Vector2(-20f, 0f);
-
-                Fire(targetPos);
-            }
-        }
-
-        public void FireDown()
-        {
-            if (currentFireDelay >= FireDelay)
-            {
-                Vector2 targetPos = new Vector2(0f, 20f);
-
-                Fire(targetPos);
-            }
-        }
-
-        public void FireRight()
-        {
-            if (currentFireDelay >= FireDelay)
-            {
-                Vector2 targetPos = new Vector2(20f, 0f);
-
-                Fire(targetPos);
-            }
-        }
-
         private void Fire(Vector2 targetPos)
         {
-            if (!player.Dead)
+            if (currentFireDelay >= FireDelay)
             {
-                Network.NetworkManager.Instance.BroadcastEvent(",W," + 0 + ',' + (int)CurrentProjectile + ',' + Position.X + ',' + Position.Y + ',' + targetPos.X + ',' + targetPos.Y + ',');
-
-                switch (CurrentProjectile)
+                if (!player.Dead)
                 {
-                    case ProjectileType.Bullet:
-                        MyScreen.AddEntity(new Bullet(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
-                        Game1.SoundController.PlaySFX("bullet", false);
-                        break;
-                    case ProjectileType.Arrow:
-                        MyScreen.AddEntity(new Arrow(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
-                        Game1.SoundController.PlaySFX("bow", false);
-                        break;
-                    case ProjectileType.Cannonball:
-                        MyScreen.AddEntity(new Cannonball(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
-                        Game1.SoundController.PlaySFX("cannon", false);
-                        break;
-                    case ProjectileType.Rocket:
-                        MyScreen.AddEntity(new Rocket(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
-                        Game1.SoundController.PlaySFX("rocket", false);
-                        break;
+                    Network.NetworkManager.Instance.BroadcastEvent(",W," + 0 + ',' + (int)CurrentProjectile + ',' + Position.X + ',' + Position.Y + ',' + targetPos.X + ',' + targetPos.Y + ',');
+
+                    switch (CurrentProjectile)
+                    {
+                        case ProjectileType.Bullet:
+                            MyScreen.AddEntity(new Bullet(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
+                            Game1.SoundController.PlaySFX("bullet", false);
+                            break;
+                        case ProjectileType.Arrow:
+                            MyScreen.AddEntity(new Arrow(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
+                            Game1.SoundController.PlaySFX("bow", false);
+                            break;
+                        case ProjectileType.Cannonball:
+                            MyScreen.AddEntity(new Cannonball(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
+                            Game1.SoundController.PlaySFX("cannon", false);
+                            break;
+                        case ProjectileType.Rocket:
+                            MyScreen.AddEntity(new Rocket(Position, targetPos, MyScreen.GetEntity("Player").ElementAt(0)));
+                            Game1.SoundController.PlaySFX("rocket", false);
+                            break;
+                    }
+                    currentFireDelay = 0;
                 }
-                currentFireDelay = 0;
             }
         }
 
@@ -217,7 +170,7 @@ namespace ggj_engine.Source.Entities
             currentFireDelay++;
 
             //Update inputs
-            foreach (EquipInput input in inputs)
+            foreach (EventTrigger input in inputs)
             {
                 input.Update(gameTime);
             }

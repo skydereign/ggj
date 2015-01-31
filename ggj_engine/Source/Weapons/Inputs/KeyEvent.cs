@@ -1,5 +1,4 @@
 ﻿using ggj_engine.Source.Utility;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -8,53 +7,53 @@ using System.Text;
 
 namespace ggj_engine.Source.Weapons.Inputs
 {
-    class EquipKeyInput : EquipInput
+    class KeyEvent : InputEvent
     {
-        public enum Types { Pressed, Held, Released, Standby};
+        public enum Types { Pressed, Held, Released, Standby };
 
         private Keys key;
         private Types type;
 
-        private List<Trigger> triggers;
-
-        public EquipKeyInput(Types type, Keys key, Trigger trigger) : base(trigger)
+        public KeyEvent(Keys key, Types type)
         {
-            this.type = type;
             this.key = key;
+            this.type = type;
         }
 
-        public override void Update(GameTime gameTime)
+        public override bool Check()
         {
             switch (type)
             {
                 case Types.Pressed:
                     if (InputControl.GetKeyboardKeyPressed(key))
                     {
-                        trigger();
+                        return true;
                     }
                     break;
 
                 case Types.Held:
                     if (InputControl.GetKeyboardKeyHeld(key))
                     {
-                        trigger();
+                        return true;
                     }
                     break;
 
                 case Types.Released:
                     if (InputControl.GetKeyboardKeyReleased(key))
                     {
-                        trigger();
+                        return true;
                     }
                     break;
 
                 case Types.Standby:
                     if (!InputControl.GetKeyboardKeyPressed(key) && !InputControl.GetKeyboardKeyReleased(key) && !InputControl.GetKeyboardKeyHeld(key))
                     {
-                        trigger();
+                        return true;
                     }
                     break;
             }
+
+            return false;
         }
     }
 }

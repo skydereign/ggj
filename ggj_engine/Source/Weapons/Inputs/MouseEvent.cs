@@ -1,5 +1,4 @@
 ﻿using ggj_engine.Source.Utility;
-using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,29 +6,29 @@ using System.Text;
 
 namespace ggj_engine.Source.Weapons.Inputs
 {
-    class EquipMouseInput : EquipInput
+    class MouseEvent : InputEvent
     {
-        public enum Types { Pressed, Held, Released, Standby};
+        public enum Types { Pressed, Held, Released, Standby };
         public enum Button { Left, Right };
 
-        private Types type;
         private Button button;
+        private Types type;
 
-        public EquipMouseInput(Types type, Button button, Trigger trigger) : base(trigger)
+        public MouseEvent(Button button, Types type)
         {
-            this.type = type;
             this.button = button;
+            this.type = type;
         }
 
-        public override void Update(GameTime gameTime)
+        public override bool Check()
         {
-            switch(type)
+            switch (type)
             {
                 case Types.Pressed:
-                    if((button == Button.Left && InputControl.GetMouseOnLeftPressed()) ||
+                    if ((button == Button.Left && InputControl.GetMouseOnLeftPressed()) ||
                         button == Button.Right && InputControl.GetMouseOnRightPressed())
                     {
-                        trigger();
+                        return true;
                     }
                     break;
 
@@ -37,7 +36,7 @@ namespace ggj_engine.Source.Weapons.Inputs
                     if ((button == Button.Left && InputControl.GetMouseOnLeftHeld()) ||
                         button == Button.Right && InputControl.GetMouseOnRightHeld())
                     {
-                        trigger();
+                        return true;
                     }
                     break;
 
@@ -45,18 +44,19 @@ namespace ggj_engine.Source.Weapons.Inputs
                     if ((button == Button.Left && InputControl.GetMouseOnLeftReleased()) ||
                         button == Button.Right && InputControl.GetMouseOnRightReleased())
                     {
-                        trigger();
+                        return true;
                     }
                     break;
 
                 case Types.Standby:
-                    if((button == Button.Left && !InputControl.GetMouseOnLeftReleased() && !InputControl.GetMouseOnLeftHeld() && !InputControl.GetMouseOnLeftReleased()) ||
+                    if ((button == Button.Left && !InputControl.GetMouseOnLeftReleased() && !InputControl.GetMouseOnLeftHeld() && !InputControl.GetMouseOnLeftReleased()) ||
                         (button == Button.Right && !InputControl.GetMouseOnRightPressed() && !InputControl.GetMouseOnRightHeld() && !InputControl.GetMouseOnRightReleased()))
                     {
-                        trigger();
+                        return true;
                     }
                     break;
             }
+            return false;
         }
     }
 }
