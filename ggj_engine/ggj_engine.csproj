@@ -148,6 +148,7 @@
     <Compile Include="Source\Utility\RandomUtil.cs" />
     <Compile Include="Source\Weapons\Inputs\EventTrigger.cs" />
     <Compile Include="Source\Weapons\Inputs\InputEvent.cs" />
+    <Compile Include="Source\Weapons\Inputs\InvertEvent.cs" />
     <Compile Include="Source\Weapons\Inputs\KeyEvent.cs" />
     <Compile Include="Source\Weapons\Inputs\MouseEvent.cs" />
     <Compile Include="Source\Weapons\Inputs\PadEvent.cs" />

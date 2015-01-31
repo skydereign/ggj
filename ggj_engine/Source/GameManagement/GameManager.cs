@@ -60,7 +60,7 @@ namespace ggj_engine.Source.GameManagement
             EnemySpawnTimer += gameTime.ElapsedGameTime.Milliseconds;
             MovementAndWeaponTimer += gameTime.ElapsedGameTime.Milliseconds;
 
-            if (MovementAndWeaponTimer > 30000f)
+            if (MovementAndWeaponTimer > 30000f || InputControl.GetKeyboardKeyPressed(Keys.O))
             {
                 ScoreManager.ChangeGameGoals();
                 RuleChangeTextDisplay = 45;

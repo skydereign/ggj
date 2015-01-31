@@ -15,7 +15,7 @@ namespace ggj_engine.Source.Entities
     public class Weapon : Entity
     {
         public enum ProjectileType { Bullet, Arrow, Cannonball, Rocket, Count };
-        public enum InputType { WASD, Arrows, Space, Mouse, WASDInvert, ArrowsInvert, MouseInvert, SpaceInvert, Count };
+        public enum InputType { WASD, WASD8, Arrows, Space, Mouse, WASDInvert, ArrowsInvert, MouseInvert, SpaceInvert, Count };
 
         public ProjectileType CurrentProjectile;
         public InputType CurrentInputType;
@@ -63,11 +63,15 @@ namespace ggj_engine.Source.Entities
             // choose random input
             CurrentInputType = (InputType)RandomUtil.Next((double)InputType.Count);
             EventTrigger.Trigger FireRight = () => { Fire(Globals.Right); };
-            EventTrigger.Trigger FireUp =    () => { Fire(Globals.Up);    };
-            EventTrigger.Trigger FireLeft =  () => { Fire(Globals.Left);  };
-            EventTrigger.Trigger FireDown =  () => { Fire(Globals.Down);  };
+            EventTrigger.Trigger FireUpRight = () => { Fire(Globals.UpRight); };
+            EventTrigger.Trigger FireUp = () => { Fire(Globals.Up); };
+            EventTrigger.Trigger FireUpLeft = () => { Fire(Globals.UpLeft); };
+            EventTrigger.Trigger FireLeft = () => { Fire(Globals.Left); };
+            EventTrigger.Trigger FireDownLeft = () => { Fire(Globals.DownLeft); };
+            EventTrigger.Trigger FireDown = () => { Fire(Globals.Down); };
+            EventTrigger.Trigger FireDownRight = () => { Fire(Globals.DownRight); };
 
-            EventTrigger.Trigger FireMouse =       () => { Fire(MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position); };
+            EventTrigger.Trigger FireMouse = () => { Fire(MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position); };
             EventTrigger.Trigger FireMouseInvert = () => { Fire(Position - MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition())); };
 
             switch (CurrentInputType)
@@ -77,6 +81,16 @@ namespace ggj_engine.Source.Entities
                     inputs.Add(new EventTrigger(FireUp, EventTrigger.Type.All, new KeyEvent(Keys.W, KeyEvent.Types.Held)));
                     inputs.Add(new EventTrigger(FireLeft, EventTrigger.Type.All, new KeyEvent(Keys.A, KeyEvent.Types.Held)));
                     inputs.Add(new EventTrigger(FireDown, EventTrigger.Type.All, new KeyEvent(Keys.S, KeyEvent.Types.Held)));
+                    break;
+                case InputType.WASD8:
+                    inputs.Add(new EventTrigger(FireRight, EventTrigger.Type.All, new KeyEvent(Keys.D, KeyEvent.Types.Held), new InvertEvent(new KeyEvent(Keys.W, KeyEvent.Types.Held)), new InvertEvent(new KeyEvent(Keys.S, KeyEvent.Types.Held))));
+                    inputs.Add(new EventTrigger(FireUpRight, EventTrigger.Type.All, new KeyEvent(Keys.D, KeyEvent.Types.Held), new KeyEvent(Keys.W, KeyEvent.Types.Held)));
+                    inputs.Add(new EventTrigger(FireUp, EventTrigger.Type.All, new KeyEvent(Keys.W, KeyEvent.Types.Held), new InvertEvent(new KeyEvent(Keys.D, KeyEvent.Types.Held)), new InvertEvent(new KeyEvent(Keys.A, KeyEvent.Types.Held))));
+                    inputs.Add(new EventTrigger(FireUpLeft, EventTrigger.Type.All, new KeyEvent(Keys.W, KeyEvent.Types.Held), new KeyEvent(Keys.A, KeyEvent.Types.Held)));
+                    inputs.Add(new EventTrigger(FireLeft, EventTrigger.Type.All, new KeyEvent(Keys.A, KeyEvent.Types.Held), new InvertEvent(new KeyEvent(Keys.W, KeyEvent.Types.Held)), new InvertEvent(new KeyEvent(Keys.S, KeyEvent.Types.Held))));
+                    inputs.Add(new EventTrigger(FireDownLeft, EventTrigger.Type.All, new KeyEvent(Keys.A, KeyEvent.Types.Held), new KeyEvent(Keys.S, KeyEvent.Types.Held)));
+                    inputs.Add(new EventTrigger(FireDown, EventTrigger.Type.All, new KeyEvent(Keys.S, KeyEvent.Types.Held), new InvertEvent(new KeyEvent(Keys.A, KeyEvent.Types.Held)), new InvertEvent(new KeyEvent(Keys.D, KeyEvent.Types.Held))));
+                    inputs.Add(new EventTrigger(FireDownRight, EventTrigger.Type.All, new KeyEvent(Keys.S, KeyEvent.Types.Held), new KeyEvent(Keys.D, KeyEvent.Types.Held)));
                     break;
                 case InputType.Arrows:
                     inputs.Add(new EventTrigger(FireRight, EventTrigger.Type.All, new KeyEvent(Keys.Right, KeyEvent.Types.Held)));
@@ -112,7 +126,8 @@ namespace ggj_engine.Source.Entities
 
             // choose random bullet type
             CurrentProjectile = (ProjectileType)RandomUtil.Next((double)ProjectileType.Count);
-            switch(CurrentProjectile) {
+            switch (CurrentProjectile)
+            {
                 case ProjectileType.Bullet:
                     FireDelay = (int)RandomUtil.Next(minBulletFire, maxBulletFire);
                     break;
