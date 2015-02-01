@@ -126,6 +126,7 @@
     <Compile Include="Source\Network\NetworkManager.cs" />
     <Compile Include="Source\Particles\CircleEmitter.cs" />
     <Compile Include="Source\Particles\Systems\PSystemRocketExpl.cs" />
+    <Compile Include="Source\Particles\Systems\PSystemTest.cs" />
     <Compile Include="Source\Particles\Systems\PSystemRocketSmoke.cs" />
     <Compile Include="Source\Screens\MenuScreen.cs" />
     <Compile Include="Source\Screens\MultiplayerTestScreen.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Source\Screens\Screen.cs" />
     <Compile Include="Source\Network\SocketInfo.cs" />
     <Compile Include="Source\Screens\TestEnemyScreen.cs" />
+    <Compile Include="Source\Screens\TestParticleScreen.cs" />
     <Compile Include="Source\Screens\TestPlayerScreen.cs" />
     <Compile Include="Source\Screens\TestScreen.cs" />
     <Compile Include="Source\Utility\Camera.cs" />
@@ -231,7 +233,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y $(ProjectDir)fmodex.dll $(ProjectDir)$(OutDir)</PostBuildEvent>
+    <PostBuildEvent>xcopy /y "$(ProjectDir)fmodex.dll" "$(ProjectDir)$(OutDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -14,10 +14,16 @@ namespace ggj_engine.Source.Particles
         public PSystem MPSystem;
 
         //Defaults for particles spawned from this emitter
-        public Color pStartMinColor = Color.White;
-        public Color pStartMaxColor = Color.White;
-        public Color pEndMinColor = Color.White;
-        public Color pEndMaxColor = Color.White;
+        public Color pStartColor = Color.White;
+        public Color pEndColor = Color.White;
+        public Color pStartColorDeviation = Color.White;
+        public Color pEndColorDeviation = Color.White;
+        public float pStartBrightnessDeviation = 0;
+        public float pEndBrightnessDeviation = 0;
+        public float pStartScale = 1;
+        public float pEndScale = 1;
+        public float pStartScaleDeviation = 0;
+        public float pEndScaleDeviation = 0;
         public Vector2 pMinAngle = new Vector2(-1, -1);
         public Vector2 pMaxAngle = new Vector2(1, 1);
         public float pMinVel = -1;

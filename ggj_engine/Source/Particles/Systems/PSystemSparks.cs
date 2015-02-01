@@ -15,16 +15,16 @@ namespace ggj_engine.Source.Particles
             Emitter e = new PointEmitter();
 
             e.MPSystem = this;
-            e.pStartMinColor = new Color(220, 220, 0);
-            e.pStartMaxColor = new Color(255, 255, 160);
-            e.pEndMinColor = new Color(255, 255, 255);
-            e.pEndMaxColor = new Color(255, 255, 255);
+            e.pStartColor = new Color(220, 220, 0);
+            e.pEndColor = new Color(255, 255, 255);
+            e.pStartColorDeviation = new Color(0, 0, 0, 0);
+            e.pEndColorDeviation = new Color(0, 0, 0, 0);
             e.pMinAccel = new Vector2(0, 0);
             e.pMaxAccel = new Vector2(0, 0);
             e.pMinAngle = new Vector2(-1, -1);
             e.pMaxAngle = new Vector2(1, 1);
             e.pMinVel = 0.5f;
-            e.pMaxVel =3f;
+            e.pMaxVel = 3f;
             e.pMinFriction = 1;
             e.pMaxFriction = 1;
             e.pMinLife = 20;

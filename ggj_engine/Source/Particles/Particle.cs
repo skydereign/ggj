@@ -14,7 +14,8 @@ namespace ggj_engine.Source.Particles
         public Vector2 Position;
         public Color PStartColor;
         public Color PEndColor;
-        public Color PColor;
+        public float PStartScale;
+        public float PEndScale;
         public Vector2 PVel;
         public Vector2 PAccel;
         public float PFriction;
@@ -23,22 +24,26 @@ namespace ggj_engine.Source.Particles
         public int PUpdateFreq = 0;
         public bool Dead;
 
+        private Color pCurrentColor;
+        private float pCurrentScale;
         private Sprite sprite = ContentLibrary.Sprites["white_pixel"];
-        private int PUpdateCur = 0;
+        private int pUpdateCur = 0;
 
         public void Update()
         {
             PVel += PAccel;
             PVel *= PFriction;
             Position += PVel;
-            if (PUpdateCur == 0)
+            if (pUpdateCur == 0)
             {
-                PColor = new Color(Vector4.Lerp(PStartColor.ToVector4(), PEndColor.ToVector4(), ((float)PCurrentLife) / ((float)PKillLife)));
+                pCurrentScale = (PEndScale - PStartScale) * (((float)PCurrentLife) / ((float)PKillLife)) + PStartScale;
+                pCurrentColor = new Color(Vector4.Lerp(PStartColor.ToVector4(), PEndColor.ToVector4(), ((float)PCurrentLife) / ((float)PKillLife)));
+
             }
-            PUpdateCur++;
-            if (PUpdateCur >= PUpdateFreq)
+            pUpdateCur++;
+            if (pUpdateCur >= PUpdateFreq)
             {
-                PUpdateCur = 0;
+                pUpdateCur = 0;
             }
 
             PCurrentLife++;
@@ -50,10 +55,10 @@ namespace ggj_engine.Source.Particles
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Tint = PColor;
+            sprite.Tint = pCurrentColor;
             sprite.Position = Position;
-            sprite.ScaleX = 4;
-            sprite.ScaleY = 4;
+            sprite.ScaleX = pCurrentScale;
+            sprite.ScaleY = pCurrentScale;
 
             sprite.Draw(spriteBatch);
         }
