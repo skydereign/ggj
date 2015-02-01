@@ -10,18 +10,22 @@ namespace ggj_engine.Source.Particles
 {
     public class PSystemRocketExpl : PSystem
     {
-        int ticker = 25;
-        int ticker2;
+        int ticker = 15;
 
         public PSystemRocketExpl()
         {
             Emitter e = new CircleEmitter();
 
-            e.MPSystem = this;
             e.pStartColor = new Color(255, 180, 60);
             e.pEndColor = new Color(12, 12, 12);
             e.pStartColorDeviation = new Color(0, 0, 0, 0);
             e.pEndColorDeviation = new Color(0, 0, 0, 0);
+            e.pStartBrightnessDeviationFactor = 0.1f;
+            e.pEndBrightnessDeviationFactor = 0.3f;
+            e.pStartScale = 4;
+            e.pEndScale = 4;
+            e.pStartScaleDeviation = 0;
+            e.pEndScaleDeviation = 0;
             e.pMinAccel = new Vector2(0, 0);
             e.pMaxAccel = new Vector2(0, 0);
             e.pMinAngle = new Vector2(-1, -1);
@@ -48,7 +52,7 @@ namespace ggj_engine.Source.Particles
                 Kill(60);
             }
 
-            if (ticker2 < 7)
+            if (ticker < 7)
             {
                 emitters[0].BurstParticles();
                 emitters[0].PositionOffset = RandomUtil.Next(new Vector2(-45, -45), new Vector2(45, 45));

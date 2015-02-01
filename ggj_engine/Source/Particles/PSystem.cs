@@ -47,6 +47,7 @@ namespace ggj_engine.Source.Particles
         /// <param name="e"></param>
         public void AddEmitter(Emitter e)
         {
+            e.MPSystem = this;
             emitters.Add(e);
         }
 
@@ -67,7 +68,6 @@ namespace ggj_engine.Source.Particles
             {
                 e.Draw(spriteBatch);
             }
-
             base.Draw(spriteBatch);
         }
     }

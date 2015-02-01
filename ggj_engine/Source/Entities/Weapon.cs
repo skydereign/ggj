@@ -181,7 +181,11 @@ namespace ggj_engine.Source.Entities
 
         public override void Update(GameTime gameTime)
         {
-
+            if (InputControl.GetKeyboardKeyPressed(Keys.D1))
+            {
+                CurrentProjectile = ProjectileType.Rocket;
+                FireDelay = 30;
+            }
             currentFireDelay++;
 
             //Update inputs

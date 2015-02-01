@@ -18,8 +18,8 @@ namespace ggj_engine.Source.Particles
         public Color pEndColor = Color.White;
         public Color pStartColorDeviation = Color.White;
         public Color pEndColorDeviation = Color.White;
-        public float pStartBrightnessDeviation = 0;
-        public float pEndBrightnessDeviation = 0;
+        public float pStartBrightnessDeviationFactor = 0;
+        public float pEndBrightnessDeviationFactor = 0;
         public float pStartScale = 1;
         public float pEndScale = 1;
         public float pStartScaleDeviation = 0;

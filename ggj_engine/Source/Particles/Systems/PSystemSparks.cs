@@ -14,11 +14,14 @@ namespace ggj_engine.Source.Particles
         {
             Emitter e = new PointEmitter();
 
-            e.MPSystem = this;
             e.pStartColor = new Color(220, 220, 0);
             e.pEndColor = new Color(255, 255, 255);
             e.pStartColorDeviation = new Color(0, 0, 0, 0);
             e.pEndColorDeviation = new Color(0, 0, 0, 0);
+            e.pStartBrightnessDeviationFactor = 0f;
+            e.pEndBrightnessDeviationFactor = 0f;
+            e.pStartScale = 4;
+            e.pEndScale = 4;
             e.pMinAccel = new Vector2(0, 0);
             e.pMaxAccel = new Vector2(0, 0);
             e.pMinAngle = new Vector2(-1, -1);
