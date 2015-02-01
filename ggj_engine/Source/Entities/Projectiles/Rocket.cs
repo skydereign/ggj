@@ -50,7 +50,7 @@ namespace ggj_engine.Source.Entities.Projectiles
             Particles.PSystemRocketExpl p = new Particles.PSystemRocketExpl();
             p.Position = Position;
             MyScreen.AddEntity(p);
-            MyScreen.AddEntity(new Explosion(Position));
+            MyScreen.AddEntity(new Explosion(Position, this));
             base.Destroy();
         }
         public override void OnTileCollision()

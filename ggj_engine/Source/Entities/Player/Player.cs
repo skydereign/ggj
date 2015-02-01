@@ -102,7 +102,11 @@ namespace ggj_engine.Source.Entities.Player
             {
                 if (((Projectile)other).Owner is Enemies.Enemy || (Projectile)other is Explosion || ((Projectile)other).Owner is TestEntity)
                 {
-                    Shield.Damage(((Projectile)other).Owner, ((Projectile)other).Damage);
+                    Shield.Damage(other, ((Projectile)other).Damage);
+                }
+                if (((Projectile)other).Owner != this)
+                {
+                    MyScreen.DeleteEntity(other);
                 }
             }
             base.OnCollision(other);

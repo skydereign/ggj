@@ -1,4 +1,5 @@
-﻿using ggj_engine.Source.Utility;
+﻿using ggj_engine.Source.Entities.Projectiles;
+using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -55,7 +56,7 @@ namespace ggj_engine.Source.Entities.Player
                 {
                     if (Math.Abs(Math.Atan2(sn.RelPosition.Y,sn.RelPosition.X) - attackAngle) < Math.PI * 0.05f)
                     {
-                        sn.RelPosition = sn.RelPosition * 0.5f;
+                        sn.RelPosition = sn.RelPosition * 0.25f;
                     }
                 }
 
@@ -66,13 +67,16 @@ namespace ggj_engine.Source.Entities.Player
                     {
                         MyPlayer.MyScreen.GameManager.ScoreManager.GrantSelfKill(Position);
                     }
-                    if (source is Enemies.Follower)
+                    if (source is Projectile)
                     {
-                        MyPlayer.MyScreen.GameManager.ScoreManager.GrantEnemyFollowerKill(Position);
-                    }
-                    if (source is Enemies.YourMom)
-                    {
-                        MyPlayer.MyScreen.GameManager.ScoreManager.GrantEnemyYourMomKill(Position);
+                        if (((Projectile)source).Owner is Enemies.Follower)
+                        {
+                            MyPlayer.MyScreen.GameManager.ScoreManager.GrantEnemyFollowerKill(Position);
+                        }
+                        if (((Projectile)source).Owner is Enemies.YourMom)
+                        {
+                            MyPlayer.MyScreen.GameManager.ScoreManager.GrantEnemyYourMomKill(Position);
+                        }
                     }
                 }
             }

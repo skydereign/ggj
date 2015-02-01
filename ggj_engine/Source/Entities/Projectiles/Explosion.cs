@@ -11,12 +11,13 @@ namespace ggj_engine.Source.Entities.Projectiles
     {
         public int Life = 40;
 
-        public Explosion(Vector2 position)
+        public Explosion(Vector2 position, Entity owner)
         {
             Position = position;
             Velocity = Vector2.Zero;
             CollisionRegion = new CircleRegion(75, position);
             Damage = 45;
+            Owner = owner;
         }
 
         public override void Update(GameTime gameTime)
