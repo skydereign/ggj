@@ -103,7 +103,10 @@
     <Compile Include="Source\Entities\StarBackground.cs" />
     <Compile Include="Source\Entities\TestEntity.cs" />
     <Compile Include="Source\Entities\UIElements\Button.cs" />
+    <Compile Include="Source\Entities\UIElements\ColorGUI.cs" />
+    <Compile Include="Source\Entities\UIElements\GenericButton.cs" />
     <Compile Include="Source\Entities\UIElements\Label.cs" />
+    <Compile Include="Source\Entities\UIElements\NumberButton.cs" />
     <Compile Include="Source\Entities\Weapon.cs" />
     <Compile Include="Source\GameManagement\GameManager.cs" />
     <Compile Include="Source\GameManagement\ScoreManager.cs" />
@@ -125,6 +128,7 @@
     <Compile Include="Source\Network\HostTCP.cs" />
     <Compile Include="Source\Network\NetworkManager.cs" />
     <Compile Include="Source\Particles\CircleEmitter.cs" />
+    <Compile Include="Source\Particles\Systems\PSystemGUI.cs" />
     <Compile Include="Source\Particles\Systems\PSystemRocketExpl.cs" />
     <Compile Include="Source\Particles\Systems\PSystemTest.cs" />
     <Compile Include="Source\Particles\Systems\PSystemRocketSmoke.cs" />
@@ -136,6 +140,7 @@
     <Compile Include="Source\Particles\PointEmitter.cs" />
     <Compile Include="Source\Particles\PSystem.cs" />
     <Compile Include="Source\Particles\Systems\PSystemSparks.cs" />
+    <Compile Include="Source\Screens\ParticleGUIScreen.cs" />
     <Compile Include="Source\Screens\Screen.cs" />
     <Compile Include="Source\Network\SocketInfo.cs" />
     <Compile Include="Source\Screens\TestEnemyScreen.cs" />
