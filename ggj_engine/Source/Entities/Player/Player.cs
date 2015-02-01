@@ -78,7 +78,7 @@ namespace ggj_engine.Source.Entities.Player
             if (Dead && deadTimer <= 0)
             {
                 Dead = false;
-                Shield.Health = 100;
+                Shield.ResetShield();
                 List<Entity> spawnPoints = MyScreen.GetEntity("Spawn");
                 Position = spawnPoints[(int)RandomUtil.Next(spawnPoints.Count)].Position;
             }
@@ -100,7 +100,7 @@ namespace ggj_engine.Source.Entities.Player
         {
             if (other is Projectile)
             {
-                if (((Projectile)other).Owner is Enemies.Enemy || (Projectile)other is Explosion)
+                if (((Projectile)other).Owner is Enemies.Enemy || (Projectile)other is Explosion || ((Projectile)other).Owner is TestEntity)
                 {
                     Shield.Damage(((Projectile)other).Owner, ((Projectile)other).Damage);
                 }

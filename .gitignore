@@ -30,6 +30,8 @@
 *.lib
 *.sbr
 *.sdf
+*.vspx
+*.psess
 ipch/
 obj/
 [Bb]in

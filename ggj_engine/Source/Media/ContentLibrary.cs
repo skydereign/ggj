@@ -37,6 +37,7 @@ namespace ggj_engine.Source.Media
             Sprites.Add("test_sprite", new Sprite(content.Load<Texture2D>("Textures/test_sprite.png")));
             Sprites.Add("cursor", new Sprite(content.Load<Texture2D>("Textures/cursor.png")));
             Sprites.Add("circle_region", new Sprite(content.Load<Texture2D>("Textures/circle_region.png")));
+            Sprites.Add("circle_filled", new Sprite(content.Load<Texture2D>("Textures/circle_filled.png")));
             Sprites.Add("white_pixel", new Sprite(content.Load<Texture2D>("Textures/white_pixel.png")));
 
             Sprite animated_example = new Sprite(content.Load<Texture2D>("Textures/test_animation.png"));

@@ -1,6 +1,7 @@
 ﻿using ggj_engine.Source.Entities;
 using ggj_engine.Source.Entities.Enemies;
 using ggj_engine.Source.Entities.Player;
+using ggj_engine.Source.Entities.Projectiles;
 using ggj_engine.Source.Level;
 using ggj_engine.Source.Media;
 using ggj_engine.Source.Utility;
@@ -15,10 +16,11 @@ namespace ggj_engine.Source.Screens
 {
     class TestParticleScreen : Screen
     {
+        public TestEntity BulletAnchor = new TestEntity(new Vector2(150,150));
+
         public TestParticleScreen()
         {
             AddEntity(new Player(new Vector2(150, 100)));
-            AddEntity(new Particles.PSystemTest(new Vector2(200, 200)));
 
             AddEntity(new StarBackground());
 
@@ -42,6 +44,11 @@ namespace ggj_engine.Source.Screens
 
             //GameManager.Update(gameTime);
 
+            if (RandomUtil.Next() > 0.98f)
+            {
+                Bullet b = new Bullet(new Vector2(150,150),new Vector2(1,1),BulletAnchor);
+                AddEntity(b);
+            }
 
             base.Update(gameTime);
         }

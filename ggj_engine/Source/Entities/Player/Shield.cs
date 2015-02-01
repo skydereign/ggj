@@ -12,17 +12,20 @@ namespace ggj_engine.Source.Entities.Player
     {
         public const int SEGMENTS = 20;
         public const float STRAND_THICKNESS = 1;
-        public const float STRAND_SPACING = 1;
         public const float SHIELD_RADIUS = 16f;
+
 
         public Player MyPlayer;
         public float Health;
         public Vector2 Position;
         private List<ShieldNode> shieldNodes;
         private int flashDamage;
+        private float arcLength;
 
         public Shield(Player myPlayer)
         {
+            arcLength = Vector2.Distance(new Vector2(SHIELD_RADIUS, 0), new Vector2((float)Math.Cos(2 * Math.PI / ((float)SEGMENTS)), (float)Math.Sin(2 * Math.PI / ((float)SEGMENTS))) * SHIELD_RADIUS);
+
             Health = 100;
             shieldNodes = new List<ShieldNode>();
             float angleSeg;
@@ -31,10 +34,13 @@ namespace ggj_engine.Source.Entities.Player
                 angleSeg = (float)(2 * Math.PI / ((float)SEGMENTS)) * (float)i;
                 ShieldNode sn = new ShieldNode();
                 sn.NeutralPosition = new Vector2((float)Math.Cos(angleSeg), (float)Math.Sin(angleSeg)) * SHIELD_RADIUS;
+                sn.Anchor1Position = new Vector2((float)Math.Cos(angleSeg), (float)Math.Sin(angleSeg)) * (SHIELD_RADIUS + arcLength);
+                sn.Anchor2Position = new Vector2((float)Math.Cos(angleSeg), (float)Math.Sin(angleSeg)) * (SHIELD_RADIUS - arcLength);
                 sn.RelPosition = sn.NeutralPosition;
                 shieldNodes.Add(sn);
             }
             MyPlayer = myPlayer;
+
         }
 
         public void Damage(Entity source, float amount)
@@ -43,6 +49,16 @@ namespace ggj_engine.Source.Entities.Player
             {
                 Health -= amount;
                 flashDamage = 3;
+                //Loop through shield and find nodes to push
+                float attackAngle = (float)Math.Atan2((source.Position - Position).Y, (source.Position - Position).X);
+                foreach(ShieldNode sn in shieldNodes)
+                {
+                    if (Math.Abs(Math.Atan2(sn.RelPosition.Y,sn.RelPosition.X) - attackAngle) < Math.PI * 0.05f)
+                    {
+                        sn.RelPosition = sn.RelPosition * 0.5f;
+                    }
+                }
+
                 if (Health <= 0)
                 {
                     //Self kill
@@ -62,11 +78,29 @@ namespace ggj_engine.Source.Entities.Player
             }
         }
 
+        public void ResetShield()
+        {
+            Health = 100;
+            shieldNodes.Clear();
+            float angleSeg;
+            for (int i = 0; i < SEGMENTS; i++)
+            {
+                angleSeg = (float)(2 * Math.PI / ((float)SEGMENTS)) * (float)i;
+                ShieldNode sn = new ShieldNode();
+                sn.NeutralPosition = new Vector2((float)Math.Cos(angleSeg), (float)Math.Sin(angleSeg)) * SHIELD_RADIUS;
+                sn.Anchor1Position = new Vector2((float)Math.Cos(angleSeg), (float)Math.Sin(angleSeg)) * (SHIELD_RADIUS + arcLength);
+                sn.Anchor2Position = new Vector2((float)Math.Cos(angleSeg), (float)Math.Sin(angleSeg)) * (SHIELD_RADIUS - arcLength);
+                sn.RelPosition = sn.NeutralPosition;
+                shieldNodes.Add(sn);
+            }
+        }
+
         public void Update()
         {
             if (InputControl.GetKeyboardKeyPressed(Microsoft.Xna.Framework.Input.Keys.K))
             {
-                Damage(MyPlayer, 25);
+                Damage(MyPlayer, 5);
+                shieldNodes[4].RelPosition = new Vector2(0, 0);
             }
 
             //Copy shieldnodes first to keep last frames state
@@ -75,16 +109,14 @@ namespace ggj_engine.Source.Entities.Player
             {
                 ShieldNode s = new ShieldNode();
                 s.NeutralPosition = shieldNodes[i].NeutralPosition;
+                s.Anchor1Position = shieldNodes[i].Anchor1Position;
+                s.Anchor2Position = shieldNodes[i].Anchor2Position;
                 newShieldList.Add(s);
             }
             
             //Propagate changes across the shield
-            /*for (int i = 0; i < shieldNodes.Count; i++)
+            for (int i = 0; i < shieldNodes.Count; i++)
             {
-                float angleSeg;
-                angleSeg = (float)(2 * Math.PI / ((float)SEGMENTS)) * (float)i;
-                float arcLength = Vector2.Distance(new Vector2(SHIELD_RADIUS, 0), new Vector2((float)Math.Cos(angleSeg), (float)Math.Sin(angleSeg)) * SHIELD_RADIUS);
-
                 Vector2 forcePrev, forceNext;
                 //Edge case first
                 if (i == 0)
@@ -105,18 +137,22 @@ namespace ggj_engine.Source.Entities.Player
                     forceNext = shieldNodes[i + 1].RelPosition - shieldNodes[i].RelPosition;
                 }
 
-                forceNext *= 2f;
-                forcePrev *= 2f;
-                Vector2 forceAnchor = shieldNodes[i].RelPosition - shieldNodes[i].NeutralPosition;
-                Vector2 totalForce = forcePrev / forcePrev.Length() * (forcePrev.Length() - arcLength) + 
-                    forceNext / forceNext.Length() * (forceNext.Length() - arcLength) +
-                    (forceAnchor / (forceAnchor.Length() + 0.00001f));
+                Vector2 forceAnchor1 = shieldNodes[i].Anchor1Position - shieldNodes[i].RelPosition;
+                Vector2 forceAnchor2 = shieldNodes[i].Anchor2Position - shieldNodes[i].RelPosition;
+                forcePrev = forcePrev / forcePrev.Length() * (forcePrev.Length() - arcLength);
+                forceNext = forceNext / forceNext.Length() * (forceNext.Length() - arcLength);
+                forceAnchor1 = forceAnchor1 / forceAnchor1.Length() * (forceAnchor1.Length() - arcLength);
+                forceAnchor2 = forceAnchor2 / forceAnchor2.Length() * (forceAnchor2.Length() - arcLength);
 
-                shieldNodes[i].Velocity = shieldNodes[i].Velocity * 0.98f + totalForce * 0.01f;
+                Vector2 totalForce = forcePrev + forceNext + forceAnchor1 + forceAnchor2;
+
+
+                shieldNodes[i].Velocity = shieldNodes[i].Velocity * 0.96f + totalForce * 0.08f;
                 newShieldList[i].Velocity = shieldNodes[i].Velocity;
                 newShieldList[i].RelPosition = shieldNodes[i].RelPosition + shieldNodes[i].Velocity;
+                newShieldList[i].TotalForce = totalForce;
             }
-            shieldNodes = newShieldList;*/
+            shieldNodes = newShieldList;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -140,12 +176,15 @@ namespace ggj_engine.Source.Entities.Player
                 {
                     if (i != SEGMENTS - 1)
                     {
-                        Debug.DrawLine(spriteBatch, shieldNodes[i].RelPosition + Position, shieldNodes[i + 1].RelPosition + Position, shieldColor, shieldThick);
+                        Debug.DrawLine(spriteBatch, shieldNodes[i].RelPosition + Position, shieldNodes[i + 1].RelPosition + Position, shieldColor, shieldThick * STRAND_THICKNESS);
                     }
                     else
                     {
-                        Debug.DrawLine(spriteBatch, shieldNodes[i].RelPosition + Position, shieldNodes[0].RelPosition + Position, shieldColor, shieldThick);
+                        Debug.DrawLine(spriteBatch, shieldNodes[i].RelPosition + Position, shieldNodes[0].RelPosition + Position, shieldColor, shieldThick * STRAND_THICKNESS);
                     }
+                    Debug.DrawCircle(spriteBatch, shieldNodes[i].RelPosition + Position, shieldColor, shieldThick * STRAND_THICKNESS * 0.5f);
+                    //Forces on shield
+                    //Debug.DrawLine(spriteBatch, shieldNodes[i].RelPosition + Position, shieldNodes[i].RelPosition + Position + shieldNodes[i].TotalForce, Color.Red, 1);
                 }
             }
         }
@@ -153,7 +192,10 @@ namespace ggj_engine.Source.Entities.Player
         {
             public Vector2 RelPosition;
             public Vector2 NeutralPosition;
+            public Vector2 Anchor1Position;
+            public Vector2 Anchor2Position;
             public Vector2 Velocity;
+            public Vector2 TotalForce;
         }
     }
 

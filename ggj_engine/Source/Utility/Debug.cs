@@ -17,7 +17,7 @@ namespace ggj_engine.Source.Utility
         public static void LoadContent()
         {
             pixel = ContentLibrary.Sprites["white_pixel"].Texture;
-            circle = ContentLibrary.Sprites["circle_region"].Texture;
+            circle = ContentLibrary.Sprites["circle_filled"].Texture;
         }
 
         /// <summary>
