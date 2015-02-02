@@ -14,13 +14,15 @@ namespace ggj_engine.Source.Entities.UIElements
         Orientation orientation;
 
         List<GUI> list;
+        List<string> keys;
 
-        public ListGUI(Vector2 position, Orientation orientation)
+        public ListGUI(string label, Vector2 position, Orientation orientation) : base(label)
         {
             Position = position;
 
             this.orientation = orientation;
             list = new List<GUI>();
+            keys = new List<string>();
         }
 
         public override void Init()
@@ -69,9 +71,15 @@ namespace ggj_engine.Source.Entities.UIElements
             base.Draw(spriteBatch);
         }
 
-        public void Add(GUI gui)
+        public void Add(string key, GUI gui)
         {
+            keys.Add(key);
             list.Add(gui);
+        }
+
+        public GUI Get(string key)
+        {
+            return list[keys.IndexOf(key)];
         }
 
         public override float Top()

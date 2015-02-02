@@ -9,22 +9,22 @@ using System.Text;
 
 namespace ggj_engine.Source.Entities.UIElements
 {
-    class ColorGUI : GUI
+    class Vector2GUI : GUI
     {
-        public Color Value;
+        public Vector2 Value;
 
-        private SpriteFont font;
         private NumberButton[] values;
+        private SpriteFont font;
 
-        public ColorGUI(string label, Vector2 position) : base(label)
+        public Vector2GUI(string label, float initial, float step, float min, float max) : base(label)
         {
-            Position = position;
-            values = new NumberButton[3];
+            Value = Vector2.Zero;
+            values = new NumberButton[2];
             font = ContentLibrary.Fonts["pixelFont"];
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
-                values[i] = new NumberButton("", Vector2.Zero, 127, 1, 0, 255);
+                values[i] = new NumberButton("", Vector2.Zero, initial, step, min, max);
             }
 
             ResetPositions();
@@ -32,50 +32,47 @@ namespace ggj_engine.Source.Entities.UIElements
 
         public override void Init()
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 values[i].MyScreen = MyScreen;
                 values[i].Init();
             }
             base.Init();
         }
-
         public override void Update(GameTime gameTime)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 values[i].Update(gameTime);
             }
-
-            Value.R = (byte)values[0].Value;
-            Value.G = (byte)values[1].Value;
-            Value.B = (byte)values[2].Value;
+            Value.X = values[0].Value;
+            Value.Y = values[1].Value;
 
             base.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font, label, Position, Value, 0, Vector2.Zero, Globals.GUIScale, SpriteEffects.None, 0);
+            spriteBatch.DrawString(font, label, Position, Color.White, 0, Vector2.Zero, Globals.GUIScale, SpriteEffects.None, 0);
         
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 values[i].Draw(spriteBatch);
             }
             base.Draw(spriteBatch);
         }
 
-        public override void ResetPositions ()
+        public override void ResetPositions()
         {
             Vector2 offset = Vector2.Zero;
-            offset.X = font.MeasureString(label).X*Globals.GUIScale;
-            for (int i = 0; i < 3; i++)
+            offset.X = font.MeasureString(label).X * Globals.GUIScale;
+
+            for (int i = 0; i < 2; i++)
             {
                 values[i].Position = Position + offset;
-                offset.X += font.MeasureString("000 ").X*Globals.GUIScale;
+                offset.X += font.MeasureString(values[i].Value.ToString() + " ").X * Globals.GUIScale;
             }
         }
-
         public override float Top()
         {
             return Position.Y;
@@ -83,19 +80,19 @@ namespace ggj_engine.Source.Entities.UIElements
 
         public override float Bot()
         {
-            return Position.Y + font.MeasureString(label).Y * Globals.GUIScale;
+            string str = values[0].Value.ToString();
+            return Position.Y + font.MeasureString(str).Y * Globals.GUIScale;
         }
 
         public override float Right()
         {
-            // does not use the NumberButton's Right to calculate because of fixed width
-            return Position.X + font.MeasureString(label ).X * Globals.GUIScale + 10f + (font.MeasureString("000 ").X * 3) * Globals.GUIScale;
+            string str = values[0].Value.ToString() + " " + values[1].Value.ToString();
+            return Position.X + font.MeasureString(str).X * Globals.GUIScale + 10f + (font.MeasureString("000 ").X * 3) * Globals.GUIScale;
         }
 
         public override float Left()
         {
             return Position.X;
         }
-
     }
 }

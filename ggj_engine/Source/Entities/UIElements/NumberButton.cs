@@ -21,7 +21,7 @@ namespace ggj_engine.Source.Entities.UIElements
         private bool clicked = false;
         private float valueClick = 0.0f;
 
-        public NumberButton(Vector2 position, float initial, float step, float min, float max)
+        public NumberButton(string label, Vector2 position, float initial, float step, float min, float max) : base(label)
         {
             Position = position;
             Value = initial;
@@ -36,12 +36,14 @@ namespace ggj_engine.Source.Entities.UIElements
 
         public override void Update(GameTime gameTime)
         {
+            Vector2 numberPos = Position;
+            numberPos.X += font.MeasureString(label).X * Globals.GUIScale;
             // Mouse wheel setting of Value for more precise increments
             if (InputControl.GetMouseWheelUp() || InputControl.GetMouseWheelDown())
             {
                 Vector2 mousePos = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition());
 
-                if (mousePos.X >= Position.X && mousePos.X <= Position.X + dimensions.X && mousePos.Y >= Position.Y && mousePos.Y <= Position.Y + dimensions.Y)
+                if (mousePos.X >= numberPos.X && mousePos.X <= numberPos.X + dimensions.X && mousePos.Y >= numberPos.Y && mousePos.Y <= numberPos.Y + dimensions.Y)
                 {
                     if(InputControl.GetMouseWheelDown())
                     {
@@ -61,7 +63,7 @@ namespace ggj_engine.Source.Entities.UIElements
             {
                 Vector2 mousePos = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition());
 
-                if (mousePos.X >= Position.X && mousePos.X <= Position.X + dimensions.X && mousePos.Y >= Position.Y && mousePos.Y <= Position.Y + dimensions.Y)
+                if (mousePos.X >= numberPos.X && mousePos.X <= numberPos.X + dimensions.X && mousePos.Y >= numberPos.Y && mousePos.Y <= numberPos.Y + dimensions.Y)
                 {
                     valueClick = Value;
                     clicked = true;
@@ -78,13 +80,14 @@ namespace ggj_engine.Source.Entities.UIElements
                 Value = Math.Max(min, Math.Min(max, Value));
                 setDimensions();
             }
+            Value = Value.Truncate(3);
             base.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-            spriteBatch.DrawString(font, Value.ToString(), Position, Color.White, 0, Vector2.Zero, Globals.GUIScale, SpriteEffects.None, 0);
+            spriteBatch.DrawString(font, label + Value.ToString(), Position, Color.White, 0, Vector2.Zero, Globals.GUIScale, SpriteEffects.None, 0);
         }
 
         private void setDimensions ()
@@ -92,7 +95,6 @@ namespace ggj_engine.Source.Entities.UIElements
             dimensions = font.MeasureString(Value.ToString());
             dimensions *= Globals.GUIScale;
         }
-
 
         public override float Top()
         {
@@ -106,7 +108,7 @@ namespace ggj_engine.Source.Entities.UIElements
 
         public override float Right()
         {
-            return Position.X + font.MeasureString(Value.ToString()).X * Globals.GUIScale;
+            return Position.X + (font.MeasureString(label).X + font.MeasureString(Value.ToString()).X) * Globals.GUIScale;
         }
 
         public override float Left()
