@@ -46,6 +46,7 @@ namespace ggj_engine
             FMOD.Factory.System_Create(ref SoundSystem);
             SoundSystem.init(150, FMOD.INITFLAGS.NORMAL, IntPtr.Zero);
             SoundController = new SoundControl(SoundSystem);
+            IsMouseVisible = true;
 
             Content.RootDirectory = "Content";
         }
@@ -90,7 +91,7 @@ namespace ggj_engine
             //screens.Add(new TestScreen());
             //screens.Add(new MultiplayerTestScreen());
             screens.Add(new MenuScreen());
-
+            //screens.Add(new ParticleGUIScreen());
             //screens.Add(new TestScreen());
             //screens.Add(new TestParticleScreen());
             //screens.Add(new TestPlayerScreen());

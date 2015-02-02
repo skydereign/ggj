@@ -27,5 +27,9 @@ namespace ggj_engine.Source.Utility
         public static Vector2 DownLeft = new Vector2(-1, 1);
         public static Vector2 Down = new Vector2(0, 1);
         public static Vector2 DownRight = new Vector2(1, 1);
+
+
+        // particle gui
+        public static float GUIScale = 0.2f;
     }
 }
