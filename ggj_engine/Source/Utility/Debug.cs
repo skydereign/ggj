@@ -13,6 +13,7 @@ namespace ggj_engine.Source.Utility
         public static Texture2D pixel;
         public static Texture2D circle;
 
+        private const int CIRCLE_DEFAULT_SEGMENTS = 16;
 
         public static void LoadContent()
         {
@@ -66,7 +67,54 @@ namespace ggj_engine.Source.Utility
         /// <param name="radius">Radius</param>
         public static void DrawCircle(SpriteBatch spriteBatch, Vector2 center, Color color, float radius)
         {
-            spriteBatch.Draw(circle, center, null, color, 0, new Vector2(Globals.DebugCircleSize/2, Globals.DebugCircleSize/2), radius / (Globals.DebugCircleSize/2f), SpriteEffects.None, 0);
+            DrawCircle(spriteBatch, center, color, radius, 0, Color.Black);
+        }
+
+        /// <summary>
+        /// Draws a circle with colored outline
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="center"></param>
+        /// <param name="color"></param>
+        /// <param name="radius"></param>
+        /// <param name="outlineThickness"></param>
+        /// <param name="outlineColor"></param>
+        public static void DrawCircle(SpriteBatch spriteBatch, Vector2 center, Color color, float radius, float outlineThickness, Color outlineColor)
+        {
+            spriteBatch.Draw(circle, center, null, color, 0, new Vector2(Globals.DebugCircleSize / 2, Globals.DebugCircleSize / 2), radius / (Globals.DebugCircleSize / 2f), SpriteEffects.None, 0);
+
+            if (outlineThickness != 0)
+            {
+                float angle1, angle2;
+                for (int i = 0; i < CIRCLE_DEFAULT_SEGMENTS; i++)
+                {
+                    angle1 = (float)(Math.PI * 2.0f / CIRCLE_DEFAULT_SEGMENTS) * i;
+                    angle2 = (float)(Math.PI * 2.0f / CIRCLE_DEFAULT_SEGMENTS) * (i + 1);
+                    DrawLine(spriteBatch, new Vector2((float)Math.Cos(angle1), (float)Math.Sin(angle1)) * radius + center, new Vector2((float)Math.Cos(angle2), (float)Math.Sin(angle2)) * radius + center,
+                        outlineColor, outlineThickness);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Draws the outline of a circle
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="center"></param>
+        /// <param name="color"></param>
+        /// <param name="radius"></param>
+        /// <param name="outlineThickness"></param>
+        /// <param name="segments"></param>
+        public static void DrawOutlineCircle(SpriteBatch spriteBatch, Vector2 center, Color color, float radius, float outlineThickness, int segments)
+        {
+            float angle1, angle2;
+            for (int i = 0; i < segments; i++)
+            {
+                angle1 = (float)(Math.PI * 2.0f / segments) * i;
+                angle2 = (float)(Math.PI * 2.0f / segments) * (i + 1);
+                DrawLine(spriteBatch, new Vector2((float)Math.Cos(angle1), (float)Math.Sin(angle1)) * radius + center, new Vector2((float)Math.Cos(angle2), (float)Math.Sin(angle2)) * radius + center,
+                    color, outlineThickness);
+            }
         }
     }
 }
