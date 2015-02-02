@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ggj_engine.Source.Entities.UIElements
 {
-    class NumberButton : Entity
+    class NumberButton : GUI
     {
         public float Value;
 
@@ -91,6 +91,27 @@ namespace ggj_engine.Source.Entities.UIElements
         {
             dimensions = font.MeasureString(Value.ToString());
             dimensions *= Globals.GUIScale;
+        }
+
+
+        public override float Top()
+        {
+            return Position.Y;
+        }
+
+        public override float Bot()
+        {
+            return Position.Y + font.MeasureString(Value.ToString()).Y * Globals.GUIScale;
+        }
+
+        public override float Right()
+        {
+            return Position.X + font.MeasureString(Value.ToString()).X * Globals.GUIScale;
+        }
+
+        public override float Left()
+        {
+            return Position.X;
         }
     }
 }

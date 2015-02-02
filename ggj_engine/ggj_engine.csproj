@@ -105,7 +105,9 @@
     <Compile Include="Source\Entities\UIElements\Button.cs" />
     <Compile Include="Source\Entities\UIElements\ColorGUI.cs" />
     <Compile Include="Source\Entities\UIElements\GenericButton.cs" />
+    <Compile Include="Source\Entities\UIElements\GUI.cs" />
     <Compile Include="Source\Entities\UIElements\Label.cs" />
+    <Compile Include="Source\Entities\UIElements\ListGUI.cs" />
     <Compile Include="Source\Entities\UIElements\NumberButton.cs" />
     <Compile Include="Source\Entities\Weapon.cs" />
     <Compile Include="Source\GameManagement\GameManager.cs" />

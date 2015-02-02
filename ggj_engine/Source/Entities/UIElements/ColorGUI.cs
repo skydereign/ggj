@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ggj_engine.Source.Entities.UIElements
 {
-    class ColorGUI : Entity
+    class ColorGUI : GUI
     {
         public Color Value;
 
@@ -24,13 +24,12 @@ namespace ggj_engine.Source.Entities.UIElements
             values = new NumberButton[3];
             font = ContentLibrary.Fonts["pixelFont"];
 
-            Vector2 offset = Vector2.Zero;
-            offset.X = font.MeasureString(label).X*Globals.GUIScale + 10f;
             for (int i = 0; i < 3; i++)
             {
-                values[i] = new NumberButton(Position + offset, 127, 1, 0, 255);
-                offset.X += font.MeasureString("000 ").X*Globals.GUIScale;
+                values[i] = new NumberButton(Vector2.Zero, 127, 1, 0, 255);
             }
+
+            ResetPositions();
         }
 
         public override void Init()
@@ -38,6 +37,7 @@ namespace ggj_engine.Source.Entities.UIElements
             for (int i = 0; i < 3; i++)
             {
                 values[i].MyScreen = MyScreen;
+                values[i].Init();
             }
             base.Init();
         }
@@ -65,6 +65,38 @@ namespace ggj_engine.Source.Entities.UIElements
                 values[i].Draw(spriteBatch);
             }
             base.Draw(spriteBatch);
+        }
+
+        public override void ResetPositions ()
+        {
+            Vector2 offset = Vector2.Zero;
+            offset.X = font.MeasureString(label).X*Globals.GUIScale + 10f;
+            for (int i = 0; i < 3; i++)
+            {
+                values[i].Position = Position + offset;
+                offset.X += font.MeasureString("000 ").X*Globals.GUIScale;
+            }
+        }
+
+        public override float Top()
+        {
+            return Position.Y;
+        }
+
+        public override float Bot()
+        {
+            return Position.Y + font.MeasureString(label).Y * Globals.GUIScale;
+        }
+
+        public override float Right()
+        {
+            // does not use the NumberButton's Right to calculate because of fixed width
+            return Position.X + font.MeasureString(label ).X * Globals.GUIScale + 10f + (font.MeasureString("000 ").X * 3) * Globals.GUIScale;
+        }
+
+        public override float Left()
+        {
+            return Position.X;
         }
 
     }

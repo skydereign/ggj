@@ -26,11 +26,19 @@ namespace ggj_engine.Source.Screens
             curEmitter = 0;
 
             ParticleSystem = new PSystemSparks();
-            AddEntity(ParticleSystem);
-            AddEntity(new GenericButton("testing", new Vector2(100, 100), () => { Console.WriteLine("testing"); }));
-            ColorR = new NumberButton(new Vector2(200, 100), 127, 1f, 0, 255);
-            AddEntity(ColorR);
-            AddEntity(new ColorGUI("Testing", new Vector2(10, 10)));
+            //AddEntity(ParticleSystem);
+            //AddEntity(new GenericButton("testing", new Vector2(100, 100), () => { Console.WriteLine("testing"); }));
+            //ColorR = new NumberButton(new Vector2(200, 100), 127, 1f, 0, 255);
+            //AddEntity(ColorR);
+            //AddEntity(new ColorGUI("Testing", new Vector2(10, 10)));
+
+            ListGUI lGui = new ListGUI(Vector2.Zero, ListGUI.Orientation.Vert);
+            lGui.Add(new ColorGUI("First", Vector2.Zero));
+            lGui.Add(new ColorGUI("Second", Vector2.Zero));
+            lGui.Add(new ColorGUI("Third", Vector2.Zero));
+            lGui.Add(new NumberButton(Vector2.Zero, 127, 1f, 0, 255));
+            lGui.Add(new ColorGUI("Fourth", Vector2.Zero));
+            AddEntity(lGui);
         }
 
         public override void Update(GameTime gameTime)
