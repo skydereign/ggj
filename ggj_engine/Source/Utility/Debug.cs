@@ -116,5 +116,40 @@ namespace ggj_engine.Source.Utility
                     color, outlineThickness);
             }
         }
+
+        /// <summary>
+        /// Draws a rectangle
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="top"></param>
+        /// <param name="left"></param>
+        /// <param name="bottom"></param>
+        /// <param name="right"></param>
+        /// <param name="fillColor"></param>
+        public static void DrawRectangle(SpriteBatch spriteBatch, float top, float left, float bottom, float right, Color fillColor)
+        {
+            DrawRectangle(spriteBatch, top, left, bottom, right, fillColor, 0, Color.Black);
+        }
+
+        /// <summary>
+        /// Draws a rectangle with outline
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="top"></param>
+        /// <param name="left"></param>
+        /// <param name="bottom"></param>
+        /// <param name="right"></param>
+        /// <param name="fillColor"></param>
+        /// <param name="outlineThickness"></param>
+        /// <param name="outlineColor"></param>
+        public static void DrawRectangle(SpriteBatch spriteBatch, float top, float left, float bottom, float right, Color fillColor, float outlineThickness, Color outlineColor)
+        {
+            spriteBatch.Draw(pixel, new Vector2((right + left) / 2, (top + bottom) / 2), null, fillColor, 0, new Vector2(0.5f, 0.5f), new Vector2(right - left, bottom - top), SpriteEffects.None, 0);
+
+            DrawLine(spriteBatch, new Vector2(left - outlineThickness * 0.5f, top), new Vector2(right + outlineThickness * 0.5f, top), outlineColor, outlineThickness);
+            DrawLine(spriteBatch, new Vector2(right, top - outlineThickness * 0.5f), new Vector2(right, bottom + outlineThickness * 0.5f), outlineColor, outlineThickness);
+            DrawLine(spriteBatch, new Vector2(right + outlineThickness * 0.5f, bottom), new Vector2(left - outlineThickness * 0.5f, bottom), outlineColor, outlineThickness);
+            DrawLine(spriteBatch, new Vector2(left, bottom + outlineThickness * 0.5f), new Vector2(left, top - outlineThickness * 0.5f), outlineColor, outlineThickness);
+        }
     }
 }
