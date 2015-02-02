@@ -54,7 +54,6 @@ namespace ggj_engine.Source.Screens
             curSettings.Add("pMinSpawn", new NumberButton("pMinSpawn", Vector2.Zero, 5, 0.2f, 0f, 100f));
             curSettings.Add("pMaxSpawn", new NumberButton("pMaxSpawn", Vector2.Zero, 10, 0.2f, 0f, 100f));
             curSettings.Add("Burst", new BoolGUI("Burst", false));
-            // NEED BOOL GUI
             AddEntity(curSettings);
 
 

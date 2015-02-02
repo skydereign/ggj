@@ -90,8 +90,8 @@ namespace ggj_engine
 
             //screens.Add(new TestScreen());
             //screens.Add(new MultiplayerTestScreen());
-            //screens.Add(new MenuScreen());
-            screens.Add(new ParticleGUIScreen());
+            screens.Add(new MenuScreen());
+            //screens.Add(new ParticleGUIScreen());
             //screens.Add(new TestScreen());
             //screens.Add(new TestParticleScreen());
             //screens.Add(new TestPlayerScreen());
