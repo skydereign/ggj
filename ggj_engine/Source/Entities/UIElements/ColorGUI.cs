@@ -65,6 +65,14 @@ namespace ggj_engine.Source.Entities.UIElements
             base.Draw(spriteBatch);
         }
 
+        public void Set(Color color)
+        {
+            Value = color;
+            values[0].Value = Value.R;
+            values[1].Value = Value.G;
+            values[2].Value = Value.B;
+        }
+
         public override void ResetPositions ()
         {
             Vector2 offset = Vector2.Zero;

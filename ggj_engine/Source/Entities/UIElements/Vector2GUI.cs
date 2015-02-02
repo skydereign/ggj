@@ -39,6 +39,7 @@ namespace ggj_engine.Source.Entities.UIElements
             }
             base.Init();
         }
+
         public override void Update(GameTime gameTime)
         {
             for (int i = 0; i < 2; i++)
@@ -60,6 +61,13 @@ namespace ggj_engine.Source.Entities.UIElements
                 values[i].Draw(spriteBatch);
             }
             base.Draw(spriteBatch);
+        }
+
+        public void Set(Vector2 vector)
+        {
+            Value = vector;
+            values[0].Value = Value.X;
+            values[1].Value = Value.Y;
         }
 
         public override void ResetPositions()
