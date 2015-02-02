@@ -102,6 +102,7 @@
     <Compile Include="Source\Entities\ScoreVisual.cs" />
     <Compile Include="Source\Entities\StarBackground.cs" />
     <Compile Include="Source\Entities\TestEntity.cs" />
+    <Compile Include="Source\Entities\UIElements\BoolGUI.cs" />
     <Compile Include="Source\Entities\UIElements\Button.cs" />
     <Compile Include="Source\Entities\UIElements\ColorGUI.cs" />
     <Compile Include="Source\Entities\UIElements\GenericButton.cs" />

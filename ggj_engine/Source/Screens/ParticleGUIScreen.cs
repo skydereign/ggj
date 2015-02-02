@@ -53,6 +53,7 @@ namespace ggj_engine.Source.Screens
             curSettings.Add("pUpdateFreq", new NumberButton("pUpdateFreq", Vector2.Zero, 1f, 1f, 1f, 120f));
             curSettings.Add("pMinSpawn", new NumberButton("pMinSpawn", Vector2.Zero, 5, 0.2f, 0f, 100f));
             curSettings.Add("pMaxSpawn", new NumberButton("pMaxSpawn", Vector2.Zero, 10, 0.2f, 0f, 100f));
+            curSettings.Add("Burst", new BoolGUI("Burst", false));
             // NEED BOOL GUI
             AddEntity(curSettings);
 
@@ -110,6 +111,7 @@ namespace ggj_engine.Source.Screens
             e.pMaxLife = ((NumberButton)curSettings.Get("pMaxLife")).Value;
             e.pMinSpawn = (int)((NumberButton)curSettings.Get("pMinSpawn")).Value;
             e.pMaxSpawn = (int)((NumberButton)curSettings.Get("pMaxSpawn")).Value;
+            e.Burst = ((BoolGUI)curSettings.Get("Burst")).Value;
             //emitters[curEmitter] = e;
         }
 
@@ -138,6 +140,7 @@ namespace ggj_engine.Source.Screens
             writer.WriteLine(((NumberButton)curSettings.Get("pMaxLife")).Value);
             writer.WriteLine((int)((NumberButton)curSettings.Get("pMinSpawn")).Value);
             writer.WriteLine((int)((NumberButton)curSettings.Get("pMaxSpawn")).Value);
+            writer.WriteLine(((BoolGUI)curSettings.Get("Burst")).Value);
             writer.Close();
         }
         public void LoadParticles()
@@ -165,6 +168,7 @@ namespace ggj_engine.Source.Screens
             ((NumberButton)curSettings.Get("pMaxLife")).Value = float.Parse(reader.ReadLine());
             ((NumberButton)curSettings.Get("pMinSpawn")).Value = float.Parse(reader.ReadLine());
             ((NumberButton)curSettings.Get("pMaxSpawn")).Value = float.Parse(reader.ReadLine());
+            ((BoolGUI)curSettings.Get("Burst")).Value = bool.Parse(reader.ReadLine());
             reader.Close();
         }
 
