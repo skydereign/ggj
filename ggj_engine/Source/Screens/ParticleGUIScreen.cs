@@ -55,6 +55,7 @@ namespace ggj_engine.Source.Screens
             curSettings.Add("pMinSpawn", new NumberButton("pMinSpawn", Vector2.Zero, 5, 0.2f, 0f, 100f));
             curSettings.Add("pMaxSpawn", new NumberButton("pMaxSpawn", Vector2.Zero, 10, 0.2f, 0f, 100f));
             curSettings.Add("Burst", new BoolGUI("Burst", false));
+            curSettings.Add("displayTest", new DisplayGUI(() => { return InputControl.GetMousePosition().ToString(); }));
             AddEntity(curSettings);
 
             AddEmitter();
@@ -71,6 +72,11 @@ namespace ggj_engine.Source.Screens
             if (InputControl.GetKeyboardKeyHeld(Keys.LeftControl) && InputControl.GetKeyboardKeyPressed(Keys.L))
             {
                 LoadParticles();
+            }
+
+            if(InputControl.GetMouseOnRightHeld())
+            {
+                emitters[curEmitter].PositionOffset = Camera.ScreenToWorld(InputControl.GetMousePosition());
             }
             UpdateCurrent();
             base.Update(gameTime);
@@ -111,7 +117,6 @@ namespace ggj_engine.Source.Screens
             e.pMinSpawn = (int)((NumberButton)curSettings.Get("pMinSpawn")).Value;
             e.pMaxSpawn = (int)((NumberButton)curSettings.Get("pMaxSpawn")).Value;
             e.Burst = ((BoolGUI)curSettings.Get("Burst")).Value;
-            //emitters[curEmitter] = e;
         }
 
         public void SaveParticles()

@@ -105,6 +105,7 @@
     <Compile Include="Source\Entities\UIElements\BoolGUI.cs" />
     <Compile Include="Source\Entities\UIElements\Button.cs" />
     <Compile Include="Source\Entities\UIElements\ColorGUI.cs" />
+    <Compile Include="Source\Entities\UIElements\DisplayGUI.cs" />
     <Compile Include="Source\Entities\UIElements\GenericButton.cs" />
     <Compile Include="Source\Entities\UIElements\GUI.cs" />
     <Compile Include="Source\Entities\UIElements\Label.cs" />

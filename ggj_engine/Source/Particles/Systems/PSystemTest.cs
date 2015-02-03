@@ -14,6 +14,5 @@ namespace ggj_engine.Source.Particles
         {
             Position = p;
         }
-
     }
 }

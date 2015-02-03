@@ -29,6 +29,7 @@ namespace ggj_engine.Source.Utility
         static Vector2 mousePosition;
         static Vector2 mousePrevPosition;
         static Vector2 mouseLeftClickPosition;
+        static Vector2 mouseRightClickPosition;
 
         #region Mouse state functions
         /// <summary>
@@ -150,12 +151,21 @@ namespace ggj_engine.Source.Utility
         }
 
         /// <summary>
-        /// Returns the mouse position of the last click
+        /// Returns the mouse position of the last left click
         /// </summary>
         /// <returns></returns>
         public static Vector2 GetMouseLeftClickPosition()
         {
             return mouseLeftClickPosition;
+        }
+
+        /// <summary>
+        /// Returns the mouse position of the last right click
+        /// </summary>
+        /// <returns></returns>
+        public static Vector2 GetMouseRightClickPosition()
+        {
+            return mouseRightClickPosition;
         }
         #endregion
 
@@ -435,7 +445,10 @@ namespace ggj_engine.Source.Utility
             {
                 rightHeld = true;
                 if (rightLast == false)
+                {
+                    mouseRightClickPosition = mousePosition;
                     rightOnce = true;
+                }
             }
             else
             {
