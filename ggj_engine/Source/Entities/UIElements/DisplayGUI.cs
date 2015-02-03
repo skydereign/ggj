@@ -42,7 +42,7 @@ namespace ggj_engine.Source.Entities.UIElements
 
         public override float Bot()
         {
-            return Position.Y + font.MeasureString(label).Y * Globals.GUIScale;
+            return Position.Y + font.MeasureString(Value).Y * Globals.GUIScale;
         }
 
         public override float Right()

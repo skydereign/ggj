@@ -16,10 +16,11 @@ namespace ggj_engine.Source.Entities.UIElements
         List<GUI> list;
         List<string> keys;
 
-        public ListGUI(string label, Vector2 position, Orientation orientation) : base(label)
+        public ListGUI(string label, Vector2 position, Orientation orientation, Anchor anchor) : base(label)
         {
             Position = position;
 
+            this.anchor = anchor;
             this.orientation = orientation;
             list = new List<GUI>();
             keys = new List<string>();
@@ -90,6 +91,10 @@ namespace ggj_engine.Source.Entities.UIElements
 
         public override float Right()
         {
+            if (orientation == Orientation.Horz)
+            {
+                return list[list.Count - 1].Right();
+            }
             throw new NotImplementedException();
         }
 

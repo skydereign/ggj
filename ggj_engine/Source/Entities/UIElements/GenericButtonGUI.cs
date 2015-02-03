@@ -9,32 +9,25 @@ using System.Text;
 
 namespace ggj_engine.Source.Entities.UIElements
 {
-    class GenericButton : Entity
+    class GenericButtonGUI : GUI
     {
         // delegate for callback
         public delegate void Callback();
 
         Callback callback;
-        private string label;
         private SpriteFont font;
         private Vector2 dimensions;
 
-        public GenericButton(string label, Vector2 position, Callback callback)
+        public GenericButtonGUI(string label, Vector2 position, Callback callback) : base("")
         {
             Position = position;
-            this.label = label;
             this.callback = callback;
+            this.label = label;
 
             font = ContentLibrary.Fonts["pixelFont"];
             dimensions = font.MeasureString(label);
             dimensions *= Globals.GUIScale;
             Console.WriteLine("dimensions = " + dimensions);
-        }
-
-        public override void Init()
-        {
-            Position = MyScreen.Camera.ScreenToWorld(Position);
-            base.Init();
         }
 
         public override void Update(GameTime gameTime)
@@ -56,6 +49,26 @@ namespace ggj_engine.Source.Entities.UIElements
         {
             base.Draw(spriteBatch);
             spriteBatch.DrawString(font, label, Position, Color.White, 0, Vector2.Zero, Globals.GUIScale, SpriteEffects.None, 0);
+        }
+
+        public override float Top()
+        {
+            return Position.Y;
+        }
+
+        public override float Bot()
+        {
+            return Position.Y + font.MeasureString(label).Y * Globals.GUIScale;
+        }
+
+        public override float Right()
+        {
+            return Position.X + font.MeasureString(label).X * Globals.GUIScale;
+        }
+
+        public override float Left()
+        {
+            return Position.X;
         }
     }
 }

@@ -29,7 +29,44 @@ namespace ggj_engine.Source.Screens
             ParticleSystem = new PSystemTest(Vector2.Zero);
             AddEntity(ParticleSystem);
 
-            curSettings = new ListGUI("", Vector2.Zero, ListGUI.Orientation.Vert);
+            InitGui();
+
+            AddEmitter();
+            UpdateCurrent();
+            ParticleSystem.AddEmitter(emitters[curEmitter]);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if(InputControl.GetKeyboardKeyHeld(Keys.LeftControl) && InputControl.GetKeyboardKeyPressed(Keys.S))
+            {
+                SaveParticles();
+            }
+            if (InputControl.GetKeyboardKeyHeld(Keys.LeftControl) && InputControl.GetKeyboardKeyPressed(Keys.L))
+            {
+                LoadParticles();
+            }
+
+            if(InputControl.GetMouseOnMiddleHeld())
+            {
+                emitters[curEmitter].PositionOffset = Camera.ScreenToWorld(InputControl.GetMousePosition());
+            }
+            UpdateCurrent();
+            base.Update(gameTime);
+        }
+
+        public void AddEmitter()
+        {
+            if (curEmitterType == EmitterType.Point)
+            {
+                emitters.Add(new PointEmitter());
+                curEmitter = emitters.Count - 1;
+            }
+        }
+
+        private void InitGui()
+        {
+            curSettings = new ListGUI("", Vector2.Zero, ListGUI.Orientation.Vert, GUI.Anchor.None);
             curSettings.Add("filename", new StringGUI("filename", "testparticle", Keys.Enter));
             curSettings.Add("pStartColor", new ColorGUI("pStartColor", Vector2.Zero));
             curSettings.Add("pEndColor", new ColorGUI("pEndColor", Vector2.Zero));
@@ -55,40 +92,15 @@ namespace ggj_engine.Source.Screens
             curSettings.Add("pMinSpawn", new NumberButton("pMinSpawn", Vector2.Zero, 5, 0.2f, 0f, 100f));
             curSettings.Add("pMaxSpawn", new NumberButton("pMaxSpawn", Vector2.Zero, 10, 0.2f, 0f, 100f));
             curSettings.Add("Burst", new BoolGUI("Burst", false));
-            curSettings.Add("displayTest", new DisplayGUI(() => { return InputControl.GetMousePosition().ToString(); }));
+            curSettings.Add("emitterPosition", new DisplayGUI(() => { return "position =  " + emitters[curEmitter].PositionOffset; }));
+            curSettings.Add("curEmitter", new DisplayGUI(() => { return "Emitter " + (curEmitter + 1) + "/" + emitters.Count; }));
             AddEntity(curSettings);
 
-            AddEmitter();
-            UpdateCurrent();
-            ParticleSystem.AddEmitter(emitters[curEmitter]);
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if(InputControl.GetKeyboardKeyHeld(Keys.LeftControl) && InputControl.GetKeyboardKeyPressed(Keys.S))
-            {
-                SaveParticles();
-            }
-            if (InputControl.GetKeyboardKeyHeld(Keys.LeftControl) && InputControl.GetKeyboardKeyPressed(Keys.L))
-            {
-                LoadParticles();
-            }
-
-            if(InputControl.GetMouseOnRightHeld())
-            {
-                emitters[curEmitter].PositionOffset = Camera.ScreenToWorld(InputControl.GetMousePosition());
-            }
-            UpdateCurrent();
-            base.Update(gameTime);
-        }
-
-        public void AddEmitter()
-        {
-            if (curEmitterType == EmitterType.Point)
-            {
-                emitters.Add(new PointEmitter());
-                curEmitter = emitters.Count - 1;
-            }
+            ListGUI menuGui = new ListGUI("", new Vector2(400, 0), ListGUI.Orientation.Horz, GUI.Anchor.Right);
+            menuGui.Add("burst", new GenericButtonGUI("Burst", Vector2.Zero, () => { emitters[curEmitter].BurstParticles(); }));
+            menuGui.Add("save", new GenericButtonGUI("Save", Vector2.Zero, () => { SaveParticles(); }));
+            menuGui.Add("load", new GenericButtonGUI("Load", Vector2.Zero, () => { LoadParticles(); }));
+            AddEntity(menuGui);
         }
 
         public void UpdateCurrent()
