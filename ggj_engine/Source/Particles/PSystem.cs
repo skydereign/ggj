@@ -52,6 +52,15 @@ namespace ggj_engine.Source.Particles
         }
 
         /// <summary>
+        /// Removes emitter from the system
+        /// </summary>
+        /// <param name="e"></param>
+        public void RemoveEmitter(Emitter e)
+        {
+            emitters.Remove(e);
+        }
+
+        /// <summary>
         /// Bursts particels from this system
         /// </summary>
         public void BurstParticles()

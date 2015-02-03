@@ -121,6 +121,20 @@ namespace ggj_engine.Source.Screens
             menuGui.Add("save", new GenericButtonGUI("[Save]", Vector2.Zero, () => { SaveParticles(); }));
             menuGui.Add("load", new GenericButtonGUI("[Load]", Vector2.Zero, () => { LoadParticles(); }));
             menuGui.Add("addEmitter", new GenericButtonGUI("[Add Emitter]", Vector2.Zero, () => { AddEmitter(); }));
+            menuGui.Add("removeEmitter", new GenericButtonGUI("[Remove]", Vector2.Zero, () =>
+            {
+                if (emitters.Count > 1)
+                {
+                    Emitter e = emitters[curEmitter];
+                    emitters.Remove(e);
+                    ParticleSystem.RemoveEmitter(e);
+                    if(curEmitter == emitters.Count)
+                    {
+                        curEmitter = emitters.Count - 1;
+                    }
+                    updateGui();
+                }
+            }));
             AddEntity(menuGui);
         }
 
