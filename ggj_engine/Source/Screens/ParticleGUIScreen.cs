@@ -179,7 +179,7 @@ namespace ggj_engine.Source.Screens
         public Color StringToColor(string color)
         {
             string[] colors = color.Split(',');
-            return new Color(float.Parse(colors[0]), float.Parse(colors[1]), float.Parse(colors[2]));
+            return new Color((int)float.Parse(colors[0]), (int)float.Parse(colors[1]), (int)float.Parse(colors[2]));
         }
         public string Vector2ToString(Vector2 vector)
         {
@@ -190,7 +190,6 @@ namespace ggj_engine.Source.Screens
         {
             string[] values = value.Split(',');
             Vector2 vector = new Vector2(float.Parse(values[0]), float.Parse(values[1]));
-            Console.WriteLine("vector = " + vector);
             return vector;
         }
     }
