@@ -153,8 +153,6 @@ namespace ggj_engine.Source.Entities
             {
                 if (!player.Dead)
                 {
-                    Network.NetworkManager.Instance.BroadcastEvent(",W," + 0 + ',' + (int)CurrentProjectile + ',' + Position.X + ',' + Position.Y + ',' + targetPos.X + ',' + targetPos.Y + ',');
-
                     switch (CurrentProjectile)
                     {
                         case ProjectileType.Bullet:
