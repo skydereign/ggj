@@ -33,7 +33,6 @@ namespace ggj_engine.Source.Screens
 
             AddEmitter();
             UpdateCurrent();
-            ParticleSystem.AddEmitter(emitters[curEmitter]);
         }
 
         public override void Update(GameTime gameTime)
@@ -51,6 +50,17 @@ namespace ggj_engine.Source.Screens
             {
                 emitters[curEmitter].PositionOffset = Camera.ScreenToWorld(InputControl.GetMousePosition());
             }
+
+            // add controls for changing between curEmitter
+            if(InputControl.GetKeyboardKeyPressed(Keys.Right))
+            {
+                if (curEmitter < emitters.Count - 1) { curEmitter++; }
+            }
+            else if(InputControl.GetKeyboardKeyPressed(Keys.Left))
+            {
+                if (curEmitter > 0) { curEmitter--; }
+            }
+
             UpdateCurrent();
             base.Update(gameTime);
         }
@@ -59,8 +69,10 @@ namespace ggj_engine.Source.Screens
         {
             if (curEmitterType == EmitterType.Point)
             {
-                emitters.Add(new PointEmitter());
+                Emitter e = new PointEmitter();
+                emitters.Add(e);
                 curEmitter = emitters.Count - 1;
+                ParticleSystem.AddEmitter(e);
             }
         }
 
@@ -97,9 +109,10 @@ namespace ggj_engine.Source.Screens
             AddEntity(curSettings);
 
             ListGUI menuGui = new ListGUI("", new Vector2(400, 0), ListGUI.Orientation.Horz, GUI.Anchor.Right);
-            menuGui.Add("burst", new GenericButtonGUI("Burst", Vector2.Zero, () => { emitters[curEmitter].BurstParticles(); }));
-            menuGui.Add("save", new GenericButtonGUI("Save", Vector2.Zero, () => { SaveParticles(); }));
-            menuGui.Add("load", new GenericButtonGUI("Load", Vector2.Zero, () => { LoadParticles(); }));
+            menuGui.Add("burst", new GenericButtonGUI("[Burst]", Vector2.Zero, () => { emitters[curEmitter].BurstParticles(); }));
+            menuGui.Add("save", new GenericButtonGUI("[Save]", Vector2.Zero, () => { SaveParticles(); }));
+            menuGui.Add("load", new GenericButtonGUI("[Load]", Vector2.Zero, () => { LoadParticles(); }));
+            menuGui.Add("addEmitter", new GenericButtonGUI("[Add Emitter]", Vector2.Zero, () => { AddEmitter(); }));
             AddEntity(menuGui);
         }
 
