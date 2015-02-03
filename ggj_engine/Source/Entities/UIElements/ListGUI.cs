@@ -38,10 +38,6 @@ namespace ggj_engine.Source.Entities.UIElements
 
         public override void Update(GameTime gameTime)
         {
-            if(InputControl.GetKeyboardKeyHeld(Microsoft.Xna.Framework.Input.Keys.E))
-            {
-                Position.X -= 1;
-            }
             foreach (GUI gui in list)
             {
                 gui.Update(gameTime);

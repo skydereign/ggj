@@ -26,10 +26,11 @@ namespace ggj_engine.Source.Screens
             emitters = new List<Emitter>();
             curEmitter = 0;
 
-            ParticleSystem = new PSystemSparks();
+            ParticleSystem = new PSystemTest(Vector2.Zero);
             AddEntity(ParticleSystem);
 
             curSettings = new ListGUI("", Vector2.Zero, ListGUI.Orientation.Vert);
+            curSettings.Add("filename", new StringGUI("filename", "testparticle", Keys.Enter));
             curSettings.Add("pStartColor", new ColorGUI("pStartColor", Vector2.Zero));
             curSettings.Add("pEndColor", new ColorGUI("pEndColor", Vector2.Zero));
             curSettings.Add("pStartColorDeviation", new ColorGUI("pStartColorDeviation", Vector2.Zero));
@@ -55,7 +56,6 @@ namespace ggj_engine.Source.Screens
             curSettings.Add("pMaxSpawn", new NumberButton("pMaxSpawn", Vector2.Zero, 10, 0.2f, 0f, 100f));
             curSettings.Add("Burst", new BoolGUI("Burst", false));
             AddEntity(curSettings);
-
 
             AddEmitter();
             UpdateCurrent();
@@ -116,7 +116,7 @@ namespace ggj_engine.Source.Screens
 
         public void SaveParticles()
         {
-            StreamWriter writer = new StreamWriter("testparticle");
+            StreamWriter writer = new StreamWriter(((StringGUI)curSettings.Get("filename")).Value);
             writer.WriteLine(ColorToString(((ColorGUI)curSettings.Get("pStartColor")).Value));
             writer.WriteLine(ColorToString(((ColorGUI)curSettings.Get("pEndColor")).Value));
             writer.WriteLine(ColorToString(((ColorGUI)curSettings.Get("pStartColorDeviation")).Value));
@@ -144,31 +144,39 @@ namespace ggj_engine.Source.Screens
         }
         public void LoadParticles()
         {
-            StreamReader reader = new StreamReader("testparticle");
-            ((ColorGUI)curSettings.Get("pStartColor")).Set(StringToColor(reader.ReadLine()));
-            ((ColorGUI)curSettings.Get("pEndColor")).Set(StringToColor(reader.ReadLine()));
-            ((ColorGUI)curSettings.Get("pStartColorDeviation")).Set(StringToColor(reader.ReadLine()));
-            ((ColorGUI)curSettings.Get("pEndColorDeviation")).Set(StringToColor(reader.ReadLine()));
-            ((NumberButton)curSettings.Get("pStartBrightnessDeviationFactor")).Value = float.Parse(reader.ReadLine());
-            ((NumberButton)curSettings.Get("pEndBrightnessDeviationFactor")).Value = float.Parse(reader.ReadLine());
-            ((NumberButton)curSettings.Get("pStartScale")).Value = float.Parse(reader.ReadLine());
-            ((NumberButton)curSettings.Get("pEndScale")).Value = float.Parse(reader.ReadLine());
-            ((NumberButton)curSettings.Get("pStartScaleDeviation")).Value = float.Parse(reader.ReadLine());
-            ((NumberButton)curSettings.Get("pEndScaleDeviation")).Value = float.Parse(reader.ReadLine());
-            ((Vector2GUI)curSettings.Get("pMinAccel")).Set(StringToVector2(reader.ReadLine()));
-            ((Vector2GUI)curSettings.Get("pMaxAccel")).Set(StringToVector2(reader.ReadLine()));
-            ((Vector2GUI)curSettings.Get("pMinAngle")).Set(StringToVector2(reader.ReadLine()));
-            ((Vector2GUI)curSettings.Get("pMaxAngle")).Set(StringToVector2(reader.ReadLine()));
-            ((NumberButton)curSettings.Get("pMinVel")).Value = float.Parse(reader.ReadLine());
-            ((NumberButton)curSettings.Get("pMaxVel")).Value = float.Parse(reader.ReadLine());
-            ((NumberButton)curSettings.Get("pMinFriction")).Value = float.Parse(reader.ReadLine());
-            ((NumberButton)curSettings.Get("pMaxFriction")).Value = float.Parse(reader.ReadLine());
-            ((NumberButton)curSettings.Get("pMinLife")).Value = float.Parse(reader.ReadLine());
-            ((NumberButton)curSettings.Get("pMaxLife")).Value = float.Parse(reader.ReadLine());
-            ((NumberButton)curSettings.Get("pMinSpawn")).Value = float.Parse(reader.ReadLine());
-            ((NumberButton)curSettings.Get("pMaxSpawn")).Value = float.Parse(reader.ReadLine());
-            ((BoolGUI)curSettings.Get("Burst")).Value = bool.Parse(reader.ReadLine());
-            reader.Close();
+            string filename = ((StringGUI)curSettings.Get("filename")).Value;
+            try
+            {
+                StreamReader reader = new StreamReader(filename);
+                ((ColorGUI)curSettings.Get("pStartColor")).Set(StringToColor(reader.ReadLine()));
+                ((ColorGUI)curSettings.Get("pEndColor")).Set(StringToColor(reader.ReadLine()));
+                ((ColorGUI)curSettings.Get("pStartColorDeviation")).Set(StringToColor(reader.ReadLine()));
+                ((ColorGUI)curSettings.Get("pEndColorDeviation")).Set(StringToColor(reader.ReadLine()));
+                ((NumberButton)curSettings.Get("pStartBrightnessDeviationFactor")).Value = float.Parse(reader.ReadLine());
+                ((NumberButton)curSettings.Get("pEndBrightnessDeviationFactor")).Value = float.Parse(reader.ReadLine());
+                ((NumberButton)curSettings.Get("pStartScale")).Value = float.Parse(reader.ReadLine());
+                ((NumberButton)curSettings.Get("pEndScale")).Value = float.Parse(reader.ReadLine());
+                ((NumberButton)curSettings.Get("pStartScaleDeviation")).Value = float.Parse(reader.ReadLine());
+                ((NumberButton)curSettings.Get("pEndScaleDeviation")).Value = float.Parse(reader.ReadLine());
+                ((Vector2GUI)curSettings.Get("pMinAccel")).Set(StringToVector2(reader.ReadLine()));
+                ((Vector2GUI)curSettings.Get("pMaxAccel")).Set(StringToVector2(reader.ReadLine()));
+                ((Vector2GUI)curSettings.Get("pMinAngle")).Set(StringToVector2(reader.ReadLine()));
+                ((Vector2GUI)curSettings.Get("pMaxAngle")).Set(StringToVector2(reader.ReadLine()));
+                ((NumberButton)curSettings.Get("pMinVel")).Value = float.Parse(reader.ReadLine());
+                ((NumberButton)curSettings.Get("pMaxVel")).Value = float.Parse(reader.ReadLine());
+                ((NumberButton)curSettings.Get("pMinFriction")).Value = float.Parse(reader.ReadLine());
+                ((NumberButton)curSettings.Get("pMaxFriction")).Value = float.Parse(reader.ReadLine());
+                ((NumberButton)curSettings.Get("pMinLife")).Value = float.Parse(reader.ReadLine());
+                ((NumberButton)curSettings.Get("pMaxLife")).Value = float.Parse(reader.ReadLine());
+                ((NumberButton)curSettings.Get("pMinSpawn")).Value = float.Parse(reader.ReadLine());
+                ((NumberButton)curSettings.Get("pMaxSpawn")).Value = float.Parse(reader.ReadLine());
+                ((BoolGUI)curSettings.Get("Burst")).Value = bool.Parse(reader.ReadLine());
+                reader.Close();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("File " + filename + " does not exist");
+            }
         }
 
         public string ColorToString(Color color)

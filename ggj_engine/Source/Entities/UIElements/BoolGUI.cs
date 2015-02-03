@@ -30,6 +30,7 @@ namespace ggj_engine.Source.Entities.UIElements
                     Value = !Value;
                 }
             }
+            base.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

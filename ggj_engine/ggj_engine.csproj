@@ -110,6 +110,7 @@
     <Compile Include="Source\Entities\UIElements\Label.cs" />
     <Compile Include="Source\Entities\UIElements\ListGUI.cs" />
     <Compile Include="Source\Entities\UIElements\NumberButton.cs" />
+    <Compile Include="Source\Entities\UIElements\StringGUI.cs" />
     <Compile Include="Source\Entities\UIElements\Vector2GUI.cs" />
     <Compile Include="Source\Entities\Weapon.cs" />
     <Compile Include="Source\GameManagement\GameManager.cs" />
