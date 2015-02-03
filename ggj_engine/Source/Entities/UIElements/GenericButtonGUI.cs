@@ -27,7 +27,6 @@ namespace ggj_engine.Source.Entities.UIElements
             font = ContentLibrary.Fonts["pixelFont"];
             dimensions = font.MeasureString(label);
             dimensions *= Globals.GUIScale;
-            Console.WriteLine("dimensions = " + dimensions);
         }
 
         public override void Update(GameTime gameTime)

@@ -68,7 +68,6 @@ namespace ggj_engine.Source.Entities.UIElements
         public void Set(Color color)
         {
             Value = color;
-            Console.WriteLine("Color = " + color);
             values[0].Value = Value.R;
             values[1].Value = Value.G;
             values[2].Value = Value.B;

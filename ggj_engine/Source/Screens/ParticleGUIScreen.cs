@@ -52,13 +52,21 @@ namespace ggj_engine.Source.Screens
             }
 
             // add controls for changing between curEmitter
-            if(InputControl.GetKeyboardKeyPressed(Keys.Right))
+            if (InputControl.GetKeyboardKeyPressed(Keys.Right))
             {
-                if (curEmitter < emitters.Count - 1) { curEmitter++; }
+                if (curEmitter < emitters.Count - 1)
+                {
+                    curEmitter++;
+                    updateGui();
+                }
             }
-            else if(InputControl.GetKeyboardKeyPressed(Keys.Left))
+            else if (InputControl.GetKeyboardKeyPressed(Keys.Left))
             {
-                if (curEmitter > 0) { curEmitter--; }
+                if (curEmitter > 0)
+                {
+                    curEmitter--;
+                    updateGui();
+                }
             }
 
             UpdateCurrent();
@@ -147,29 +155,34 @@ namespace ggj_engine.Source.Screens
         public void SaveParticles()
         {
             StreamWriter writer = new StreamWriter(((StringGUI)curSettings.Get("filename")).Value);
-            writer.WriteLine(ColorToString(((ColorGUI)curSettings.Get("pStartColor")).Value));
-            writer.WriteLine(ColorToString(((ColorGUI)curSettings.Get("pEndColor")).Value));
-            writer.WriteLine(ColorToString(((ColorGUI)curSettings.Get("pStartColorDeviation")).Value));
-            writer.WriteLine(ColorToString(((ColorGUI)curSettings.Get("pEndColorDeviation")).Value));
-            writer.WriteLine(((NumberButton)curSettings.Get("pStartBrightnessDeviationFactor")).Value);
-            writer.WriteLine(((NumberButton)curSettings.Get("pEndBrightnessDeviationFactor")).Value);
-            writer.WriteLine(((NumberButton)curSettings.Get("pStartScale")).Value);
-            writer.WriteLine(((NumberButton)curSettings.Get("pEndScale")).Value);
-            writer.WriteLine(((NumberButton)curSettings.Get("pStartScaleDeviation")).Value);
-            writer.WriteLine(((NumberButton)curSettings.Get("pEndScaleDeviation")).Value);
-            writer.WriteLine(Vector2ToString(((Vector2GUI)curSettings.Get("pMinAccel")).Value));
-            writer.WriteLine(Vector2ToString(((Vector2GUI)curSettings.Get("pMaxAccel")).Value));
-            writer.WriteLine(Vector2ToString(((Vector2GUI)curSettings.Get("pMinAngle")).Value));
-            writer.WriteLine(Vector2ToString(((Vector2GUI)curSettings.Get("pMaxAngle")).Value));
-            writer.WriteLine(((NumberButton)curSettings.Get("pMinVel")).Value);
-            writer.WriteLine(((NumberButton)curSettings.Get("pMaxVel")).Value);
-            writer.WriteLine(((NumberButton)curSettings.Get("pMinFriction")).Value);
-            writer.WriteLine(((NumberButton)curSettings.Get("pMaxFriction")).Value);
-            writer.WriteLine(((NumberButton)curSettings.Get("pMinLife")).Value);
-            writer.WriteLine(((NumberButton)curSettings.Get("pMaxLife")).Value);
-            writer.WriteLine((int)((NumberButton)curSettings.Get("pMinSpawn")).Value);
-            writer.WriteLine((int)((NumberButton)curSettings.Get("pMaxSpawn")).Value);
-            writer.WriteLine(((BoolGUI)curSettings.Get("Burst")).Value);
+            writer.WriteLine(emitters.Count);
+            foreach(Emitter e in emitters)
+            {
+                writer.WriteLine(e.PositionOffset.X + "," + e.PositionOffset.Y);
+                writer.WriteLine(ColorToString(e.pStartColor));
+                writer.WriteLine(ColorToString(e.pEndColor));
+                writer.WriteLine(ColorToString(e.pStartColorDeviation));
+                writer.WriteLine(ColorToString(e.pEndColorDeviation));
+                writer.WriteLine(e.pStartBrightnessDeviationFactor);
+                writer.WriteLine(e.pEndBrightnessDeviationFactor);
+                writer.WriteLine(e.pStartScale);
+                writer.WriteLine(e.pEndScale);
+                writer.WriteLine(e.pStartScaleDeviation);
+                writer.WriteLine(e.pEndScaleDeviation);
+                writer.WriteLine(Vector2ToString(e.pMinAccel));
+                writer.WriteLine(Vector2ToString(e.pMaxAccel));
+                writer.WriteLine(Vector2ToString(e.pMinAngle));
+                writer.WriteLine(Vector2ToString(e.pMaxAngle));
+                writer.WriteLine(e.pMinVel);
+                writer.WriteLine(e.pMaxVel);
+                writer.WriteLine(e.pMinFriction);
+                writer.WriteLine(e.pMaxFriction);
+                writer.WriteLine(e.pMinLife);
+                writer.WriteLine(e.pMaxLife);
+                writer.WriteLine(e.pMinSpawn);
+                writer.WriteLine(e.pMaxSpawn);
+                writer.WriteLine(e.Burst);
+            }
             writer.Close();
         }
         public void LoadParticles()
@@ -178,30 +191,50 @@ namespace ggj_engine.Source.Screens
             try
             {
                 StreamReader reader = new StreamReader(filename);
-                ((ColorGUI)curSettings.Get("pStartColor")).Set(StringToColor(reader.ReadLine()));
-                ((ColorGUI)curSettings.Get("pEndColor")).Set(StringToColor(reader.ReadLine()));
-                ((ColorGUI)curSettings.Get("pStartColorDeviation")).Set(StringToColor(reader.ReadLine()));
-                ((ColorGUI)curSettings.Get("pEndColorDeviation")).Set(StringToColor(reader.ReadLine()));
-                ((NumberButton)curSettings.Get("pStartBrightnessDeviationFactor")).Value = float.Parse(reader.ReadLine());
-                ((NumberButton)curSettings.Get("pEndBrightnessDeviationFactor")).Value = float.Parse(reader.ReadLine());
-                ((NumberButton)curSettings.Get("pStartScale")).Value = float.Parse(reader.ReadLine());
-                ((NumberButton)curSettings.Get("pEndScale")).Value = float.Parse(reader.ReadLine());
-                ((NumberButton)curSettings.Get("pStartScaleDeviation")).Value = float.Parse(reader.ReadLine());
-                ((NumberButton)curSettings.Get("pEndScaleDeviation")).Value = float.Parse(reader.ReadLine());
-                ((Vector2GUI)curSettings.Get("pMinAccel")).Set(StringToVector2(reader.ReadLine()));
-                ((Vector2GUI)curSettings.Get("pMaxAccel")).Set(StringToVector2(reader.ReadLine()));
-                ((Vector2GUI)curSettings.Get("pMinAngle")).Set(StringToVector2(reader.ReadLine()));
-                ((Vector2GUI)curSettings.Get("pMaxAngle")).Set(StringToVector2(reader.ReadLine()));
-                ((NumberButton)curSettings.Get("pMinVel")).Value = float.Parse(reader.ReadLine());
-                ((NumberButton)curSettings.Get("pMaxVel")).Value = float.Parse(reader.ReadLine());
-                ((NumberButton)curSettings.Get("pMinFriction")).Value = float.Parse(reader.ReadLine());
-                ((NumberButton)curSettings.Get("pMaxFriction")).Value = float.Parse(reader.ReadLine());
-                ((NumberButton)curSettings.Get("pMinLife")).Value = float.Parse(reader.ReadLine());
-                ((NumberButton)curSettings.Get("pMaxLife")).Value = float.Parse(reader.ReadLine());
-                ((NumberButton)curSettings.Get("pMinSpawn")).Value = float.Parse(reader.ReadLine());
-                ((NumberButton)curSettings.Get("pMaxSpawn")).Value = float.Parse(reader.ReadLine());
-                ((BoolGUI)curSettings.Get("Burst")).Value = bool.Parse(reader.ReadLine());
+                int count = Int32.Parse(reader.ReadLine());
+
+                DeleteEntity(ParticleSystem);
+                ParticleSystem = new PSystemTest(Vector2.Zero);
+                AddEntity(ParticleSystem);
+                emitters.Clear();
+
+                for (int i = 0; i < count; i++)
+                {
+                    curEmitter = i;
+                    Emitter e = new PointEmitter();
+                    string[] position = reader.ReadLine().Split(',');
+                    e.PositionOffset = new Vector2(float.Parse(position[0]), float.Parse(position[1]));
+                    e.pStartColor = StringToColor(reader.ReadLine());
+                    e.pEndColor = StringToColor(reader.ReadLine());
+                    e.pStartColorDeviation = StringToColor(reader.ReadLine());
+                    e.pEndColorDeviation = StringToColor(reader.ReadLine());
+                    e.pStartBrightnessDeviationFactor = float.Parse(reader.ReadLine());
+                    e.pEndBrightnessDeviationFactor = float.Parse(reader.ReadLine());
+                    e.pStartScale = float.Parse(reader.ReadLine());
+                    e.pEndScale = float.Parse(reader.ReadLine());
+                    e.pStartScaleDeviation = float.Parse(reader.ReadLine());
+                    e.pEndScaleDeviation = float.Parse(reader.ReadLine());
+                    e.pMinAccel = StringToVector2(reader.ReadLine());
+                    e.pMaxAccel = StringToVector2(reader.ReadLine());
+                    e.pMinAngle = StringToVector2(reader.ReadLine());
+                    e.pMaxAngle = StringToVector2(reader.ReadLine());
+                    e.pMinVel = float.Parse(reader.ReadLine());
+                    e.pMaxVel = float.Parse(reader.ReadLine());
+                    e.pMinFriction = float.Parse(reader.ReadLine());
+                    e.pMaxFriction = float.Parse(reader.ReadLine());
+                    e.pMinLife = float.Parse(reader.ReadLine());
+                    e.pMaxLife = float.Parse(reader.ReadLine());
+                    e.pMinSpawn = Int32.Parse(reader.ReadLine());
+                    e.pMaxSpawn = Int32.Parse(reader.ReadLine());
+                    e.Burst = bool.Parse(reader.ReadLine());
+                    emitters.Add(e);
+                    ParticleSystem.AddEmitter(e);
+                }
                 reader.Close();
+
+                // update gui
+                curEmitter = 0;
+                updateGui();
             }
             catch(Exception e)
             {
@@ -209,6 +242,34 @@ namespace ggj_engine.Source.Screens
             }
         }
 
+        private void updateGui()
+        {
+            Emitter cur = emitters[curEmitter];
+
+            ((ColorGUI)curSettings.Get("pStartColor")).Set(cur.pStartColor);
+            ((ColorGUI)curSettings.Get("pEndColor")).Set(cur.pEndColor);
+            ((ColorGUI)curSettings.Get("pStartColorDeviation")).Set(cur.pStartColorDeviation);
+            ((ColorGUI)curSettings.Get("pEndColorDeviation")).Set(cur.pEndColorDeviation);
+            ((NumberButton)curSettings.Get("pStartBrightnessDeviationFactor")).Value = cur.pStartBrightnessDeviationFactor;
+            ((NumberButton)curSettings.Get("pEndBrightnessDeviationFactor")).Value = cur.pEndBrightnessDeviationFactor;
+            ((NumberButton)curSettings.Get("pStartScale")).Value = cur.pStartScale;
+            ((NumberButton)curSettings.Get("pEndScale")).Value = cur.pEndScale;
+            ((NumberButton)curSettings.Get("pStartScaleDeviation")).Value = cur.pStartScaleDeviation;
+            ((NumberButton)curSettings.Get("pEndScaleDeviation")).Value = cur.pEndScaleDeviation;
+            ((Vector2GUI)curSettings.Get("pMinAccel")).Set(cur.pMinAccel);
+            ((Vector2GUI)curSettings.Get("pMaxAccel")).Set(cur.pMaxAccel);
+            ((Vector2GUI)curSettings.Get("pMinAngle")).Set(cur.pMinAngle);
+            ((Vector2GUI)curSettings.Get("pMaxAngle")).Set(cur.pMaxAngle);
+            ((NumberButton)curSettings.Get("pMinVel")).Value = cur.pMinVel;
+            ((NumberButton)curSettings.Get("pMaxVel")).Value = cur.pMaxVel;
+            ((NumberButton)curSettings.Get("pMinFriction")).Value = cur.pMinFriction;
+            ((NumberButton)curSettings.Get("pMaxFriction")).Value = cur.pMaxFriction;
+            ((NumberButton)curSettings.Get("pMinLife")).Value = cur.pMinLife;
+            ((NumberButton)curSettings.Get("pMaxLife")).Value = cur.pMaxLife;
+            ((NumberButton)curSettings.Get("pMinSpawn")).Value = cur.pMinSpawn;
+            ((NumberButton)curSettings.Get("pMaxSpawn")).Value = cur.pMaxSpawn;
+            ((BoolGUI)curSettings.Get("Burst")).Value = cur.Burst;
+        }
         public string ColorToString(Color color)
         {
             return color.R + "," + color.G + "," + color.B;
