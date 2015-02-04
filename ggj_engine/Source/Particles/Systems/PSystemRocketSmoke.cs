@@ -45,10 +45,10 @@ namespace ggj_engine.Source.Particles
 
         public override void Update(GameTime gameTime)
         {
-            emitters[0].pMinAngle.X = (float)Math.Cos(Angle);
-            emitters[0].pMinAngle.Y = (float)Math.Sin(Angle);
-            emitters[0].pMaxAngle.X = (float)Math.Cos(Angle);
-            emitters[0].pMaxAngle.Y = (float)Math.Sin(Angle);
+            Emitters[0].pMinAngle.X = (float)Math.Cos(Angle);
+            Emitters[0].pMinAngle.Y = (float)Math.Sin(Angle);
+            Emitters[0].pMaxAngle.X = (float)Math.Cos(Angle);
+            Emitters[0].pMaxAngle.Y = (float)Math.Sin(Angle);
 
             base.Update(gameTime);
         }

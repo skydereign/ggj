@@ -2,6 +2,7 @@
 using ggj_engine.Source.Particles;
 using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace ggj_engine.Source.Screens
         enum EmitterType { Circle, Point }
         EmitterType curEmitterType = EmitterType.Point;
         ListGUI curSettings;
+        bool showLocations = false;
 
         public ParticleGUIScreen()
         {
@@ -73,6 +75,24 @@ namespace ggj_engine.Source.Screens
             base.Update(gameTime);
         }
 
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+            //Draw locations of each emitter and system center
+            if (showLocations)
+            { 
+            SpriteBatchCameraBegin(spriteBatch);
+            Debug.DrawCircle(spriteBatch, ParticleSystem.Position, Color.Red, 4);
+            for (int i = 0; i < ParticleSystem.Emitters.Count;i++)
+            {
+                Emitter e = ParticleSystem.Emitters[i];
+                Color c = i == curEmitter ? Color.Orange : Color.Lime;
+                Debug.DrawCircle(spriteBatch, e.PositionOffset + ParticleSystem.Position, c, 3);
+            }
+            spriteBatch.End();
+                }
+        }
+
         public void AddEmitter()
         {
             if (curEmitterType == EmitterType.Point)
@@ -118,6 +138,7 @@ namespace ggj_engine.Source.Screens
 
             ListGUI menuGui = new ListGUI("", new Vector2(400, 0), ListGUI.Orientation.Horz, GUI.Anchor.Right);
             menuGui.Add("burst", new GenericButtonGUI("[Burst]", Vector2.Zero, () => { emitters[curEmitter].BurstParticles(); }));
+            menuGui.Add("curEmitter", new GenericButtonGUI("[Display Locations]", Vector2.Zero, () => { showLocations = !showLocations; }));
             menuGui.Add("save", new GenericButtonGUI("[Save]", Vector2.Zero, () => { SaveParticles(); }));
             menuGui.Add("load", new GenericButtonGUI("[Load]", Vector2.Zero, () => { LoadParticles(); }));
             menuGui.Add("addEmitter", new GenericButtonGUI("[Add Emitter]", Vector2.Zero, () => { AddEmitter(); }));

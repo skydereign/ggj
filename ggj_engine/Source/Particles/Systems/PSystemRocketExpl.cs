@@ -54,15 +54,15 @@ namespace ggj_engine.Source.Particles
 
             if (ticker < 7)
             {
-                emitters[0].BurstParticles();
-                emitters[0].PositionOffset = RandomUtil.Next(new Vector2(-45, -45), new Vector2(45, 45));
-                emitters[0].BurstParticles();
-                emitters[0].PositionOffset = RandomUtil.Next(new Vector2(-45, -45), new Vector2(45, 45));
+                Emitters[0].BurstParticles();
+                Emitters[0].PositionOffset = RandomUtil.Next(new Vector2(-45, -45), new Vector2(45, 45));
+                Emitters[0].BurstParticles();
+                Emitters[0].PositionOffset = RandomUtil.Next(new Vector2(-45, -45), new Vector2(45, 45));
             }
             else
             {
-                emitters[0].BurstParticles();
-                emitters[0].PositionOffset = RandomUtil.Next(new Vector2(-45, -45), new Vector2(45, 45));
+                Emitters[0].BurstParticles();
+                Emitters[0].PositionOffset = RandomUtil.Next(new Vector2(-45, -45), new Vector2(45, 45));
             }
             base.Update(gameTime);
         }

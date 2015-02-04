@@ -10,7 +10,7 @@ namespace ggj_engine.Source.Particles
 {
     public abstract class PSystem : Entities.Entity
     {
-        protected List<Emitter> emitters = new List<Emitter>();
+        public List<Emitter> Emitters = new List<Emitter>();
         public bool Dead;
         private int deathTimer;
 
@@ -20,7 +20,7 @@ namespace ggj_engine.Source.Particles
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-            foreach (Emitter e in emitters)
+            foreach (Emitter e in Emitters)
             {
                 e.Update();
             }
@@ -48,7 +48,7 @@ namespace ggj_engine.Source.Particles
         public void AddEmitter(Emitter e)
         {
             e.MPSystem = this;
-            emitters.Add(e);
+            Emitters.Add(e);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace ggj_engine.Source.Particles
         /// <param name="e"></param>
         public void RemoveEmitter(Emitter e)
         {
-            emitters.Remove(e);
+            Emitters.Remove(e);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace ggj_engine.Source.Particles
         /// </summary>
         public void BurstParticles()
         {
-            foreach(Emitter e in emitters)
+            foreach(Emitter e in Emitters)
             {
                 e.BurstParticles();
             }
@@ -73,7 +73,7 @@ namespace ggj_engine.Source.Particles
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            foreach(Emitter e in emitters)
+            foreach(Emitter e in Emitters)
             {
                 e.Draw(spriteBatch);
             }
