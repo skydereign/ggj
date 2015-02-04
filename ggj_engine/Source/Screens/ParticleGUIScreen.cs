@@ -161,6 +161,7 @@ namespace ggj_engine.Source.Screens
             e.pMaxFriction = ((NumberButton)curSettings.Get("pMaxFriction")).Value;
             e.pMinLife = ((NumberButton)curSettings.Get("pMinLife")).Value;
             e.pMaxLife = ((NumberButton)curSettings.Get("pMaxLife")).Value;
+            e.pUpdateFreq = (int)((NumberButton)curSettings.Get("pUpdateFreq")).Value;
             e.pMinSpawn = (int)((NumberButton)curSettings.Get("pMinSpawn")).Value;
             e.pMaxSpawn = (int)((NumberButton)curSettings.Get("pMaxSpawn")).Value;
             e.Burst = ((BoolGUI)curSettings.Get("Burst")).Value;

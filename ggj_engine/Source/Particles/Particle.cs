@@ -80,6 +80,7 @@ namespace ggj_engine.Source.Particles
             PUpdateFreq = e.pUpdateFreq;
 
             Position = spawnPosition;
+            sprite.Center = new Vector2(0.5f, 0.5f);
         }
 
         public void Update()
