@@ -1,6 +1,7 @@
 #ged undo
 *.ged.undo*
 *.undo
+*.orig
 
 #OS junk files
 [Tt]humbs.db
