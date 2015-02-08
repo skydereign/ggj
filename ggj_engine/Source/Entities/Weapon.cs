@@ -67,6 +67,7 @@ namespace ggj_engine.Source.Entities
                     pt.InitialAngle = MathExt.DegToRad(i);
                     pt.State = p.State + 1;
                     MyScreen.AddEntity(pt);
+                    p.Parent.AddProjectile(pt);
                 }
             };
             e.States.Add(new Weapons.Trajectories.TrajectoryState(e));

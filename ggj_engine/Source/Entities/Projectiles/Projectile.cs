@@ -22,6 +22,7 @@ namespace ggj_engine.Source.Entities.Projectiles
         public int State;
         public float InitialAngle;
         public Vector2 StartStatePosition;
+        public int Lifetime;
 
         public override void Init()
         {
@@ -31,6 +32,7 @@ namespace ggj_engine.Source.Entities.Projectiles
 
         public override void Update(GameTime gameTime)
         {
+            Lifetime++;
             Timer++;
             if(Parent != null)
             {

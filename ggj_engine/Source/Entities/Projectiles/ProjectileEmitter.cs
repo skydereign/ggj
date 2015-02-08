@@ -40,6 +40,7 @@ namespace ggj_engine.Source.Entities.Projectiles
 
             this.positionOffset = positionOffset;
             this.owner = owner;
+            Lifetime = 100;
         }
 
         // Note pairs FireNone/FireHeld and FirePressed/FireReleased can be switched
@@ -50,6 +51,28 @@ namespace ggj_engine.Source.Entities.Projectiles
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
+            foreach(Projectile p in Projectiles)
+            {
+                if(p.Lifetime > Lifetime)
+                {
+                    removedProjectiles.Add(p);
+                }
+            }
+
+            // cleanup projectiles
+            foreach (Projectile p in removedProjectiles)
+            {
+                Projectiles.Remove(p);
+                MyScreen.DeleteEntity(p);
+            }
+            removedProjectiles.Clear();
+
+            foreach (Projectile p in addedProjectiles)
+            {
+                Projectiles.Add(p);
+            }
+            addedProjectiles.Clear();
+
             Position = owner.Position + positionOffset;
             base.Update(gameTime);
         }

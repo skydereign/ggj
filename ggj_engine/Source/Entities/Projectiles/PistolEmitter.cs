@@ -24,6 +24,7 @@ namespace ggj_engine.Source.Entities.Projectiles
                 p.Parent = this;
                 p.InitialAngle = (float)(angle + AngleOffset + RandomUtil.Next(-Accuracy/2, Accuracy/2));
                 MyScreen.AddEntity(p);
+                AddProjectile(p);
                 timer -= FireTimerMax;
             }
         }
