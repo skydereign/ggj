@@ -29,11 +29,12 @@ namespace ggj_engine.Source.Entities.Projectiles
 
         public override void Update(GameTime gameTime)
         {
-            Position += Velocity;
+            //Position += Velocity;
             sprite.Rotation = (float)Math.Atan2(Velocity.Y, Velocity.X);
 
             base.Update(gameTime);
         }
+
         public override void OnTileCollision()
         {
             base.OnTileCollision();

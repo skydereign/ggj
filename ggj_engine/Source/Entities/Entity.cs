@@ -25,7 +25,10 @@ namespace ggj_engine.Source.Entities
         /// </summary>
         public virtual void Init()
         {
-            //
+            if(sprite != null)
+            {
+                sprite.Position = Position;
+            }
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

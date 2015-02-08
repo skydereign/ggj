@@ -62,12 +62,24 @@ namespace ggj_engine.Source.Screens
             {
                 entities.Add(e);
             }
-            foreach (Entity e in createdEntities)
+
+
+            for (int count = createdEntities.Count, i = 0; i < count; i++)
             {
+                Entity e = createdEntities[i];
                 e.Active = true;
                 e.Init();
             }
-            createdEntities.Clear();
+
+            for (int i = 0; i < createdEntities.Count; i++)
+            {
+                Entity e = createdEntities[i];
+                if(e.Active == true)
+                {
+                    createdEntities.Remove(e);
+                    i--;
+                }
+            }
 
 
             for (int i = 0; i < deletedEntities.Count;i++ )
