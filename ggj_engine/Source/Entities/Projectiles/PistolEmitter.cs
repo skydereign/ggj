@@ -9,7 +9,7 @@ namespace ggj_engine.Source.Entities.Projectiles
 {
     class PistolEmitter : ProjectileEmitter
     {
-        public PistolEmitter(int offset, int accuracy, int maxFirstProjectiles, float fireTimer, float fireIncrement, Vector2 positionOffset, Weapon owner) :
+        public PistolEmitter(float offset, float accuracy, int maxFirstProjectiles, float fireTimer, float fireIncrement, Vector2 positionOffset, Weapon owner) :
             base(offset, accuracy, maxFirstProjectiles, fireTimer, fireIncrement, positionOffset, owner)
         {
             //
@@ -31,10 +31,10 @@ namespace ggj_engine.Source.Entities.Projectiles
             timer += FireTimerInc;
             while(timer > FireTimerMax)
             {
-                Console.WriteLine("fire angle = " + angle);
                 Projectile p = new Bullet(Position, Globals.Right, owner.Owner);
                 p.Parent = this;
-                p.InitialAngle = (int)Utility.MathExt.RadToDeg(angle);
+                p.InitialAngle = (float)(angle + AngleOffset + RandomUtil.Next(-Accuracy/2, Accuracy/2));
+                Console.WriteLine("pinitial angle = " + p.InitialAngle);
                 MyScreen.AddEntity(p);
                 timer -= FireTimerMax;
             }

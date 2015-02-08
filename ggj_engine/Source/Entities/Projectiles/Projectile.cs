@@ -20,10 +20,18 @@ namespace ggj_engine.Source.Entities.Projectiles
         public ProjectileEmitter Parent;
         public int Timer;
         public int State;
-        public int InitialAngle;
+        public float InitialAngle;
+        public Vector2 StartStatePosition;
+
+        public override void Init()
+        {
+            StartStatePosition = Position;
+            base.Init();
+        }
 
         public override void Update(GameTime gameTime)
         {
+            Timer++;
             if(Parent != null)
             {
                 Parent.States[State].Update(this);

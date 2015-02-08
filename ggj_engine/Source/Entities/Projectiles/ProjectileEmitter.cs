@@ -9,8 +9,8 @@ namespace ggj_engine.Source.Entities.Projectiles
 {
     public abstract class ProjectileEmitter : Entity
     {
-        public int AngleOffset;
-        public int Accuracy;
+        public float AngleOffset;
+        public float Accuracy;
         public int MaxFirstProjectiles; // max number of projectiles that can exist in the first state
         public float FireTimerMax; // count that the timer must reach to fire
         public float FireTimerInc; // increases FireTimer by this amount on each call to fire
@@ -24,7 +24,7 @@ namespace ggj_engine.Source.Entities.Projectiles
         protected Weapon owner;
         private Vector2 positionOffset;
 
-        public ProjectileEmitter(int offset, int accuracy, int maxFirstProjectiles, float fireTimer, float fireIncrement, Vector2 positionOffset, Weapon owner)
+        public ProjectileEmitter(float offset, float accuracy, int maxFirstProjectiles, float fireTimer, float fireIncrement, Vector2 positionOffset, Weapon owner)
         {
             AngleOffset = offset;
             Accuracy = accuracy;

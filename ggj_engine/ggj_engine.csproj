@@ -168,6 +168,7 @@
     <Compile Include="Source\Weapons\Inputs\KeyEvent.cs" />
     <Compile Include="Source\Weapons\Inputs\MouseEvent.cs" />
     <Compile Include="Source\Weapons\Inputs\PadEvent.cs" />
+    <Compile Include="Source\Weapons\Trajectories\SinTrajectory.cs" />
     <Compile Include="Source\Weapons\Trajectories\TrajectoryState.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -53,16 +53,16 @@ namespace ggj_engine.Source.Entities
 
         public void GenerateDefaultInput()
         {
-            ProjectileEmitter e = new PistolEmitter(0, 0, 100, 1, 1, Vector2.Zero, this);
+            ProjectileEmitter e = new PistolEmitter(MathExt.DegToRad(0), MathExt.DegToRad(0), 100, 1, 1, Vector2.Zero, this);
             e.States.Add(new Weapons.Trajectories.TrajectoryState(e));
-            e.States[0].Update = (Projectile p) => { p.Position.X += (float)Math.Cos(Utility.MathExt.DegToRad(p.InitialAngle))*5;
-                                                     p.Position.Y += (float)Math.Sin(Utility.MathExt.DegToRad(p.InitialAngle))*5; };
+            e.States[0].Update = (Projectile p) => { p.Position.X += (float)Math.Cos(p.InitialAngle)*5;
+                                                     p.Position.Y += (float)Math.Sin(p.InitialAngle)*5; };
             Emitters.Add(e);
             MyScreen.AddEntity(e);
 
-            e = new PistolEmitter(0, 0, 100, 1, 1, Vector2.Zero, this);
-            e.States.Add(new Weapons.Trajectories.TrajectoryState(e));
-            e.States[0].Update = (Projectile p) => { p.Position.Y += 0; p.Position.X += 0; };
+            e = new PistolEmitter(0, MathExt.DegToRad(0), 100, 1, 1, Vector2.Zero, this);
+            e.States.Add(new Weapons.Trajectories.SinTrajectory(e));
+            //e.States[0].Update = (Projectile p) => { p.Position.Y += 0; p.Position.X += 0; };
             Emitters.Add(e);
             MyScreen.AddEntity(e);
 
