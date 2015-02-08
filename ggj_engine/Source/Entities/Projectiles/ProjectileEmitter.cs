@@ -14,6 +14,7 @@ namespace ggj_engine.Source.Entities.Projectiles
         public int MaxFirstProjectiles; // max number of projectiles that can exist in the first state
         public float FireTimerMax; // count that the timer must reach to fire
         public float FireTimerInc; // increases FireTimer by this amount on each call to fire
+        public int Lifetime;
         protected float timer;
 
         // public list of TrajectoryStates

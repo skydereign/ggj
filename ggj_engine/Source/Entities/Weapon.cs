@@ -63,7 +63,7 @@ namespace ggj_engine.Source.Entities
             e = new RapidEmitter(0, MathExt.DegToRad(0), 100, 10, 5, Vector2.Zero, this);
             e.States.Add(new Weapons.Trajectories.SinTrajectory(e));
             e.States[0].Check = (Projectile p) => { return p.Timer > 30; };
-            e.States[0].TransitionState = (Projectile p) => { p.Timer = 0; };
+            e.States[0].TransitionState = (Projectile p) => { Console.WriteLine("."); };
 
             e.States.Add(new Weapons.Trajectories.TrajectoryState(e));
             e.States[1].Update = (Projectile p) =>
@@ -72,7 +72,7 @@ namespace ggj_engine.Source.Entities
                 p.Position.Y += (float)Math.Sin(p.InitialAngle) * 5;
             };
             e.States[1].Check = (Projectile p) => { return p.Timer > 30; };
-            e.States[1].TransitionState = (Projectile p) => { p.Timer = 0; };
+            e.States[1].TransitionState = (Projectile p) => {  };
 
             e.States.Add(new Weapons.Trajectories.TrajectoryState(e));
             e.States[2].Update = (Projectile p) =>

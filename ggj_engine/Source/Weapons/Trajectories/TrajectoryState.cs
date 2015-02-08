@@ -38,10 +38,13 @@ namespace ggj_engine.Source.Weapons.Trajectories
                     TransitionState(p);
                     p.State++;
                     p.Timer = 0;
+                    p.StartStatePosition = p.Position;
                 }
                 else
                 {
                     p.State = LoopState;
+                    p.Timer = 0;
+                    p.StartStatePosition = p.Position;
                 }
             }
         }
