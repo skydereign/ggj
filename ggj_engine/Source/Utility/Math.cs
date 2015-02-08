@@ -19,5 +19,15 @@ namespace ggj_engine.Source.Utility
         {
             return (float)Math.Atan2(PointA.Y - PointB.Y, PointB.X - PointA.X);
         }
+
+        public static float DegToRad(float angle)
+        {
+            return (float)(Math.PI*angle/180f);
+        }
+
+        public static float RadToDeg(float angle)
+        {
+            return (float)(angle * 180f / Math.PI);
+        }
     }
 }

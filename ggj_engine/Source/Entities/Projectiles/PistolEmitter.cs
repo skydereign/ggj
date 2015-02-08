@@ -31,8 +31,10 @@ namespace ggj_engine.Source.Entities.Projectiles
             timer += FireTimerInc;
             while(timer > FireTimerMax)
             {
+                Console.WriteLine("fire angle = " + angle);
                 Projectile p = new Bullet(Position, Globals.Right, owner.Owner);
                 p.Parent = this;
+                p.InitialAngle = (int)Utility.MathExt.RadToDeg(angle);
                 MyScreen.AddEntity(p);
                 timer -= FireTimerMax;
             }

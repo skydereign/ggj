@@ -20,6 +20,7 @@ namespace ggj_engine.Source.Entities.Projectiles
         public ProjectileEmitter Parent;
         public int Timer;
         public int State;
+        public int InitialAngle;
 
         public override void Update(GameTime gameTime)
         {

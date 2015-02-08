@@ -55,13 +55,14 @@ namespace ggj_engine.Source.Entities
         {
             ProjectileEmitter e = new PistolEmitter(0, 0, 100, 1, 1, Vector2.Zero, this);
             e.States.Add(new Weapons.Trajectories.TrajectoryState(e));
-            e.States[0].Update = (Projectile p) => { p.Position.X += 5; };
+            e.States[0].Update = (Projectile p) => { p.Position.X += (float)Math.Cos(Utility.MathExt.DegToRad(p.InitialAngle))*5;
+                                                     p.Position.Y += (float)Math.Sin(Utility.MathExt.DegToRad(p.InitialAngle))*5; };
             Emitters.Add(e);
             MyScreen.AddEntity(e);
 
             e = new PistolEmitter(0, 0, 100, 1, 1, Vector2.Zero, this);
             e.States.Add(new Weapons.Trajectories.TrajectoryState(e));
-            e.States[0].Update = (Projectile p) => { p.Position.Y += 5; p.Position.X += 5; };
+            e.States[0].Update = (Projectile p) => { p.Position.Y += 0; p.Position.X += 0; };
             Emitters.Add(e);
             MyScreen.AddEntity(e);
 
@@ -79,24 +80,25 @@ namespace ggj_engine.Source.Entities
 
         private void Fire(Vector2 targetPos, FireType type)
         {
+            float angle = (float)Math.Atan2(targetPos.Y, targetPos.X);
             foreach(ProjectileEmitter e in Emitters)
             {
                 switch(type)
                 {
                     case FireType.Held:
-                        e.FireHeld(0);
+                        e.FireHeld(angle);
                         break;
 
                     case FireType.None:
-                        e.FireNone(0);
+                        e.FireNone(angle);
                         break;
 
                     case FireType.Pressed:
-                        e.FirePressed(0);
+                        e.FirePressed(angle);
                         break;
 
                     case FireType.Released:
-                        e.FireReleased(0);
+                        e.FireReleased(angle);
                         break;
                 }
             }
