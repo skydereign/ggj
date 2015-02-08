@@ -53,16 +53,36 @@ namespace ggj_engine.Source.Entities
 
         public void GenerateDefaultInput()
         {
-            ProjectileEmitter e = new PistolEmitter(MathExt.DegToRad(0), MathExt.DegToRad(0), 100, 1, 1, Vector2.Zero, this);
-            e.States.Add(new Weapons.Trajectories.TrajectoryState(e));
-            e.States[0].Update = (Projectile p) => { p.Position.X += (float)Math.Cos(p.InitialAngle)*5;
-                                                     p.Position.Y += (float)Math.Sin(p.InitialAngle)*5; };
-            Emitters.Add(e);
-            MyScreen.AddEntity(e);
+            ProjectileEmitter e = new PistolEmitter(MathExt.DegToRad(0), MathExt.DegToRad(30), 100, 1, 10, Vector2.Zero, this);
+            //e.States.Add(new Weapons.Trajectories.TrajectoryState(e));
+            //e.States[0].Update = (Projectile p) => { p.Position.X += (float)Math.Cos(p.InitialAngle)*5;
+            //                                         p.Position.Y += (float)Math.Sin(p.InitialAngle)*5; };
+            //Emitters.Add(e);
+            //MyScreen.AddEntity(e);
 
             e = new RapidEmitter(0, MathExt.DegToRad(0), 100, 10, 5, Vector2.Zero, this);
             e.States.Add(new Weapons.Trajectories.SinTrajectory(e));
-            //e.States[0].Update = (Projectile p) => { p.Position.Y += 0; p.Position.X += 0; };
+            e.States[0].Check = (Projectile p) => { return p.Timer > 30; };
+            e.States[0].TransitionState = (Projectile p) => { p.Timer = 0; };
+
+            e.States.Add(new Weapons.Trajectories.TrajectoryState(e));
+            e.States[1].Update = (Projectile p) =>
+            {
+                p.Position.X += (float)Math.Cos(p.InitialAngle) * 5;
+                p.Position.Y += (float)Math.Sin(p.InitialAngle) * 5;
+            };
+            e.States[1].Check = (Projectile p) => { return p.Timer > 30; };
+            e.States[1].TransitionState = (Projectile p) => { p.Timer = 0; };
+
+            e.States.Add(new Weapons.Trajectories.TrajectoryState(e));
+            e.States[2].Update = (Projectile p) =>
+            {
+                p.Position.X += (float)Math.Cos(p.InitialAngle+Math.PI) * 5;
+                p.Position.Y += (float)Math.Sin(p.InitialAngle+Math.PI) * 5;
+            };
+            e.States[2].Check = (Projectile p) => { return p.Timer > 30; };
+            e.States[2].LoopState = 0;
+
             Emitters.Add(e);
             MyScreen.AddEntity(e);
 

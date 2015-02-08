@@ -36,8 +36,13 @@ namespace ggj_engine.Source.Weapons.Trajectories
                 if (TransitionState != null)
                 {
                     TransitionState(p);
+                    p.State++;
+                    p.Timer = 0;
                 }
-                p.State = LoopState;
+                else
+                {
+                    p.State = LoopState;
+                }
             }
         }
     }
