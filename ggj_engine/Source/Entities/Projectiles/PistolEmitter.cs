@@ -9,10 +9,15 @@ namespace ggj_engine.Source.Entities.Projectiles
 {
     class PistolEmitter : ProjectileEmitter
     {
+        public float FireTimerInc;
+        public float FireTimerMax;
+        protected float timer;
+
         public PistolEmitter(float offset, float accuracy, int maxFirstProjectiles, float fireTimer, float fireIncrement, Vector2 positionOffset, Weapon owner) :
-            base(offset, accuracy, maxFirstProjectiles, fireTimer, fireIncrement, positionOffset, owner)
+            base(offset, accuracy, maxFirstProjectiles, positionOffset, owner)
         {
-            //
+            FireTimerInc = fireIncrement;
+            FireTimerMax = fireTimer;
         }
 
         public override void FirePressed(float angle)

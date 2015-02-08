@@ -11,7 +11,7 @@ namespace ggj_engine.Source.Entities.Projectiles
     {
         Projectile projectile;
         public LaserEmitter(float offset, float accuracy, int maxFirstProjectiles, float fireTimer, float fireIncrement, Vector2 positionOffset, Weapon owner) :
-            base(offset, accuracy, maxFirstProjectiles, fireTimer, fireIncrement, positionOffset, owner)
+            base(offset, accuracy, maxFirstProjectiles, positionOffset, owner)
         {
             //
         }

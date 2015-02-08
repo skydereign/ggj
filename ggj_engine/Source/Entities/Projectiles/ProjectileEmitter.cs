@@ -12,10 +12,7 @@ namespace ggj_engine.Source.Entities.Projectiles
         public float AngleOffset;
         public float Accuracy;
         public int MaxFirstProjectiles; // max number of projectiles that can exist in the first state
-        public float FireTimerMax; // count that the timer must reach to fire
-        public float FireTimerInc; // increases FireTimer by this amount on each call to fire
         public int Lifetime;
-        protected float timer;
 
         // public list of TrajectoryStates
         public List<TrajectoryState> States;
@@ -25,13 +22,11 @@ namespace ggj_engine.Source.Entities.Projectiles
         protected Weapon owner;
         private Vector2 positionOffset;
 
-        public ProjectileEmitter(float offset, float accuracy, int maxFirstProjectiles, float fireTimer, float fireIncrement, Vector2 positionOffset, Weapon owner)
+        public ProjectileEmitter(float offset, float accuracy, int maxFirstProjectiles, Vector2 positionOffset, Weapon owner)
         {
             AngleOffset = offset;
             Accuracy = accuracy;
             MaxFirstProjectiles = maxFirstProjectiles;
-            FireTimerMax = fireTimer;
-            FireTimerInc = fireIncrement;
 
             States = new List<TrajectoryState>();
             Projectiles = new List<Projectile>();
@@ -51,11 +46,15 @@ namespace ggj_engine.Source.Entities.Projectiles
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            foreach(Projectile p in Projectiles)
+            // only delete projectiles due to lifetime if a max lifetime is set
+            if (Lifetime > 0)
             {
-                if(p.Lifetime > Lifetime)
+                foreach (Projectile p in Projectiles)
                 {
-                    removedProjectiles.Add(p);
+                    if (p.Lifetime > Lifetime)
+                    {
+                        removedProjectiles.Add(p);
+                    }
                 }
             }
 

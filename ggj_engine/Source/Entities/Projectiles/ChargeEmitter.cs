@@ -14,7 +14,7 @@ namespace ggj_engine.Source.Entities.Projectiles
         public float MaxCharge;
 
         public ChargeEmitter(float maxCharge, float offset, float accuracy, int maxFirstProjectiles, float fireTimer, float fireIncrement, Vector2 positionOffset, Weapon owner) :
-            base(offset, accuracy, maxFirstProjectiles, fireTimer, fireIncrement, positionOffset, owner)
+            base(offset, accuracy, maxFirstProjectiles, positionOffset, owner)
         {
             MaxCharge = maxCharge;
         }

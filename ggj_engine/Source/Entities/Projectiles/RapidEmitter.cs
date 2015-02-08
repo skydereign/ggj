@@ -9,10 +9,15 @@ namespace ggj_engine.Source.Entities.Projectiles
 {
     class RapidEmitter : ProjectileEmitter
     {
-        public RapidEmitter(float offset, float accuracy, int maxFirstProjectiles, float fireTimer, float fireIncrement, Vector2 positionOffset, Weapon owner) :
-            base(offset, accuracy, maxFirstProjectiles, fireTimer, fireIncrement, positionOffset, owner)
-        {
+        public float FireTimerInc;
+        public float FireTimerMax;
+        protected float timer;
 
+        public RapidEmitter(float offset, float accuracy, int maxFirstProjectiles, float fireTimer, float fireIncrement, Vector2 positionOffset, Weapon owner) :
+            base(offset, accuracy, maxFirstProjectiles, positionOffset, owner)
+        {
+            FireTimerInc = fireIncrement;
+            FireTimerMax = fireTimer;
         }
 
 
