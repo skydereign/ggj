@@ -93,7 +93,9 @@
     <Compile Include="Source\Entities\Player\Player.cs" />
     <Compile Include="Source\Entities\Player\Shield.cs" />
     <Compile Include="Source\Entities\Player\Spawn.cs" />
+    <Compile Include="Source\Entities\Projectiles\ChargeEmitter.cs" />
     <Compile Include="Source\Entities\Projectiles\Explosion.cs" />
+    <Compile Include="Source\Entities\Projectiles\LaserEmitter.cs" />
     <Compile Include="Source\Entities\Projectiles\PistolEmitter.cs" />
     <Compile Include="Source\Entities\Projectiles\ProjectileEmitter.cs" />
     <Compile Include="Source\Entities\Projectiles\RapidEmitter.cs" />

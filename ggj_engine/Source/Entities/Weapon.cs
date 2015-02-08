@@ -53,32 +53,52 @@ namespace ggj_engine.Source.Entities
 
         public void GenerateDefaultInput()
         {
-            ProjectileEmitter e = new PistolEmitter(MathExt.DegToRad(0), MathExt.DegToRad(30), 100, 1, 1, Vector2.Zero, this);
-            e.States.Add(new Weapons.Trajectories.TrajectoryState(e));
-            e.States[0].Update = (Projectile p) => { p.Position.X += (float)Math.Cos(p.InitialAngle)*5;
-                                                     p.Position.Y += (float)Math.Sin(p.InitialAngle)*5; };
-            e.States[0].Check = (Projectile p) => { return InputControl.GetMouseOnLeftReleased(); };
-            e.States[0].TransitionState = (Projectile p) =>
-            {
-                for(int i=0; i<360; i+=10)
-                {
-                    Projectile pt = new Bullet(p.Position, Globals.Right, p.Owner);
-                    pt.Parent = p.Parent;
-                    pt.InitialAngle = MathExt.DegToRad(i);
-                    pt.State = p.State + 1;
-                    MyScreen.AddEntity(pt);
-                    p.Parent.AddProjectile(pt);
-                }
-            };
-            e.States.Add(new Weapons.Trajectories.TrajectoryState(e));
-            e.States[1].Update = (Projectile p) =>
+            //ProjectileEmitter e = new PistolEmitter(MathExt.DegToRad(0), MathExt.DegToRad(30), 100, 1, 1, Vector2.Zero, this);
+            //e.States.Add(new Weapons.Trajectories.TrajectoryState(e));
+            //e.States[0].Update = (Projectile p) => { p.Position.X += (float)Math.Cos(p.InitialAngle)*5;
+            //                                         p.Position.Y += (float)Math.Sin(p.InitialAngle)*5; };
+            //e.States[0].Check = (Projectile p) => { return InputControl.GetMouseOnLeftReleased(); };
+            //e.States[0].TransitionState = (Projectile p) =>
+            //{
+            //    for(int i=0; i<360; i+=10)
+            //    {
+            //        Projectile pt = new Bullet(p.Position, Globals.Right, p.Owner);
+            //        pt.Parent = p.Parent;
+            //        pt.InitialAngle = MathExt.DegToRad(i);
+            //        pt.State = p.State + 1;
+            //        MyScreen.AddEntity(pt);
+            //        p.Parent.AddProjectile(pt);
+            //    }
+            //};
+            //e.States.Add(new Weapons.Trajectories.TrajectoryState(e));
+            //e.States[1].Update = (Projectile p) =>
+            //{
+            //    p.Position.X += (float)Math.Cos(p.InitialAngle) * 5;
+            //    p.Position.Y += (float)Math.Sin(p.InitialAngle) * 5;
+            //};
+            //
+            //Emitters.Add(e);
+            //MyScreen.AddEntity(e);
+
+            //ProjectileEmitter charge = new ChargeEmitter(120, 0, 0, 5, 0, 0, Vector2.Zero, this);
+            //charge.States.Add(new Weapons.Trajectories.TrajectoryState(charge));
+            //charge.States[0].Update = (Projectile p) => { p.Position.X += (float)Math.Cos(p.InitialAngle)*5;
+            //                                         p.Position.Y += (float)Math.Sin(p.InitialAngle)*5; };
+            //
+            //Emitters.Add(charge);
+            //MyScreen.AddEntity(charge);
+
+            ProjectileEmitter charge = new LaserEmitter(0, 0, 1, 0, 0, Vector2.Zero, this);
+            charge.States.Add(new Weapons.Trajectories.TrajectoryState(charge));
+            charge.States[0].Update = (Projectile p) =>
             {
                 p.Position.X += (float)Math.Cos(p.InitialAngle) * 5;
                 p.Position.Y += (float)Math.Sin(p.InitialAngle) * 5;
             };
 
-            Emitters.Add(e);
-            MyScreen.AddEntity(e);
+            Emitters.Add(charge);
+            MyScreen.AddEntity(charge);
+
 
             //e = new RapidEmitter(0, MathExt.DegToRad(0), 100, 10, 5, Vector2.Zero, this);
             //e.States.Add(new Weapons.Trajectories.SinTrajectory(e));
@@ -108,10 +128,12 @@ namespace ggj_engine.Source.Entities
 
 
             EventTrigger.Trigger FireMousePressed = () => { Fire(MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position, FireType.Pressed); };
+            EventTrigger.Trigger FireMouseReleased = () => { Fire(MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position, FireType.Released); };
             EventTrigger.Trigger FireMouseHeld = () => { Fire(MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position, FireType.Held); };
             
             inputs.Clear();
             inputs.Add(new EventTrigger(FireMousePressed, EventTrigger.Type.All, new MouseEvent(MouseEvent.Button.Left, MouseEvent.Types.Pressed)));
+            inputs.Add(new EventTrigger(FireMouseReleased, EventTrigger.Type.All, new MouseEvent(MouseEvent.Button.Left, MouseEvent.Types.Released)));
             inputs.Add(new EventTrigger(FireMouseHeld, EventTrigger.Type.All, new MouseEvent(MouseEvent.Button.Left, MouseEvent.Types.Held)));
             //
             //CurrentProjectile = ProjectileType.Bullet;

@@ -12,16 +12,25 @@ namespace ggj_engine.Source.Collisions
 {
     public class CircleRegion : Region
     {
-        public int Radius;
+        private int radius;
+        public int Radius
+        {
+            get { return radius; }
+            set
+            {
+                radius = value;
+                sprite.ScaleX = radius * 2 / Globals.DebugCircleSize;
+                sprite.ScaleY = radius * 2 / Globals.DebugCircleSize;
+                sprite.CenterOrigin();
+            }
+        }
+
         
         public CircleRegion (int radius, Vector2 position)
         {
-            Radius = radius;
             Position = position;
             sprite = ContentLibrary.Sprites["circle_region"];
-            sprite.ScaleX = radius*2 / Globals.DebugCircleSize;
-            sprite.ScaleY = radius*2 / Globals.DebugCircleSize;
-            sprite.CenterOrigin();
+            Radius = radius;
             Active = true;
         }
 
