@@ -7,22 +7,29 @@ using System.Text;
 
 namespace ggj_engine.Source.Entities.Projectiles
 {
-    class PistolEmitter : ProjectileEmitter
+    class RapidEmitter : ProjectileEmitter
     {
-        public PistolEmitter(float offset, float accuracy, int maxFirstProjectiles, float fireTimer, float fireIncrement, Vector2 positionOffset, Weapon owner) :
+        public RapidEmitter(float offset, float accuracy, int maxFirstProjectiles, float fireTimer, float fireIncrement, Vector2 positionOffset, Weapon owner) :
             base(offset, accuracy, maxFirstProjectiles, fireTimer, fireIncrement, positionOffset, owner)
         {
-            //
+
         }
+
+
 
         public override void FirePressed(float angle)
         {
+            timer = FireTimerMax;
+        }
+
+        public override void FireHeld(float angle)
+        {
             timer += FireTimerInc;
-            while(timer > FireTimerMax)
+            while (timer > FireTimerMax)
             {
                 Projectile p = new Bullet(Position, Globals.Right, owner.Owner);
                 p.Parent = this;
-                p.InitialAngle = (float)(angle + AngleOffset + RandomUtil.Next(-Accuracy/2, Accuracy/2));
+                p.InitialAngle = (float)(angle + AngleOffset + RandomUtil.Next(-Accuracy / 2, Accuracy / 2));
                 MyScreen.AddEntity(p);
                 timer -= FireTimerMax;
             }

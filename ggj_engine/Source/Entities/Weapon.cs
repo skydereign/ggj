@@ -60,17 +60,19 @@ namespace ggj_engine.Source.Entities
             Emitters.Add(e);
             MyScreen.AddEntity(e);
 
-            e = new PistolEmitter(0, MathExt.DegToRad(0), 100, 1, 1, Vector2.Zero, this);
+            e = new RapidEmitter(0, MathExt.DegToRad(0), 100, 10, 5, Vector2.Zero, this);
             e.States.Add(new Weapons.Trajectories.SinTrajectory(e));
             //e.States[0].Update = (Projectile p) => { p.Position.Y += 0; p.Position.X += 0; };
             Emitters.Add(e);
             MyScreen.AddEntity(e);
 
 
-            EventTrigger.Trigger FireMouse = () => { Fire(MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position, FireType.Pressed); };
+            EventTrigger.Trigger FireMousePressed = () => { Fire(MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position, FireType.Pressed); };
+            EventTrigger.Trigger FireMouseHeld = () => { Fire(MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position, FireType.Held); };
             
             inputs.Clear();
-            inputs.Add(new EventTrigger(FireMouse, EventTrigger.Type.All, new MouseEvent(MouseEvent.Button.Left, MouseEvent.Types.Pressed)));
+            inputs.Add(new EventTrigger(FireMousePressed, EventTrigger.Type.All, new MouseEvent(MouseEvent.Button.Left, MouseEvent.Types.Pressed)));
+            inputs.Add(new EventTrigger(FireMouseHeld, EventTrigger.Type.All, new MouseEvent(MouseEvent.Button.Left, MouseEvent.Types.Held)));
             //
             //CurrentProjectile = ProjectileType.Bullet;
             //CurrentInputType = InputType.Mouse;

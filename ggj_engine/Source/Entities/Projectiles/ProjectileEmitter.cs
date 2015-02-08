@@ -42,10 +42,10 @@ namespace ggj_engine.Source.Entities.Projectiles
         }
 
         // Note pairs FireNone/FireHeld and FirePressed/FireReleased can be switched
-        abstract public void FireNone(float angle);
-        abstract public void FireHeld(float angle);
-        abstract public void FirePressed(float angle);
-        abstract public void FireReleased(float angle);
+        virtual public void FireNone(float angle) { }
+        virtual public void FireHeld(float angle) { }
+        virtual public void FirePressed(float angle) { }
+        virtual public void FireReleased(float angle) { }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {

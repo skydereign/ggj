@@ -96,6 +96,7 @@
     <Compile Include="Source\Entities\Projectiles\Explosion.cs" />
     <Compile Include="Source\Entities\Projectiles\PistolEmitter.cs" />
     <Compile Include="Source\Entities\Projectiles\ProjectileEmitter.cs" />
+    <Compile Include="Source\Entities\Projectiles\RapidEmitter.cs" />
     <Compile Include="Source\Entities\Projectiles\Rocket.cs" />
     <Compile Include="Source\Entities\Projectiles\Cannonball.cs" />
     <Compile Include="Source\Entities\Projectiles\Arrow.cs" />
