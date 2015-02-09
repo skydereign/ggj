@@ -16,23 +16,23 @@ namespace ggj_engine.Source.Entities.UIElements
         private SpriteFont font;
         private NumberButton[] values;
 
-        public ColorGUI(string label, Vector2 position) : base(label)
+        public ColorGUI(string label, Vector2 position, Vector4 startColor) : base(label)
         {
             Position = position;
-            values = new NumberButton[3];
+            values = new NumberButton[4];
             font = ContentLibrary.Fonts["pixelFont"];
 
-            for (int i = 0; i < 3; i++)
-            {
-                values[i] = new NumberButton("", Vector2.Zero, 127, 1, 0, 255);
-            }
+            values[0] = new NumberButton("", Vector2.Zero, startColor.X, 1, 0, 255);
+            values[1] = new NumberButton("", Vector2.Zero, startColor.Y, 1, 0, 255);
+            values[2] = new NumberButton("", Vector2.Zero, startColor.Z, 1, 0, 255);
+            values[3] = new NumberButton("", Vector2.Zero, startColor.W, 1, 0, 255);
 
             ResetPositions();
         }
 
         public override void Init()
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 values[i].MyScreen = MyScreen;
                 values[i].Init();
@@ -42,7 +42,7 @@ namespace ggj_engine.Source.Entities.UIElements
 
         public override void Update(GameTime gameTime)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 values[i].Update(gameTime);
             }
@@ -50,6 +50,7 @@ namespace ggj_engine.Source.Entities.UIElements
             Value.R = (byte)values[0].Value;
             Value.G = (byte)values[1].Value;
             Value.B = (byte)values[2].Value;
+            Value.A = (byte)values[3].Value;
 
             base.Update(gameTime);
         }
@@ -58,7 +59,7 @@ namespace ggj_engine.Source.Entities.UIElements
         {
             spriteBatch.DrawString(font, label, Position, Value, 0, Vector2.Zero, Globals.GUIScale, SpriteEffects.None, 0);
         
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 values[i].Draw(spriteBatch);
             }
@@ -71,13 +72,14 @@ namespace ggj_engine.Source.Entities.UIElements
             values[0].Value = Value.R;
             values[1].Value = Value.G;
             values[2].Value = Value.B;
+            values[3].Value = Value.A;
         }
 
         public override void ResetPositions ()
         {
             Vector2 offset = Vector2.Zero;
             offset.X = font.MeasureString(label).X*Globals.GUIScale;
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 values[i].Position = Position + offset;
                 offset.X += font.MeasureString("000 ").X*Globals.GUIScale;

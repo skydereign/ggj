@@ -108,10 +108,10 @@ namespace ggj_engine.Source.Screens
         {
             curSettings = new ListGUI("", Vector2.Zero, ListGUI.Orientation.Vert, GUI.Anchor.None);
             curSettings.Add("filename", new StringGUI("filename", "testparticle", Keys.Enter));
-            curSettings.Add("pStartColor", new ColorGUI("pStartColor", Vector2.Zero));
-            curSettings.Add("pEndColor", new ColorGUI("pEndColor", Vector2.Zero));
-            curSettings.Add("pStartColorDeviation", new ColorGUI("pStartColorDeviation", Vector2.Zero));
-            curSettings.Add("pEndColorDeviation", new ColorGUI("pEndColorDeviation", Vector2.Zero));
+            curSettings.Add("pStartColor", new ColorGUI("pStartColor", Vector2.Zero, new Vector4(127,127,127,255)));
+            curSettings.Add("pEndColor", new ColorGUI("pEndColor", Vector2.Zero, new Vector4(127, 127, 127, 255)));
+            curSettings.Add("pStartColorDeviation", new ColorGUI("pStartColorDeviation", Vector2.Zero, new Vector4(127, 127, 127, 0)));
+            curSettings.Add("pEndColorDeviation", new ColorGUI("pEndColorDeviation", Vector2.Zero, new Vector4(127, 127, 127, 0)));
             curSettings.Add("pStartBrightnessDeviationFactor", new NumberButton("pStartBrightnessDeviationFactor", Vector2.Zero, 1, 0.05f, 0, 1));
             curSettings.Add("pEndBrightnessDeviationFactor", new NumberButton("pEndBrightnessDeviationFactor", Vector2.Zero, 1, 0.05f, 0, 1));
             curSettings.Add("pStartScale", new NumberButton("pStartScale", Vector2.Zero, 1f, 0.05f, 0.001f, 100f));
@@ -308,13 +308,13 @@ namespace ggj_engine.Source.Screens
         }
         public string ColorToString(Color color)
         {
-            return color.R + "," + color.G + "," + color.B;
+            return color.R + "," + color.G + "," + color.B + "," + color.A;
         }
 
         public Color StringToColor(string color)
         {
             string[] colors = color.Split(',');
-            return new Color((int)float.Parse(colors[0]), (int)float.Parse(colors[1]), (int)float.Parse(colors[2]));
+            return new Color((int)float.Parse(colors[0]), (int)float.Parse(colors[1]), (int)float.Parse(colors[2]), (int)float.Parse(colors[3]));
         }
         public string Vector2ToString(Vector2 vector)
         {
