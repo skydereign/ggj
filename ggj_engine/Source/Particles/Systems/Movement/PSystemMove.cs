@@ -9,5 +9,6 @@ namespace ggj_engine.Source.Particles
     {
         public float Angle;
 
+        public abstract void SetAngle(float angle);
     }
 }

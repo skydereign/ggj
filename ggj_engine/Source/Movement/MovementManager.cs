@@ -1,4 +1,5 @@
-﻿using ggj_engine.Source.Utility;
+﻿using ggj_engine.Source.Entities.Player;
+using ggj_engine.Source.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -21,12 +22,14 @@ namespace ggj_engine.Source.Movement
 
         private float moveSpeed;
         private Vector2 velocityVector;
+        private Vector2 previousVelocityVector;
         private Vector2 locationVector;
 
         private MovementTypes movementType;
         private MovementDelegate.Types inputType;
+        private Player Player;
 
-        public MovementManager()
+        public MovementManager(Player player)
         {
             movementInputs = new List<MovementDelegate>();
 
@@ -35,9 +38,10 @@ namespace ggj_engine.Source.Movement
             movementType = MovementTypes.Standard;
             inputType = MovementDelegate.Types.Held;
             velocityVector = Vector2.Zero;
-
             // generate standard movement inputs
             generateStandardMovementInputs();
+
+            Player = player;
         }
 
         public void GenerateNewMovement()
@@ -52,6 +56,11 @@ namespace ggj_engine.Source.Movement
         public MovementTypes GetMoveType()
         {
             return movementType;
+        }
+
+        public MovementDelegate.Types GetInputType()
+        {
+            return inputType;
         }
 
         private void generateStandardMovementInputs()
@@ -235,15 +244,26 @@ namespace ggj_engine.Source.Movement
                     foreach (MovementDelegate movementInput in movementInputs)
                     {
                         newPosition += movementInput.Update(gameTime, currPosition, mousePosition);
+                        if (newPosition != currPosition)
+                        {
+                            Player.MovementParticles.SetAngle((float)Math.Atan2(-(newPosition - currPosition).Y, -(newPosition - currPosition).X));
+                            Player.MovementParticles.BurstParticles();
+                        }
                     }
                     break;
                 case MovementTypes.Thrusters:
                     // update velocity vector
+                    previousVelocityVector = velocityVector;
                     foreach (MovementDelegate movementInput in movementInputs)
                     {
                         movementInput.Update(gameTime, currPosition, mousePosition);
                     }
                     newPosition += (velocityVector * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                    if (velocityVector.Length() != previousVelocityVector.Length())
+                    {
+                        Player.MovementParticles.SetAngle((float)Math.Atan2(-(velocityVector - previousVelocityVector).Y, -(velocityVector - previousVelocityVector).X));
+                        Player.MovementParticles.BurstParticles();
+                    }
                     break;
                 case MovementTypes.Mouse:
                     // move player toward saved location
@@ -256,7 +276,7 @@ namespace ggj_engine.Source.Movement
 
                     if (locationVector != Vector2.Zero && distance > 5)
                     {
-                        if (distance <= 5 && distance != 0 )
+                        if (distance <= 5 && distance != 0)
                         {
                             newPosition += (moveTowardsPosition(currPosition, locationVector)) / 5;
                         }
@@ -264,8 +284,13 @@ namespace ggj_engine.Source.Movement
                         {
                             newPosition += moveTowardsPosition(currPosition, locationVector);
                         }
-                        
-                    } 
+
+                    }
+                    if (newPosition != currPosition)
+                    {
+                        Player.MovementParticles.SetAngle((float)Math.Atan2(-(newPosition - currPosition).Y, -(newPosition - currPosition).X));
+                        Player.MovementParticles.BurstParticles();
+                    }
                     break;
             }
 

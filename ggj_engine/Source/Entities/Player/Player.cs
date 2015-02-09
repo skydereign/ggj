@@ -38,7 +38,7 @@ namespace ggj_engine.Source.Entities.Player
             CollisionRegion = new CircleRegion(14, position);
 
             PlayerID = playerCount++;
-            movementManager = new MovementManager();
+            movementManager = new MovementManager(this);
             Shield = new Shield(this);
         }
 
@@ -67,13 +67,7 @@ namespace ggj_engine.Source.Entities.Player
             Vector2 mousePosition = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition());
             if (!Dead)
             {
-                Vector2 newPosition = movementManager.Update(gameTime, Position, mousePosition);
-                if (newPosition != Position)
-                {
-                    MovementParticles.Angle = (float)Math.Atan2(-(newPosition - Position).Y, -(newPosition - Position).X);
-                    MovementParticles.BurstParticles();
-                }
-                Position = TileGrid.AdjustedForCollisions(this, Position, newPosition, (CircleRegion)CollisionRegion);
+                Position = TileGrid.AdjustedForCollisions(this, Position, movementManager.Update(gameTime, Position, mousePosition), (CircleRegion)CollisionRegion);
                 MovementParticles.Position = Position;
             }
 
@@ -100,6 +94,7 @@ namespace ggj_engine.Source.Entities.Player
             //Make camera follow player
             //Lots of smoothing, including inching toward the mouse position to make things seem more dynamic
             MyScreen.Camera.Position += ((Position + (MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition()) - Position) * 0.025f) - MyScreen.Camera.Position) * 0.4f;
+
 
             base.Update(gameTime);
         }
@@ -146,14 +141,41 @@ namespace ggj_engine.Source.Entities.Player
                 MovementParticles.Kill(60);
             }
 
-            switch (movementManager.GetMoveType())
+            MovementManager.MovementTypes mType = movementManager.GetMoveType();
+            MovementKeyInput.Types iType = movementManager.GetInputType();
+
+            if (mType == MovementManager.MovementTypes.Standard)
             {
-                case MovementManager.MovementTypes.Standard:
+                if (iType == MovementDelegate.Types.Held)
+                {
                     MovementParticles = new Particles.PSystemStandardMove();
-                    break;
-                default:
+                }
+                if (iType == MovementDelegate.Types.Pressed || iType == MovementDelegate.Types.Released)
+                {
+                    MovementParticles = new Particles.PSystemBurstMove();
+                }
+            }
+            else if (mType == MovementManager.MovementTypes.Thrusters)
+            {
+                if (iType == MovementDelegate.Types.Held)
+                {
+                    MovementParticles = new Particles.PSystemThrustMove();
+                }
+                if (iType == MovementDelegate.Types.Pressed || iType == MovementDelegate.Types.Released)
+                {
+                    MovementParticles = new Particles.PSystemBurstMove();
+                }
+            }
+            else if (mType == MovementManager.MovementTypes.Mouse)
+            {
+                if (iType == MovementDelegate.Types.Held)
+                {
                     MovementParticles = new Particles.PSystemStandardMove();
-                    break;
+                }
+                if (iType == MovementDelegate.Types.Pressed || iType == MovementDelegate.Types.Released)
+                {
+                    MovementParticles = new Particles.PSystemStandardMove();
+                }
             }
             MyScreen.AddEntity(MovementParticles);
         }
