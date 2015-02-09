@@ -49,6 +49,11 @@ namespace ggj_engine.Source.Movement
             generateMovementInputs();
         }
 
+        public MovementTypes GetMoveType()
+        {
+            return movementType;
+        }
+
         private void generateStandardMovementInputs()
         {
             movementInputs.Add(new MovementKeyInput(inputType, Keys.W, moveUp));

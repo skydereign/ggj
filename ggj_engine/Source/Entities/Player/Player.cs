@@ -27,6 +27,7 @@ namespace ggj_engine.Source.Entities.Player
 
         public Weapon Weapon;
         public Shield Shield;
+        public Particles.PSystemMove MovementParticles;
 
         private MovementManager movementManager;
 
@@ -38,12 +39,16 @@ namespace ggj_engine.Source.Entities.Player
 
             PlayerID = playerCount++;
             movementManager = new MovementManager();
-
             Shield = new Shield(this);
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (MovementParticles == null)
+            {
+                UpdateMovementParticleType();
+            }
+
             if (Weapon == null)
             {
                 Weapon = new Weapon(this);
@@ -54,6 +59,7 @@ namespace ggj_engine.Source.Entities.Player
             {
                 movementManager.GenerateNewMovement();
                 Weapon.GenerateWeaponInputs();
+                UpdateMovementParticleType();
             }
 
             Weapon.Position = Position;
@@ -61,7 +67,14 @@ namespace ggj_engine.Source.Entities.Player
             Vector2 mousePosition = MyScreen.Camera.ScreenToWorld(InputControl.GetMousePosition());
             if (!Dead)
             {
-                Position = TileGrid.AdjustedForCollisions(this, Position, movementManager.Update(gameTime, Position, mousePosition), (CircleRegion)CollisionRegion);
+                Vector2 newPosition = movementManager.Update(gameTime, Position, mousePosition);
+                if (newPosition != Position)
+                {
+                    MovementParticles.Angle = (float)Math.Atan2(-(newPosition - Position).Y, -(newPosition - Position).X);
+                    MovementParticles.BurstParticles();
+                }
+                Position = TileGrid.AdjustedForCollisions(this, Position, newPosition, (CircleRegion)CollisionRegion);
+                MovementParticles.Position = Position;
             }
 
             Shield.Position = Position;
@@ -123,6 +136,26 @@ namespace ggj_engine.Source.Entities.Player
         {
             movementManager.GenerateNewMovement();
             Weapon.GenerateWeaponInputs();
+            UpdateMovementParticleType();
+        }
+
+        private void UpdateMovementParticleType()
+        {
+            if (MovementParticles != null)
+            {
+                MovementParticles.Kill(60);
+            }
+
+            switch (movementManager.GetMoveType())
+            {
+                case MovementManager.MovementTypes.Standard:
+                    MovementParticles = new Particles.PSystemStandardMove();
+                    break;
+                default:
+                    MovementParticles = new Particles.PSystemStandardMove();
+                    break;
+            }
+            MyScreen.AddEntity(MovementParticles);
         }
     }
 }
